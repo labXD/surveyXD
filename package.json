@@ -1,0 +1,40 @@
+{
+  "name": "formxd",
+  "description": "Monorepo for formXD",
+  "contributors": [
+    "jimmynXD",
+    "wallexd"
+  ],
+  "packageManager": "pnpm@7.2.1",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "bootstrap": "corepack enable && pnpm install",
+    "lint": "pnpm exec eslint --ext .ts,.tsx .",
+    "lint:fix": "pnpm run lint --fix"
+  },
+  "devDependencies": {
+    "eslint": "^8.22.0",
+    "prettier": "^2.7.1",
+    "stylelint": "^14.10.0",
+    "@rushstack/eslint-patch": "^1.1.4",
+    "@typescript-eslint/eslint-plugin": "^5.33.1",
+    "@typescript-eslint/parser": "^5.33.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "7.30.1",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-plugin-markdown": "^3.0.0",
+    "hygen": "^6.2.8",
+    "@changesets/cli": "^2.24.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/labXD/formXD.git"
+  },
+  "bugs": {
+    "url": "https://github.com/labXD/formXD/issues"
+  },
+  "homepage": "https://github.com/labXD/formXD#readme"
+}

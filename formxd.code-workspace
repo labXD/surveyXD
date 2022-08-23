@@ -1,0 +1,26 @@
+{
+  "folders": [
+    {
+      "name": "🚀 website",
+      "path": "apps/website"
+    },
+    {
+      "name": "🌱 root",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "css.validate": false,
+    "scss.validate": false,
+    "stylelint.enable": true
+  },
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "folke.vscode-monorepo-workspace",
+      "bradlc.vscode-tailwindcss"
+    ]
+  }
+}
