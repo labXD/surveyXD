@@ -1,8 +1,8 @@
 {
   "folders": [
     {
-      "name": "🚀 website",
-      "path": "apps/website"
+      "name": "🚀 websites",
+      "path": "apps/nextjs"
     },
     {
       "name": "🌱 root",
