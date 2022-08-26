@@ -10,6 +10,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "allowJs": true,
+    "strict": true,
+    "strictNullChecks": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true /* Enable all strict type-checking options. */,
