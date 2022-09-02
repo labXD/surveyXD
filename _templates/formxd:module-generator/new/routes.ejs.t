@@ -1,5 +1,5 @@
 ---
-to: apps/formxd/src/modules/<%=name%>/api/routes.ts
+to: apps/surveyxd/src/modules/<%=name%>/api/routes.ts
 ---
 
 import * as trpc from '@trpc/server'

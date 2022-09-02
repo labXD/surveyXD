@@ -1,4 +1,4 @@
 ---
-to: apps/formxd/src/modules/<%=name%>/web/containers/.gitkeep
+to: apps/surveyxd/src/modules/<%=name%>/web/containers/.gitkeep
 ---
 

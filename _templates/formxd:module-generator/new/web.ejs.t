@@ -1,5 +1,5 @@
 ---
-to: apps/formxd/src/modules/<%=name%>/web/index.ts
+to: apps/surveyxd/src/modules/<%=name%>/web/index.ts
 ---
 
 export * from './containers'
