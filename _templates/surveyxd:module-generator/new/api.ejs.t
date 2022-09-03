@@ -1,5 +1,5 @@
 ---
-to: apps/formxd/src/modules/<%=name%>/api/index.ts
+to: apps/surveyxd/src/modules/<%=name%>/api/index.ts
 ---
 
 export * from './utils'

@@ -1,5 +1,5 @@
 ---
-to: apps/formxd/src/modules/<%=name%>/api/utils.ts
+to: apps/surveyxd/src/modules/<%=name%>/api/utils.ts
 ---
 
 export const someUtil = () => {
