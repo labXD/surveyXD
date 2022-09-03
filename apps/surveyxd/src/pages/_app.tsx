@@ -1,26 +1,37 @@
 import "../styles/globals.css";
-import type { AppProps } from "next/app";
+import type { AppProps as NextAppProps } from "next/app";
 import Head from "next/head";
 import { BaseLayout } from "@/meta/web/components/BaseLayout";
-import { withTRPC } from '@trpc/next';
-import {type AppRouter } from '@/trpc/shared/types'
+import { withTRPC } from "@trpc/next";
+import { type AppRouter } from "@/trpc/shared/types";
+import { SessionProvider } from "next-auth/react";
+import { Session } from "next-auth";
 
-function App({ Component, pageProps }: AppProps) {
+type AppProps<P = unknown> = {
+  pageProps: P;
+} & Omit<NextAppProps<P>, "pageProps">;
+
+function App({ Component, pageProps }: AppProps<{ session: Session }>) {
   return (
     <>
-      <Head>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
-      <BaseLayout>
-        <Component {...pageProps} />
-      </BaseLayout>
+      <SessionProvider session={pageProps.session}>
+        <Head>
+          <meta
+            name="viewport"
+            content="initial-scale=1.0, width=device-width"
+          />
+        </Head>
+        <BaseLayout>
+          <Component {...pageProps} />
+        </BaseLayout>
+      </SessionProvider>
     </>
   );
 }
 
 function getBaseUrl() {
-  if (typeof window !== 'undefined') {
-    return '';
+  if (typeof window !== "undefined") {
+    return "";
   }
   // reference for vercel.com
   if (process.env.VERCEL_URL) {
