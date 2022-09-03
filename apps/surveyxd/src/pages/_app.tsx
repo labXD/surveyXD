@@ -34,8 +34,8 @@ function getBaseUrl() {
     return "";
   }
   // reference for vercel.com
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
+  if (process.env.URL) {
+    return `https://${process.env.URL}`;
   }
 
   // assume localhost
