@@ -54,4 +54,4 @@ recommended way to make changes to the DB in planetscale.
 
 #### Defined in
 
-[apps/surveyxd/src/modules/meta/api/prisma.ts:54](https://github.com/labXD/formXD/blob/0f1c243/apps/surveyxd/src/modules/meta/api/prisma.ts#L54)
+[apps/surveyxd/src/modules/meta/api/prisma.ts:54](https://github.com/labXD/formXD/blob/f0c75e0/apps/surveyxd/src/modules/meta/api/prisma.ts#L54)

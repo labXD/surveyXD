@@ -24,4 +24,4 @@ authetication to work, we need to ensure `GOOGLE_CLIENT_ID` and
 
 #### Defined in
 
-[apps/surveyxd/src/modules/auth/api/utils.ts:15](https://github.com/labXD/formXD/blob/0f1c243/apps/surveyxd/src/modules/auth/api/utils.ts#L15)
+[apps/surveyxd/src/modules/auth/api/utils.ts:15](https://github.com/labXD/formXD/blob/f0c75e0/apps/surveyxd/src/modules/auth/api/utils.ts#L15)
