@@ -39,13 +39,14 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id              String         @id @default(cuid())
+  name            String?
+  email           String?        @unique
+  emailVerified   DateTime?
+  image           String?
+  accounts        Account[]
+  sessions        Session[]
+  usersWithAccess SurveyAccess[]
 }
 
 model VerificationToken {
@@ -54,4 +55,91 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Survey {
+  id String @id @default(cuid())
+
+  title           String
+  questions       Question[]
+  usersWithAccess SurveyAccess[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  published Boolean @default(false)
+
+  @@fulltext([title])
+}
+
+enum SurveyUserAcessRoles {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+model SurveyAccess {
+  id String @id @default(cuid())
+
+  surveyId String
+  survey   Survey @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  role SurveyUserAcessRoles @default(ADMIN)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum QuestionType {
+  // TEXT // future
+  MULTIPLE_CHOICE
+  CHECKBOX
+  // DROPDOWN // leverage multiple choice
+  // LIKERT_SCALE // leverage multiple choise
+}
+
+model Question {
+  id           String       @id @default(cuid())
+  title        String
+  questionType QuestionType
+
+  surveyId String
+  survey   Survey @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+
+  answers Answer[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@fulltext([title])
+}
+
+model QuestionAnswer {
+  id String @id @default(cuid())
+
+  numericValue Int
+  textValue    String
+  questionType QuestionType
+
+  answers Answer[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Answer {
+  id String @id @default(cuid())
+
+  answerId       String
+  answer         QuestionAnswer @relation(fields: [answerId], references: [id], onDelete: Cascade)
+  freeTextAnswer String?
+
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

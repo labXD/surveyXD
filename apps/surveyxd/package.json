@@ -14,6 +14,7 @@
     "db:pull": "prisma db pull",
     "db:gen": "prisma generate",
     "db:push": "prisma db push",
+    "db:push:cloud": "wait-on tcp:3306 && pnpm run db:push && pnpm run db:gen",
     "db:format": "prisma db format",
     "db:migrate:dev": "prisma migrate dev",
     "db:seed": "prisma db seed",
