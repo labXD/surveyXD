@@ -1,9 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { signOut, signIn, useSession } from "next-auth/react";
+import { useCreateSurvey } from "@/survey/web";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
+
+  const {createSurvey} = useCreateSurvey()
 
   return (
     <>
@@ -18,6 +21,8 @@ const Home: NextPage = () => {
         <button onClick={() => (session?.user ? signOut() : signIn("google"))}>
           {session?.user ? "Sign Out" : "Sign In"}
         </button>
+
+        <button onClick={() => createSurvey()}>Create Survey</button>
       </main>
     </>
   );
