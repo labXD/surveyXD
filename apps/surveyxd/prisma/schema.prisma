@@ -57,18 +57,24 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+enum SurveyPublishStatus {
+  PUBLISHED
+  DRAFT
+  COMPLETED
+}
+
 model Survey {
   id String @id @default(cuid())
 
-  title           String
+  title           String?
   questions       Question[]
   usersWithAccess SurveyAccess[]
-  answers    Answer[]
+  answers         Answer[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  published Boolean  @default(false)
+  publishStatus SurveyPublishStatus @default(DRAFT)
 
   @@fulltext([title])
 }
@@ -138,8 +144,8 @@ model Answer {
   answer         QuestionAnswer @relation(fields: [answerId], references: [id], onDelete: Cascade)
   freeTextAnswer String?
 
-  surveyId   String
-  survey     Survey   @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+  surveyId String
+  survey   Survey @relation(fields: [surveyId], references: [id], onDelete: Cascade)
 
   questionId String
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
