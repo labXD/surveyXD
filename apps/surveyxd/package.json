@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
+    "docs:gen": "typedoc --plugin typedoc-plugin-markdown --out docs src --excludeNotDocumented --entryPointStrategy expand",
     "db:pull": "prisma db pull",
     "db:gen": "prisma generate",
     "db:push": "prisma db push",
@@ -42,6 +43,8 @@
     "@types/react-dom": "18.0.6",
     "prisma": "^4.3.1",
     "tslib": "^2.4.0",
+    "typedoc": "^0.23.14",
+    "typedoc-plugin-markdown": "^3.13.6",
     "typescript": "4.7.4"
   },
   "repository": {
