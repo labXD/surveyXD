@@ -16,4 +16,4 @@ pnpm run dev
 ```
 
 ### Modules
-All modules are located in [`apps/surveyxd/src/modules`](modules.md)
+All modules are located in [`apps/surveyxd/src/modules`](docs/modules.md)

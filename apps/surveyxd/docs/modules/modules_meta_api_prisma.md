@@ -48,9 +48,9 @@ we can create a new branch and make the changes there. Once the changes are test
 then the changes will be automatically deployed to `dev` branch using `prisma db push`. This is the 
 recommended way to make changes to the DB in planetscale.
 
-TODO: CI/CD to deploy to `dev` branch.
-TODO: CI/CD to merge `dev` into `main` when deploying app to prod env
+// TODO: CI/CD to deploy to `dev` branch.
+// TODO: CI/CD to merge `dev` into `main` when deploying app to prod env
 
 #### Defined in
 
-[apps/surveyxd/src/modules/meta/api/prisma.ts:53](https://github.com/labXD/formXD/blob/aa05042/apps/surveyxd/src/modules/meta/api/prisma.ts#L53)
+[apps/surveyxd/src/modules/meta/api/prisma.ts:53](https://github.com/labXD/formXD/blob/1fc4722/apps/surveyxd/src/modules/meta/api/prisma.ts#L53)
