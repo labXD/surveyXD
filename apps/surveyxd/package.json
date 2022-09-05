@@ -3,9 +3,12 @@
   "private": true,
   "version": "0.0.1-dev",
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently pnpm:dev:db pnpm:dev:app",
+    "dev:app": "wait-on tcp:3306 && pnpm run db:gen && pnpm run dev:next",
+    "dev:db": "pscale connect surveyxd dev --org labxd",
     "build": "next build",
     "start": "next start",
+    "dev:next" : "next dev",
     "typecheck": "tsc --noEmit",
     "docs:gen": "typedoc --plugin typedoc-plugin-markdown --out docs src --excludeNotDocumented --entryPointStrategy expand",
     "db:pull": "prisma db pull",
@@ -41,11 +44,13 @@
     "@types/node": "18.7.13",
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",
+    "concurrently": "^7.3.0",
     "prisma": "^4.3.1",
     "tslib": "^2.4.0",
     "typedoc": "^0.23.14",
     "typedoc-plugin-markdown": "^3.13.6",
-    "typescript": "4.7.4"
+    "typescript": "4.7.4",
+    "wait-on": "^6.0.1"
   },
   "repository": {
     "type": "git",
