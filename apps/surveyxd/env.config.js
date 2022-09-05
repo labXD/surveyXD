@@ -4,7 +4,10 @@ const EnvSchema = z.object({
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
   APP_ENV: z.enum(["local","development", "production"]),
-  URL: z.string().optional()
+  URL: z.string().optional(),
+  DATABASE_URL: z.string(),
+  NEXT_AUTH_URL: z.string(),
+  NEXT_AUTH_SECRET: z.string(),
 });
 
 const verifyEnv = () => {
