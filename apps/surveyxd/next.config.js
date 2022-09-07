@@ -1,4 +1,4 @@
-const { verifyEnv } = require('./env.config')
+const { verifyEnv } = require("./env.config")
 
 verifyEnv()
 
@@ -6,6 +6,14 @@ verifyEnv()
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"],
+    })
+
+    return config
+  },
 }
 
 module.exports = nextConfig

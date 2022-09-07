@@ -1,17 +1,24 @@
-import "../styles/globals.css";
-import type { AppProps as NextAppProps } from "next/app";
-import Head from "next/head";
-import { BaseLayout } from "@/meta/web/components/BaseLayout";
-import { withTRPC } from "@trpc/next";
-import { type AppRouter } from "@/trpc/shared/types";
-import { SessionProvider } from "next-auth/react";
-import { Session } from "next-auth";
+import "../styles/globals.css"
+
+import { withTRPC } from "@trpc/next"
+import type { AppProps as NextAppProps } from "next/app"
+import Head from "next/head"
+import { Session } from "next-auth"
+import { SessionProvider } from "next-auth/react"
+
+import { BaseLayout, TopNav } from "@/meta/web/components"
+import { type AppRouter } from "@/trpc/shared/types"
 
 type AppProps<P = unknown> = {
-  pageProps: P;
-} & Omit<NextAppProps<P>, "pageProps">;
+  pageProps: P
+} & Omit<NextAppProps<P>, "pageProps">
 
 function App({ Component, pageProps }: AppProps<{ session: Session }>) {
+  const footer = (
+    <footer className="p-4 text-center">
+      <span className="text-red-100">currently in beta</span>
+    </footer>
+  )
   return (
     <>
       <SessionProvider session={pageProps.session}>
@@ -21,25 +28,25 @@ function App({ Component, pageProps }: AppProps<{ session: Session }>) {
             content="initial-scale=1.0, width=device-width"
           />
         </Head>
-        <BaseLayout>
+        <BaseLayout topNav={<TopNav />} footer={footer}>
           <Component {...pageProps} />
         </BaseLayout>
       </SessionProvider>
     </>
-  );
+  )
 }
 
 function getBaseUrl() {
   if (typeof window !== "undefined") {
-    return "";
+    return ""
   }
   // reference for vercel.com
   if (process.env.URL) {
-    return `https://${process.env.URL}`;
+    return `https://${process.env.URL}`
   }
 
   // assume localhost
-  return `http://localhost:${process.env.PORT ?? 3000}`;
+  return `http://localhost:${process.env.PORT ?? 3000}`
 }
 
 export default withTRPC<AppRouter>({
@@ -54,10 +61,10 @@ export default withTRPC<AppRouter>({
        * @link https://react-query-v3.tanstack.com/reference/QueryClient
        */
       // queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
-    };
+    }
   },
   /**
    * @link https://trpc.io/docs/ssr
    */
   ssr: true,
-})(App);
+})(App)
