@@ -1,6 +1,7 @@
-import { createRouter } from "@/trpc/api";
-import { SurveyPublishStatus } from "@prisma/client";
-import { z } from "zod";
+import { SurveyPublishStatus } from "@prisma/client"
+import { z } from "zod"
+
+import { createRouter } from "@/trpc/api"
 
 export const surveyRoutes = createRouter()
   .mutation("createSurvey", {
@@ -12,7 +13,7 @@ export const surveyRoutes = createRouter()
         data: {
           title: input.title,
         },
-      });
+      })
     },
   })
   .mutation("updateSurvey", {
@@ -30,7 +31,7 @@ export const surveyRoutes = createRouter()
           ...(input?.title ? { title: input.title } : {}),
           ...(input.published ? { publishStatus: input.published } : {}),
         },
-      });
+      })
     },
   })
   .query("getSurvey", {
@@ -40,6 +41,6 @@ export const surveyRoutes = createRouter()
     resolve: async ({ ctx, input }) => {
       return ctx.prisma.survey.findUnique({
         where: { id: input.surveyId },
-      });
+      })
     },
-  });
+  })

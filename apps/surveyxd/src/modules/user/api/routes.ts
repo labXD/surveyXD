@@ -1,5 +1,6 @@
-import { createRouter } from "@/trpc/api";
-import { z } from "zod";
+import { z } from "zod"
+
+import { createRouter } from "@/trpc/api"
 
 export const userRoutes = createRouter().query("hello", {
   input: z
@@ -10,6 +11,6 @@ export const userRoutes = createRouter().query("hello", {
   resolve({ input }) {
     return {
       greeting: `hello ${input?.text ?? "world"}`,
-    };
+    }
   },
-});
+})

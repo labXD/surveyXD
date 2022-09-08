@@ -1,25 +1,29 @@
-import {useRouter} from 'next/router'
-import { useEffect, useMemo } from 'react'
-import { trpc } from '@/trpc/web'
+import { useRouter } from "next/router"
+import { useEffect, useMemo } from "react"
+
+import { trpc } from "@/trpc/web"
 
 export const useActiveSurvey = (surveyId?: string) => {
- const {isLoading, data, error } = trpc.useQuery(['survey.getSurvey', {surveyId: surveyId ?? ''}], {
-    enabled: !!surveyId,
-  })
+  const { isLoading, data, error } = trpc.useQuery(
+    ["survey.getSurvey", { surveyId: surveyId ?? "" }],
+    {
+      enabled: !!surveyId,
+    }
+  )
 
-  if(!surveyId) {
+  if (!surveyId) {
     return {}
   }
 
-  return {data, loading: isLoading, error}
+  return { data, loading: isLoading, error }
 }
 
 export const useActiveSurveyFromRoute = () => {
   const router = useRouter()
-  const {surveyId: surveyIdRaw} = router.query  
+  const { surveyId: surveyIdRaw } = router.query
 
   const surveyId = useMemo(() => {
-    if (typeof surveyIdRaw !== 'string') {
+    if (typeof surveyIdRaw !== "string") {
       return
     }
 
@@ -30,11 +34,13 @@ export const useActiveSurveyFromRoute = () => {
 }
 
 export const useCreateSurvey = (redirect = true) => {
-  const { mutate, data, isLoading, error } = trpc.useMutation('survey.createSurvey')
+  const { mutate, data, isLoading, error } = trpc.useMutation(
+    "survey.createSurvey"
+  )
   const router = useRouter()
 
   useEffect(() => {
-    if(!redirect || !data?.id) {
+    if (!redirect || !data?.id) {
       return
     }
 
@@ -42,8 +48,8 @@ export const useCreateSurvey = (redirect = true) => {
   }, [data])
 
   const createSurvey = (title?: string) => {
-    mutate({title})
+    mutate({ title })
   }
 
-  return {createSurvey, data, loading: isLoading, error}
+  return { createSurvey, data, loading: isLoading, error }
 }
