@@ -17,9 +17,9 @@ const Home: NextPage = () => {
         <title>surveyXD - Survey Generator and Data Visualizer</title>
       </Head>
 
-      <main className="px-4 ">
+      <main className="px-4 flex flex-col items-center lg:max-w-7xl lg:mx-auto">
         <Image src={DataImage} alt="data" />
-        <div className="pt-6 space-y-2">
+        <div className="pt-6 space-y-2 text-center lg:max-w-xl">
           <h2 className="text-2xl font-bold text-center text-xd-text-primary">
             See data. Different.
           </h2>
@@ -28,7 +28,7 @@ const Home: NextPage = () => {
             been possible, so you can make the right decision. Every time.
           </p>
         </div>
-        <div className="pt-6 space-y-6">
+        <div className="pt-6 space-y-6 w-full lg:max-w-xl">
           <button
             className="xd-button-danger w-full"
             onClick={() => createSurvey()}
@@ -37,7 +37,10 @@ const Home: NextPage = () => {
             <span>Create New Survey</span>
           </button>
           {session?.user ? (
-            <button className="xd-button w-full" onClick={() => createSurvey()}>
+            <button
+              className="xd-button w-full "
+              onClick={() => createSurvey()}
+            >
               <span className="material-symbols-outlined">
                 <span className="material-symbols-rounded">corporate_fare</span>
               </span>

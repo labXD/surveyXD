@@ -1,77 +1,81 @@
-import { NextPage } from "next";
+import { Tab } from "@headlessui/react"
+import clsx from "clsx"
+import { NextPage } from "next"
 
-import { useActiveSurveyFromRoute } from "../hooks";
+import { Question } from "@/survey/web/components"
+
+import { useActiveSurveyFromRoute } from "../hooks"
+
 export const NewSurveyPage: NextPage = () => {
-  const { loading, data } = useActiveSurveyFromRoute();
+  const { loading } = useActiveSurveyFromRoute()
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
 
   // TODO: handle remaining statuses
 
+  const TABS = ["Questions", "Responses"]
+
   return (
     <>
       {/* <h2>{data?.title ?? "Untitled"}</h2> */}
-      <div className="mx-4 border-b border-b-neutral-300 flex items-baseline justify-between">
-        <input
-          placeholder="Survey Title"
-          className=" w-full py-2 text-2xl placeholder:text-black font-bold"
-        />
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-6 h-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-          />
-        </svg>
-      </div>
-      <div className="px-4 pt-3 flex space-x-4">
-        <div className="text-indigo-700 font-semibold border-b-2 border-b-indigo-700 pb-2">
-          Questions
-        </div>
-        <div className="text-neutral-900 font-normal pb-2">Responses</div>
-      </div>
-      <div className="border-l-2 border-l-red-500 min-h-[300px] mt-8 px-4">
-        <div className="border-b border-b-neutral-300 flex items-baseline justify-between">
-          <input placeholder="Question title" className=" w-full py-2 " />
-        </div>
-        <div className="border-b border-b-neutral-300 flex items-baseline justify-between pt-8">
-          <input placeholder="Question description" className=" w-full py-2 " />
-        </div>
-        <div className="pt-8">
-          <button className="flex items-center text-sm px-3 py-2 border border-neutral-300 rounded-sm">
-            <span className="bg-black rounded-full w-3 h-3 border-black ring-1 ring-black ring-offset-2" />
-            <span className="px-4">Single Choice</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-4 h-4"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-              />
-            </svg>
-          </button>
-        </div>
-        <div className="pt-8">
-          <div className="border border-neutral-300 flex items-baseline justify-between px-4 rounded-sm">
-            <input placeholder="Yes" className=" w-full py-2 " />
+      <Tab.Group as={"div"} className="lg:max-w-7xl lg:mx-auto">
+        <section className="pt-4 pb-3 bg-white shadow-md ring-1 ring-inset ring-neutral-200 sticky top-0 z-10">
+          <div className="mx-4 border-b border-b-neutral-300 flex items-baseline justify-between">
+            <input
+              placeholder="Survey Title"
+              className=" w-full py-2 text-2xl placeholder:text-xd-text-primary font-bold"
+            />
+            <button>
+              <span className="material-symbols-outlined text-xd-text-primary/80">
+                menu
+              </span>
+            </button>
           </div>
+          <Tab.List className="flex px-4 space-x-6">
+            {TABS.map((tab) => (
+              <Tab
+                key={tab}
+                className={({ selected }) =>
+                  clsx("pb-2 pt-3 border-b-2 font-semibold transition-all", {
+                    "text-xd-text-primary/[.65] border-b-transparent":
+                      !selected,
+                    "text-indigo-700  border-b-indigo-700": selected,
+                  })
+                }
+              >
+                {tab}
+              </Tab>
+            ))}
+          </Tab.List>
+        </section>
+        <Tab.Panels className="mt-4">
+          <Tab.Panel as="div" className={"space-y-4 overflow-auto pb-20"}>
+            <Question />
+          </Tab.Panel>
+          <Tab.Panel>2</Tab.Panel>
+        </Tab.Panels>
+      </Tab.Group>
+      <div className="fixed bottom-0 left-4 right-4 z-10 ">
+        <div className="bg-white flex justify-between p-4 rounded-t-lg drop-shadow-lg ring-2 ring-indigo-50        lg:max-w-3xl lg:mx-auto">
+          <button>
+            <span className="material-symbols-outlined text-xd-text-primary/80">
+              add
+            </span>
+          </button>
+          <button>
+            <span className="material-symbols-rounded text-xd-text-primary/80">
+              send
+            </span>
+          </button>
+          <button>
+            <span className="material-symbols-outlined text-xd-text-primary/80">
+              person
+            </span>
+          </button>
         </div>
       </div>
     </>
-  );
-};
+  )
+}

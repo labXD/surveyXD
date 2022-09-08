@@ -3,6 +3,7 @@ import "../styles/globals.css"
 import { withTRPC } from "@trpc/next"
 import type { AppProps as NextAppProps } from "next/app"
 import Head from "next/head"
+import { useRouter } from "next/router"
 import { Session } from "next-auth"
 import { SessionProvider } from "next-auth/react"
 
@@ -14,6 +15,8 @@ type AppProps<P = unknown> = {
 } & Omit<NextAppProps<P>, "pageProps">
 
 function App({ Component, pageProps }: AppProps<{ session: Session }>) {
+  const route = useRouter()
+
   const footer = (
     <footer className="p-4 text-center">
       <span className="text-red-100">currently in beta</span>
@@ -28,7 +31,11 @@ function App({ Component, pageProps }: AppProps<{ session: Session }>) {
             content="initial-scale=1.0, width=device-width"
           />
         </Head>
-        <BaseLayout topNav={<TopNav />} footer={footer}>
+        <BaseLayout
+          cls={route.pathname.includes("survey") ? "bg-xd-bg" : ""}
+          topNav={!route.pathname.includes("survey") && <TopNav />}
+          footer={!route.pathname.includes("survey") && footer}
+        >
           <Component {...pageProps} />
         </BaseLayout>
       </SessionProvider>
