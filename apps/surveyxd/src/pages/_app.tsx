@@ -32,9 +32,9 @@ function App({ Component, pageProps }: AppProps<{ session: Session }>) {
           />
         </Head>
         <BaseLayout
-          cls={route.pathname.includes("survey") ? "bg-xd-bg" : ""}
-          topNav={!route.pathname.includes("survey") && <TopNav />}
-          footer={!route.pathname.includes("survey") && footer}
+          cls={route.pathname.includes("survey/") ? "bg-xd-bg" : ""}
+          topNav={!route.pathname.includes("survey/") && <TopNav />}
+          footer={!route.pathname.includes("survey/") && footer}
         >
           <Component {...pageProps} />
         </BaseLayout>
