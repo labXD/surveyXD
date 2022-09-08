@@ -1,6 +1,8 @@
 import { Tab } from "@headlessui/react"
 import clsx from "clsx"
 import { NextPage } from "next"
+import Head from "next/head"
+import { useRouter } from "next/router"
 
 import { Question } from "@/survey/web/components"
 
@@ -8,6 +10,8 @@ import { useActiveSurveyFromRoute } from "../hooks"
 
 export const NewSurveyPage: NextPage = () => {
   const { loading } = useActiveSurveyFromRoute()
+
+  const router = useRouter()
 
   if (loading) {
     return <div>Loading...</div>
@@ -19,6 +23,9 @@ export const NewSurveyPage: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <title>Create survey - surveyXD</title>
+      </Head>
       {/* <h2>{data?.title ?? "Untitled"}</h2> */}
       <Tab.Group as={"div"} className="lg:max-w-7xl lg:mx-auto">
         <section className="pt-4 pb-3 bg-white shadow-md ring-1 ring-inset ring-neutral-200 sticky top-0 z-10">
@@ -64,7 +71,7 @@ export const NewSurveyPage: NextPage = () => {
               add
             </span>
           </button>
-          <button>
+          <button onClick={() => router.push("/survey/deploy")}>
             <span className="material-symbols-rounded text-xd-text-primary/80">
               send
             </span>

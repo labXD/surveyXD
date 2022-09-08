@@ -1,15 +1,17 @@
 {
   "name": "formxd",
-  "description": "Monorepo for formXD",
+  "description": "Monorepo for surveyXD",
+  "author": "labXD Core",
   "contributors": [
-    "jimmynXD",
-    "wallexd"
+    "Jimmy Nguyen <jimmy@labxd.com> (https://github.com/jimmynxd)",
+    "Walee Ahmed <walee@labxd.com> (https://github.com/wallexd)"
   ],
   "packageManager": "pnpm@7.2.1",
   "license": "MIT",
   "private": true,
   "scripts": {
     "bootstrap": "corepack enable && pnpm install",
+    "dev": "pnpm -F surveyxd dev",
     "lint": "pnpm exec eslint --ext .ts,.tsx .",
     "lint:fix": "pnpm run lint --fix",
     "lint:ci": "pnpm run lint --quiet",
@@ -41,13 +43,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/labXD/formXD.git"
+    "url": "git+https://github.com/labXD/surveyXD.git"
   },
   "bugs": {
-    "url": "https://github.com/labXD/formXD/issues"
+    "url": "https://github.com/labXD/surveyXD/issues"
   },
-  "homepage": "https://github.com/labXD/formXD#readme",
-  "dependencies": {
-    "@labxd/gustxd": "^0.4.1"
-  }
+  "homepage": "https://github.com/labXD/surveyXD#readme"
 }

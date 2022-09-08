@@ -6,6 +6,7 @@ import Head from "next/head"
 import { useRouter } from "next/router"
 import { Session } from "next-auth"
 import { SessionProvider } from "next-auth/react"
+import { useMemo } from "react"
 
 import { BaseLayout, TopNav } from "@/meta/web/components"
 import { type AppRouter } from "@/trpc/shared/types"
@@ -22,6 +23,19 @@ function App({ Component, pageProps }: AppProps<{ session: Session }>) {
       <span className="text-red-100">currently in beta</span>
     </footer>
   )
+
+  // return true if on survey page
+  const notCreatePage = useMemo(() => {
+    // if (route.pathname.includes("deploy")) return true
+    // else return false
+    switch (route.pathname) {
+      case "/survey/deploy":
+      case "/":
+        return true
+      default:
+        return false
+    }
+  }, [route.pathname])
   return (
     <>
       <SessionProvider session={pageProps.session}>
@@ -32,9 +46,9 @@ function App({ Component, pageProps }: AppProps<{ session: Session }>) {
           />
         </Head>
         <BaseLayout
-          cls={route.pathname.includes("survey/") ? "bg-xd-bg" : ""}
-          topNav={!route.pathname.includes("survey/") && <TopNav />}
-          footer={!route.pathname.includes("survey/") && footer}
+          cls={!notCreatePage ? "bg-xd-bg" : ""}
+          topNav={notCreatePage && <TopNav />}
+          footer={notCreatePage && footer}
         >
           <Component {...pageProps} />
         </BaseLayout>

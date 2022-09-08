@@ -1,1 +1,8 @@
 @import "@labxd/gustxd/styles.css";
+
+.xd-button-link {
+  @apply cursor-pointer relative;
+  @apply text-[#782FED];
+  @apply after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0;
+  @apply after:transition-[width] after:h-[1px] after:bg-[#782FED] after:w-0 hover:after:w-full;
+}

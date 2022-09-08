@@ -13,7 +13,7 @@ export const Question = () => {
     return str.charAt(0).toUpperCase() + str.slice(1)
   }
   return (
-    <div className="xd-card-left-border">
+    <div className="xd-card xd-card-border-l xd-card-focus">
       <TextInput placeholder="Question title" />
       <div className="pt-3 flex justify-between">
         <button className="xd-button-ghost xd-button-sm px-0">

@@ -1,7 +1,7 @@
 import type { NextPage } from "next"
 import Head from "next/head"
 import Image from "next/image"
-import { signIn, signOut, useSession } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
 
 import DataImage from "@/public/assets/data-img.png"
 import LogoWhite from "@/public/logo-white.svg"
@@ -18,8 +18,10 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="px-4 flex flex-col items-center lg:max-w-7xl lg:mx-auto">
-        <Image src={DataImage} alt="data" />
-        <div className="pt-6 space-y-2 text-center lg:max-w-xl">
+        <div className="max-w-3xl -z-[1] opacity-80">
+          <Image src={DataImage} alt="data" />
+        </div>
+        <div className="drop-shadow lg:-mt-32 pt-6 space-y-2 text-center lg:max-w-xl">
           <h2 className="text-2xl font-bold text-center text-xd-text-primary">
             See data. Different.
           </h2>
@@ -51,13 +53,11 @@ const Home: NextPage = () => {
               <span className="px-4">Or</span>
             </div>
           )}
-          <button
-            className="xd-button-secondary w-full"
-            onClick={() => (session?.user ? signOut() : signIn("google"))}
-          >
-            {session?.user ? (
-              <span className="material-symbols-outlined">logout</span>
-            ) : (
+          {!session?.user && (
+            <button
+              className="xd-button-secondary w-full"
+              onClick={() => signIn("google")}
+            >
               <svg
                 width="17"
                 height="16"
@@ -94,9 +94,9 @@ const Home: NextPage = () => {
                   </clipPath>
                 </defs>
               </svg>
-            )}
-            <span>{session?.user ? "Sign out" : "Sign in with Google"}</span>
-          </button>
+              <span>Sign in with Google</span>
+            </button>
+          )}
         </div>
       </main>
     </>
