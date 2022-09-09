@@ -152,12 +152,14 @@ exports.Prisma.QuestionAnswerScalarFieldEnum = makeEnum({
 exports.Prisma.QuestionOrderByRelevanceFieldEnum = makeEnum({
   id: 'id',
   title: 'title',
+  description: 'description',
   surveyId: 'surveyId'
 });
 
 exports.Prisma.QuestionScalarFieldEnum = makeEnum({
   id: 'id',
   title: 'title',
+  description: 'description',
   questionType: 'questionType',
   surveyId: 'surveyId',
   createdAt: 'createdAt',

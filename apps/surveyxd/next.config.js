@@ -1,6 +1,6 @@
-const { verifyEnv } = require("./env.config")
+// const { verifyEnv } = require("./env.config")
 
-verifyEnv()
+// verifyEnv()
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

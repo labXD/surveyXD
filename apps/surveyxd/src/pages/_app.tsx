@@ -64,7 +64,7 @@ function getBaseUrl() {
 
   // for deployment
   if (process.env.NEXT_AUTH_URL) {
-    return `https://${process.env.NEXT_AUTH_URL}`;
+    return `https://${process.env.NEXTAUTH_URL}`
   }
 
   // assume localhost

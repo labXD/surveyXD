@@ -46,7 +46,6 @@ COPY --from=builder /app/apps/surveyxd/next.config.js ./
 # COPY --from=builder /app/apps/surveyxd/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/apps/surveyxd/.next ./.next
 COPY --from=builder /app/apps/surveyxd/package.json ./package.json
-COPY --from=builder /app/apps/surveyxd/.env ./.env
 
 RUN pnpm install --prefer-offline --prod
 

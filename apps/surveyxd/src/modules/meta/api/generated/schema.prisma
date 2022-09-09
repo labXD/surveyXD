@@ -112,6 +112,7 @@ enum QuestionType {
 model Question {
   id           String       @id @default(cuid())
   title        String
+  description  String?
   questionType QuestionType
 
   surveyId String

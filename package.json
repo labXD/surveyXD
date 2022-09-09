@@ -17,6 +17,7 @@
     "hook:pre-commit": "lint-staged",
     "hook:commit-msg": "commitlint --edit $1",
     "lint:ci": "pnpm run lint --quiet",
+    "cli": "node scripts/cli.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.24.3",
@@ -39,7 +40,7 @@
     "stylelint": "^14.10.0",
     "typescript": "4.7.4",
     "yargs": "^17.5.1",
-    "zx": "^7.0.8"
+    "zx": "^7.0.8",
     "lint-staged": "^13.0.3",
     "husky": "^8.0.1"
   },

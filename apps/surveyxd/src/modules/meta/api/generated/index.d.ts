@@ -96,6 +96,7 @@ export type SurveyAccess = {
 export type Question = {
   id: string
   title: string
+  description: string | null
   questionType: QuestionType
   surveyId: string
   createdAt: Date
@@ -6875,6 +6876,7 @@ export namespace Prisma {
   export type QuestionMinAggregateOutputType = {
     id: string | null
     title: string | null
+    description: string | null
     questionType: QuestionType | null
     surveyId: string | null
     createdAt: Date | null
@@ -6884,6 +6886,7 @@ export namespace Prisma {
   export type QuestionMaxAggregateOutputType = {
     id: string | null
     title: string | null
+    description: string | null
     questionType: QuestionType | null
     surveyId: string | null
     createdAt: Date | null
@@ -6893,6 +6896,7 @@ export namespace Prisma {
   export type QuestionCountAggregateOutputType = {
     id: number
     title: number
+    description: number
     questionType: number
     surveyId: number
     createdAt: number
@@ -6904,6 +6908,7 @@ export namespace Prisma {
   export type QuestionMinAggregateInputType = {
     id?: true
     title?: true
+    description?: true
     questionType?: true
     surveyId?: true
     createdAt?: true
@@ -6913,6 +6918,7 @@ export namespace Prisma {
   export type QuestionMaxAggregateInputType = {
     id?: true
     title?: true
+    description?: true
     questionType?: true
     surveyId?: true
     createdAt?: true
@@ -6922,6 +6928,7 @@ export namespace Prisma {
   export type QuestionCountAggregateInputType = {
     id?: true
     title?: true
+    description?: true
     questionType?: true
     surveyId?: true
     createdAt?: true
@@ -7010,6 +7017,7 @@ export namespace Prisma {
   export type QuestionGroupByOutputType = {
     id: string
     title: string
+    description: string | null
     questionType: QuestionType
     surveyId: string
     createdAt: Date
@@ -7036,6 +7044,7 @@ export namespace Prisma {
   export type QuestionSelect = {
     id?: boolean
     title?: boolean
+    description?: boolean
     questionType?: boolean
     surveyId?: boolean
     survey?: boolean | SurveyArgs
@@ -9817,6 +9826,7 @@ export namespace Prisma {
   export const QuestionOrderByRelevanceFieldEnum: {
     id: 'id',
     title: 'title',
+    description: 'description',
     surveyId: 'surveyId'
   };
 
@@ -9826,6 +9836,7 @@ export namespace Prisma {
   export const QuestionScalarFieldEnum: {
     id: 'id',
     title: 'title',
+    description: 'description',
     questionType: 'questionType',
     surveyId: 'surveyId',
     createdAt: 'createdAt',
@@ -10283,6 +10294,7 @@ export namespace Prisma {
     NOT?: Enumerable<QuestionWhereInput>
     id?: StringFilter | string
     title?: StringFilter | string
+    description?: StringNullableFilter | string | null
     questionType?: EnumQuestionTypeFilter | QuestionType
     surveyId?: StringFilter | string
     survey?: XOR<SurveyRelationFilter, SurveyWhereInput>
@@ -10294,6 +10306,7 @@ export namespace Prisma {
   export type QuestionOrderByWithRelationAndSearchRelevanceInput = {
     id?: SortOrder
     title?: SortOrder
+    description?: SortOrder
     questionType?: SortOrder
     surveyId?: SortOrder
     survey?: SurveyOrderByWithRelationAndSearchRelevanceInput
@@ -10310,6 +10323,7 @@ export namespace Prisma {
   export type QuestionOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
+    description?: SortOrder
     questionType?: SortOrder
     surveyId?: SortOrder
     createdAt?: SortOrder
@@ -10325,6 +10339,7 @@ export namespace Prisma {
     NOT?: Enumerable<QuestionScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
     title?: StringWithAggregatesFilter | string
+    description?: StringNullableWithAggregatesFilter | string | null
     questionType?: EnumQuestionTypeWithAggregatesFilter | QuestionType
     surveyId?: StringWithAggregatesFilter | string
     createdAt?: DateTimeWithAggregatesFilter | Date | string
@@ -10839,6 +10854,7 @@ export namespace Prisma {
   export type QuestionCreateInput = {
     id?: string
     title: string
+    description?: string | null
     questionType: QuestionType
     survey: SurveyCreateNestedOneWithoutQuestionsInput
     answers?: AnswerCreateNestedManyWithoutQuestionInput
@@ -10849,6 +10865,7 @@ export namespace Prisma {
   export type QuestionUncheckedCreateInput = {
     id?: string
     title: string
+    description?: string | null
     questionType: QuestionType
     surveyId: string
     answers?: AnswerUncheckedCreateNestedManyWithoutQuestionInput
@@ -10859,6 +10876,7 @@ export namespace Prisma {
   export type QuestionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     questionType?: EnumQuestionTypeFieldUpdateOperationsInput | QuestionType
     survey?: SurveyUpdateOneRequiredWithoutQuestionsNestedInput
     answers?: AnswerUpdateManyWithoutQuestionNestedInput
@@ -10869,6 +10887,7 @@ export namespace Prisma {
   export type QuestionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     questionType?: EnumQuestionTypeFieldUpdateOperationsInput | QuestionType
     surveyId?: StringFieldUpdateOperationsInput | string
     answers?: AnswerUncheckedUpdateManyWithoutQuestionNestedInput
@@ -10879,6 +10898,7 @@ export namespace Prisma {
   export type QuestionCreateManyInput = {
     id?: string
     title: string
+    description?: string | null
     questionType: QuestionType
     surveyId: string
     createdAt?: Date | string
@@ -10888,6 +10908,7 @@ export namespace Prisma {
   export type QuestionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     questionType?: EnumQuestionTypeFieldUpdateOperationsInput | QuestionType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10896,6 +10917,7 @@ export namespace Prisma {
   export type QuestionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     questionType?: EnumQuestionTypeFieldUpdateOperationsInput | QuestionType
     surveyId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11502,6 +11524,7 @@ export namespace Prisma {
   export type QuestionCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    description?: SortOrder
     questionType?: SortOrder
     surveyId?: SortOrder
     createdAt?: SortOrder
@@ -11511,6 +11534,7 @@ export namespace Prisma {
   export type QuestionMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    description?: SortOrder
     questionType?: SortOrder
     surveyId?: SortOrder
     createdAt?: SortOrder
@@ -11520,6 +11544,7 @@ export namespace Prisma {
   export type QuestionMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    description?: SortOrder
     questionType?: SortOrder
     surveyId?: SortOrder
     createdAt?: SortOrder
@@ -12662,6 +12687,7 @@ export namespace Prisma {
   export type QuestionCreateWithoutSurveyInput = {
     id?: string
     title: string
+    description?: string | null
     questionType: QuestionType
     answers?: AnswerCreateNestedManyWithoutQuestionInput
     createdAt?: Date | string
@@ -12671,6 +12697,7 @@ export namespace Prisma {
   export type QuestionUncheckedCreateWithoutSurveyInput = {
     id?: string
     title: string
+    description?: string | null
     questionType: QuestionType
     answers?: AnswerUncheckedCreateNestedManyWithoutQuestionInput
     createdAt?: Date | string
@@ -12763,6 +12790,7 @@ export namespace Prisma {
     NOT?: Enumerable<QuestionScalarWhereInput>
     id?: StringFilter | string
     title?: StringFilter | string
+    description?: StringNullableFilter | string | null
     questionType?: EnumQuestionTypeFilter | QuestionType
     surveyId?: StringFilter | string
     createdAt?: DateTimeFilter | Date | string
@@ -13103,6 +13131,7 @@ export namespace Prisma {
   export type QuestionCreateWithoutAnswersInput = {
     id?: string
     title: string
+    description?: string | null
     questionType: QuestionType
     survey: SurveyCreateNestedOneWithoutQuestionsInput
     createdAt?: Date | string
@@ -13112,6 +13141,7 @@ export namespace Prisma {
   export type QuestionUncheckedCreateWithoutAnswersInput = {
     id?: string
     title: string
+    description?: string | null
     questionType: QuestionType
     surveyId: string
     createdAt?: Date | string
@@ -13179,6 +13209,7 @@ export namespace Prisma {
   export type QuestionUpdateWithoutAnswersInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     questionType?: EnumQuestionTypeFieldUpdateOperationsInput | QuestionType
     survey?: SurveyUpdateOneRequiredWithoutQuestionsNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13188,6 +13219,7 @@ export namespace Prisma {
   export type QuestionUncheckedUpdateWithoutAnswersInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     questionType?: EnumQuestionTypeFieldUpdateOperationsInput | QuestionType
     surveyId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13309,6 +13341,7 @@ export namespace Prisma {
   export type QuestionCreateManySurveyInput = {
     id?: string
     title: string
+    description?: string | null
     questionType: QuestionType
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13334,6 +13367,7 @@ export namespace Prisma {
   export type QuestionUpdateWithoutSurveyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     questionType?: EnumQuestionTypeFieldUpdateOperationsInput | QuestionType
     answers?: AnswerUpdateManyWithoutQuestionNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13343,6 +13377,7 @@ export namespace Prisma {
   export type QuestionUncheckedUpdateWithoutSurveyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     questionType?: EnumQuestionTypeFieldUpdateOperationsInput | QuestionType
     answers?: AnswerUncheckedUpdateManyWithoutQuestionNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13352,6 +13387,7 @@ export namespace Prisma {
   export type QuestionUncheckedUpdateManyWithoutQuestionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     questionType?: EnumQuestionTypeFieldUpdateOperationsInput | QuestionType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
