@@ -1,1 +1,1 @@
-export { NewSurveyPage  as default } from '@/survey/web'
+export { NewSurveyPage as default } from "@/survey/web"

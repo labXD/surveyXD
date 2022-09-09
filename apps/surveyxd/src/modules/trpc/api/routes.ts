@@ -1,11 +1,10 @@
-import {userRoutes} from '@/user/api'
-import { createRouter } from './utils';
-import {surveyRoutes} from '@/survey/api'
+import { surveyRoutes } from "@/survey/api"
+import { userRoutes } from "@/user/api"
 
-export const appRouter = createRouter().merge(
-  'user.', userRoutes, 
-).merge('survey.', surveyRoutes)
+import { createRouter } from "./utils"
 
-export type AppRouter = typeof appRouter;
+export const appRouter = createRouter()
+  .merge("user.", userRoutes)
+  .merge("survey.", surveyRoutes)
 
-
+export type AppRouter = typeof appRouter

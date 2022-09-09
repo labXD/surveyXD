@@ -10,8 +10,6 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "allowJs": true,
-    "strict": true,
-    "strictNullChecks": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true /* Enable all strict type-checking options. */,
@@ -32,9 +30,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/modules/*"],
-      "~/*": ["./src/*"]
+      "~/*": ["./src/*"],
+      "@/public/*": ["./src/public/*"]
     }
   },
-  "include": ["next-env.d.ts", "env.d.ts","**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }

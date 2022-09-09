@@ -5,15 +5,15 @@ import Document, {
   Html,
   Main,
   NextScript,
-} from "next/document";
+} from "next/document"
 
 class MyDocument extends Document {
   static async getInitialProps(
     ctx: DocumentContext
   ): Promise<DocumentInitialProps> {
-    const initialProps = await Document.getInitialProps(ctx);
+    const initialProps = await Document.getInitialProps(ctx)
 
-    return initialProps;
+    return initialProps
   }
   render() {
     return (
@@ -29,20 +29,16 @@ class MyDocument extends Document {
             href="https://fonts.gstatic.com"
             crossOrigin="true"
           />
-          <link rel="icon" sizes="16x16" href="/favicon-16x16.png" />
-          <link rel="icon" sizes="32x32" href="/favicon-32x32.png" />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Red+Hat+Text:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-            rel="stylesheet"
-          />
+          <link rel="icon" sizes="16x16" href="/favicon-16.png" />
+          <link rel="icon" sizes="32x32" href="/favicon-32.png" />
         </Head>
         <body>
           <Main />
           <NextScript />
         </body>
       </Html>
-    );
+    )
   }
 }
 
-export default MyDocument;
+export default MyDocument

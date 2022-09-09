@@ -1,3 +1,3 @@
 export const someUtil = () => {
-  console.log('someUtil');
+  console.log("someUtil")
 }
