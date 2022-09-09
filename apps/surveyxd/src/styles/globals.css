@@ -108,7 +108,7 @@
 }
 
 .sanddance-tooltip {
-  z-index: 1;
+  z-index: 21;
 }
 
 .sanddance-tooltip table {
@@ -122,9 +122,13 @@
 }
 
 .sanddance-tooltip tr {
-  @apply flex flex-wrap justify-between p-2;
+  @apply grid grid-cols-[auto_auto] p-2;
 }
 .sanddance-tooltip td {
+  @apply capitalize;
+}
+.sanddance-tooltip td:last-child {
+  justify-self: flex-end;
   /* max-width: 16em; */
   /* overflow: hidden;
     text-align: left;
