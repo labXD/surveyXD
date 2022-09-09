@@ -1,6 +1,7 @@
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity", "fullTextIndex", "fullTextSearch", "interactiveTransactions"]
+  output          = "../src/modules/meta/api/generated"
 }
 
 datasource db {
@@ -111,6 +112,7 @@ enum QuestionType {
 model Question {
   id           String       @id @default(cuid())
   title        String
+  description  String?
   questionType QuestionType
 
   surveyId String
