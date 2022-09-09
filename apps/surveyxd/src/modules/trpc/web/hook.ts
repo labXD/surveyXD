@@ -1,4 +1,5 @@
-import { createReactQueryHooks } from '@trpc/react';
-import type { AppRouter } from '@/trpc/shared/types';
+import { createReactQueryHooks } from "@trpc/react"
 
-export const trpc = createReactQueryHooks<AppRouter>();
+import type { AppRouter } from "@/trpc/shared/types"
+
+export const trpc = createReactQueryHooks<AppRouter>()

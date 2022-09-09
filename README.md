@@ -1,7 +1,10 @@
-# Welcome to labXD
+# Welcome to surveyXD
 
 <p align="center">
-  <img width="500px" src="https://github.com/labXD/gustXD/blob/main/apps/website/static/img/logo-dark.png" />
+  <img width="200px" src="https://github.com/labXD/surveyXD/blob/main/apps/surveyxd/src/public/logo.png" />
 </p>
 
-We are all about UI Infrastructure. We develop tools and processes to help with optimizing our developer experience.
+Seeing data. different.
+
+surveyXD is a web application that allows you to create surveys and visualize
+data in a more robust way. Welcome to the next level of data visualization.

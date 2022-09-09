@@ -1,7 +1,8 @@
-import { EnvSchema } from "./env.config.js";
-import { z } from "zod";
+import { z } from "zod"
 
-type Env = z.infer<typeof EnvSchema>;
+import { EnvSchema } from "./env.config.js"
+
+type Env = z.infer<typeof EnvSchema>
 
 declare global {
   namespace NodeJS {
