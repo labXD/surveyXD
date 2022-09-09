@@ -1,8 +1,339 @@
 @import "@labxd/gustxd/styles.css";
 
+.sanddance-root {
+  /* position: relative; */
+  /* height: 100vh;
+  width: 100vw; */
+  @apply w-full ring ring-xd-purple-500/30 text-sm;
+  @apply block h-screen;
+  @apply md:h-full md:grid md:grid-cols-[300px_1fr];
+  grid-template-areas: "side main";
+}
+
+.sanddance-gl {
+  /* overflow: hidden; */
+  /* position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; */
+  @apply h-screen md:h-[unset];
+}
+
+.sanddance-gl.show-center {
+  background: linear-gradient(
+      to right,
+      transparent 49.9%,
+      rgba(255, 0, 0, 0.7),
+      transparent 50.1%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 49.9%,
+      rgba(255, 0, 0, 0.7),
+      transparent 50.1%
+    );
+}
+
+.sanddance-gl canvas {
+  outline: none;
+}
+
+.sanddance-panel {
+  /* position: absolute;
+  top: 1em;
+  right: 1em;
+  bottom: 1em;
+  background: #fff;
+  box-shadow: 8px 8px 12px -6px #ccc;
+  border: 1px solid #ccc;
+  overflow-y: scroll;
+  padding-bottom: 1em;
+  padding-left: 1em; */
+  grid-area: side;
+  @apply left-0 border-r-2 border-r-neutral-300/60;
+  @apply static md:sticky ring ring-xd-purple-500/30;
+  @apply md:min-h-[600px] bg-neutral-50 flex flex-col space-y-4 py-4 w-full h-full overflow-auto;
+}
+
+@media (max-width: 767px) {
+  .sanddance-panel {
+    position: absolute;
+    height: 300px;
+    overflow: auto;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+.sanddance-legend table {
+  border-collapse: collapse;
+}
+
+.sanddance-legend th {
+  word-break: break-word;
+  max-width: 11em;
+}
+
+.sanddance-legend .legend-row {
+  cursor: pointer;
+}
+
+.sanddance-legend .legend-row td {
+  padding: 2px;
+}
+
+.sanddance-legend .legend-row:hover {
+  background-color: #efefef;
+}
+
+.sanddance-legend .symbol div {
+  border-style: outset;
+  border-width: 1.5px;
+}
+
+.sanddance-legend .label {
+  max-width: 9em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.sanddance-details {
+  /* font-size: smaller; */
+}
+
+.sanddance-details-scroll {
+  /* padding-bottom: 1em; */
+}
+
+.sanddance-tooltip {
+  z-index: 1;
+}
+
+.sanddance-tooltip table {
+  background: #333;
+  color: #fff;
+  font-size: smaller;
+  margin: 1em;
+  min-width: 16em;
+  position: absolute;
+  @apply max-w-md;
+}
+
+.sanddance-tooltip tr {
+  @apply flex flex-wrap justify-between p-2;
+}
+.sanddance-tooltip td {
+  /* max-width: 16em; */
+  /* overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis; */
+  /* vertical-align: top; */
+  /* width: 75%; */
+}
+
+.sanddance-tooltip td:first-child {
+  /* width: 25%; */
+}
+
+/* END of Sanddance */
+
 .xd-button-link {
   @apply cursor-pointer relative;
   @apply text-[#782FED];
   @apply after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0;
   @apply after:transition-[width] after:h-[1px] after:bg-[#782FED] after:w-0 hover:after:w-full;
+}
+
+.sanddance-ReactViewer {
+  @apply h-full;
+}
+
+.sanddance-panel h4 {
+  @apply font-semibold px-4;
+}
+
+/* Top Header */
+.sanddance-panel > h4:first-child {
+  @apply relative;
+}
+.sanddance-panel > h4:first-child::after {
+  content: "What is your JavaScript level?";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  font-size: 1rem;
+  @apply bg-neutral-50;
+}
+.sanddance-panel > h4:first-child::before {
+  content: "surveyXD Data Visualization";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  @apply text-sm font-normal text-xd-text-primary/80 bg-neutral-50 translate-y-full;
+}
+
+/* Top Controls */
+.sanddance-vegaControls {
+  @apply px-4 pt-10;
+}
+
+.vega-bind {
+  @apply pb-4;
+}
+.sanddance-legend {
+  @apply px-4;
+}
+.sanddance-legend table {
+  @apply grid grid-cols-2 gap-x-4 gap-y-2;
+}
+
+.sanddance-legend table > tr:first-child {
+  @apply col-span-2;
+}
+.sanddance-selection {
+  @apply px-4 pt-2;
+}
+
+.vega-bind:not(:first-child):not(:nth-child(4)) {
+  @apply pt-6;
+}
+.vega-bind:nth-child(4) {
+  @apply pt-2;
+}
+.vega-bind:nth-child(4) .vega-bind-name {
+  @apply pr-2;
+}
+
+.vega-bind-name {
+  @apply text-neutral-800 text-xs font-medium;
+}
+.vega-bind:not(:nth-child(4)) label {
+  @apply relative;
+}
+.vega-bind label {
+  @apply flex w-full text-neutral-800 text-xs font-medium;
+}
+
+.vega-bind label input[type="range"] {
+  @apply flex-grow;
+}
+
+.vega-bind:not(:nth-child(4)) label .vega-bind-name {
+  @apply absolute -top-2 -translate-y-full;
+}
+
+.vega-bind label input + span {
+  @apply absolute -top-2 right-0 -translate-y-full;
+}
+
+.sanddance-selection {
+  @apply grid grid-cols-2 gap-2;
+}
+
+/* Buttons */
+.sanddance-selection button,
+.legend-row,
+.sanddance-details-scroll button {
+  @apply text-sm px-2 py-1 border rounded-sm transition-all;
+  @apply border-indigo-700 text-indigo-700;
+  @apply hover:bg-indigo-100 focus:bg-indigo-700 focus:text-white active:bg-indigo-700 active:text-white !important;
+  @apply disabled:bg-white disabled:border-neutral-300 disabled:cursor-not-allowed disabled:text-neutral-300;
+}
+
+.sanddance-vegaControls + h4 {
+  @apply pt-2 border-t border-t-neutral-300;
+}
+
+.sanddance-unitControls {
+  @apply pt-2 border-t border-t-neutral-300;
+}
+.sanddance-legend table {
+  @apply w-full;
+}
+.sanddance-legend th {
+  @apply text-left;
+}
+
+.legend-row .symbol div {
+  @apply h-4 w-4 rounded-full !important;
+}
+
+.legend-row {
+  @apply flex items-center px-2 py-1;
+}
+.sanddance-legend .legend-row td {
+  @apply p-0;
+}
+.sanddance-legend .legend-row td.label {
+  @apply pl-4;
+}
+
+.sanddance-selection + h4 {
+  @apply pt-2 pb-2 border-t border-t-neutral-300 mt-4;
+}
+.sanddance-selection + h4 + div {
+}
+
+.sanddance-details-scroll {
+  display: grid;
+  grid-template-columns: 2rem 1fr 2rem;
+  grid-template-areas: "button1 text button2";
+  @apply text-xs px-4 items-center gap-2;
+}
+.sanddance-details-scroll > span {
+  grid-area: text;
+  text-align: center;
+  @apply font-semibold;
+}
+
+.sanddance-details {
+  @apply px-4;
+}
+
+.sanddance-details table {
+  @apply flex flex-col text-sm;
+}
+.sanddance-details table tr {
+  @apply flex justify-between;
+}
+.sanddance-details table tr td:first-child::after {
+  content: ":";
+}
+.sanddance-details table tr td:last-child {
+  @apply font-medium;
+}
+.sanddance-details table tr td:last-child a + a {
+  @apply hidden;
+}
+
+/* SLIDERS */
+input[type="range"] {
+  -webkit-appearance: none;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+  @apply bg-neutral-300 rounded-xl h-1 w-full;
+}
+
+input[type="range"]:hover {
+  opacity: 1;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  @apply w-4 h-4 bg-white ring-4 ring-inset ring-indigo-700 rounded-full cursor-move;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  @apply w-4 h-4 bg-white ring ring-inset ring-indigo-700 rounded-full cursor-move;
 }

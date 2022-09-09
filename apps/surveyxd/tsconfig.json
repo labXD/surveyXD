@@ -4,7 +4,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -31,7 +31,7 @@
     "paths": {
       "@/*": ["./src/modules/*"],
       "~/*": ["./src/*"],
-      "@/public/*": ["./src/public/*"]
+      "@/public/*": ["./public/*"]
     }
   },
   "include": ["next-env.d.ts", "env.d.ts", "**/*.ts", "**/*.tsx"],

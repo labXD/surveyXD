@@ -1,6 +1,10 @@
-// const { verifyEnv } = require("./env.config")
+const withPlugins = require("next-compose-plugins")
+const withTM = require("next-transpile-modules")
 
 // verifyEnv()
+
+const modules = ["@msrvida/sanddance-explorer", "@msrvida/sanddance-react"]
+const plugins = [withTM(modules)]
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -16,4 +20,6 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+const config = withPlugins(plugins, nextConfig)
+
+module.exports = config
