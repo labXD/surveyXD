@@ -81,7 +81,7 @@ export const main = async ({ service, env }) => {
   switch (service) {
     case "surveyxd": {
       if (env !== "production") {
-        await deployService({
+        return deployService({
           serviceName: service,
           env,
           envVars: {
@@ -90,19 +90,19 @@ export const main = async ({ service, env }) => {
           },
           secrets: {
             DATABASE_URL: "DATABASE_URL",
-            NEXT_AUTH_SECRET: "NEXTAUTH_SECRET",
+            NEXTAUTH_SECRET: "NEXT_AUTH_SECRET",
             GOOGLE_CLIENT_ID: "GOOGLE_CLIENT_ID",
             GOOGLE_CLIENT_SECRET: "GOOGLE_CLIENT_SECRET",
           },
         })
       }
 
-      await deployService({
+      return deployService({
         serviceName: service,
         env,
         envVars: {
-          APP_ENV: "developoment",
-          NEXT_AUTH_URL: "https://surveyxd.com",
+          APP_ENV: "production",
+          NEXTAUTH_URL: "https://surveyxd.com",
         },
         secrets: {
           DATABASE_URL: "DATABASE_URL",
@@ -111,8 +111,6 @@ export const main = async ({ service, env }) => {
           GOOGLE_CLIENT_SECRET: "GOOGLE_CLIENT_SECRET",
         },
       })
-
-      break
     }
 
     default:

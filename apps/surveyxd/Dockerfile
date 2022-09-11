@@ -21,6 +21,8 @@ ENV NEXT_TELEMETRY_DISABLED 1
 RUN pnpm run db:gen
 RUN pnpm build
 
+COPY apps/surveyxd/prisma/schema.prisma ./.next/server/chunks/schema.prisma
+
 # Production image, copy all the files and run next
 FROM node:16-alpine AS runner
 RUN corepack enable
