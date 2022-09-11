@@ -1,5 +1,3 @@
-// import * as fluentui from "@fluentui/react"
-// import { Explorer, use } from "@msrvida/sanddance-explorer"
 import { Listbox, Switch, Transition } from "@headlessui/react"
 import * as SandDanceReact from "@msrvida/sanddance-react"
 import clsx from "clsx"
@@ -28,9 +26,9 @@ export const XDSandDance: React.FC = () => {
 
   const data = Array.from({ length: 1000 }, () => ({
     name: names[Math.floor(Math.random() * names.length)],
-    "Rate your knowledge of JavaScript": Math.floor(Math.random() * 4) + 1,
-    "Rate your knowledge of React": Math.floor(Math.random() * 4) + 1,
-    "Rate your knowledge of Vue": Math.floor(Math.random() * 4) + 1,
+    "Rate your knowledge of JavaScript": Math.floor(Math.random() * 5) + 1,
+    "Rate your knowledge of React": Math.floor(Math.random() * 5) + 1,
+    "Rate your knowledge of Vue": Math.floor(Math.random() * 5) + 1,
   }))
 
   const insight = {
@@ -39,21 +37,53 @@ export const XDSandDance: React.FC = () => {
       y: "Rate your knowledge of React",
       z: "Rate your knowledge of Vue",
       color: "Rate your knowledge of React",
+      sort: "Rate your knowledge of React",
     },
-    sort: "Rate your knowledge of JavaScript",
-    scheme: "set2",
+    scheme: "category10",
     chart: selected,
     view: enabled ? "3d" : "2d",
-
     size: {
       height: 800,
       width: 800,
     },
-    totalStyle: "count-square",
     viewerOptions: {
       fontFamily: "Red Hat Text",
     },
     hideLegend: true,
+  }
+
+  const setup = {
+    camera: {
+      position: [0, 0, 0],
+      captureSize: {
+        height: 947,
+        width: 1496,
+      },
+    },
+    renderer: {
+      advanced: false,
+      advancedOptions: {
+        bloomIntensity: 2,
+        isBloomEnabled: false,
+        isDofEnabled: false,
+        dofFocusRange: 0.25,
+        isFxaaEnabled: false,
+        isShadowEnabled: true,
+        isSsaoEnabled: true,
+      },
+      basicOptions: {
+        antialias: true,
+      },
+    },
+    transition: {
+      type: "position",
+      dimension: "x",
+    },
+    transitionDurations: {
+      position: 702,
+      stagger: 1998.0000000000002,
+      view: 600,
+    },
   }
 
   return (
@@ -149,39 +179,9 @@ export const XDSandDance: React.FC = () => {
           </Switch>
           <span className="pl-2 text-xd-text-primary leading-4">3D</span>
         </div>
-        {/* @ts-expect-error */}
-        <SandDanceReact.Viewer data={data} insight={insight} />
+        {/* @ts-ignore-expect-error */}
+        <SandDanceReact.Viewer data={data} insight={insight} setup={setup} />
       </NoSSR>
     </div>
   )
 }
-
-// export const XDExplorer: React.FC = () => {
-//   fluentui.initializeIcons()
-//   use(fluentui, React, ReactDOM, vega)
-
-//   const randomString = () => {
-//     const chars =
-//       "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-//     let result = ""
-//     for (let i = 16; i > 0; --i)
-//       result += chars[Math.floor(Math.random() * chars.length)]
-//     return result
-//   }
-
-//   const data2 = Array.from({ length: 1000 }, () => ({
-//     a: Math.floor(Math.random() * 4) + 1,
-//     b: randomString(),
-//   }))
-
-//   const explorerProps = {
-//     logoClickUrl: "https://microsoft.github.io/SandDance/",
-//     mounted: (explorer: {
-//       load: (arg0: { a: number; b: string }[]) => void
-//     }) => {
-//       explorer.load(data2)
-//     },
-//   }
-
-//   return <Explorer {...explorerProps} />
-// }
