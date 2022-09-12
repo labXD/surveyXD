@@ -43,7 +43,7 @@ export const LandingPage: NextPage = () => {
               className="xd-button w-full "
               onClick={() => createSurvey()}
             >
-              <span className="material-symbols-outlined">
+              <span className="material-symbols-rounded">
                 <span className="material-symbols-rounded">corporate_fare</span>
               </span>
               <span>Dashboard</span>

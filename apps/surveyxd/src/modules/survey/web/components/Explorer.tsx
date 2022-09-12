@@ -49,7 +49,7 @@ export const XDSandDance: React.FC = () => {
     viewerOptions: {
       fontFamily: "Red Hat Text",
     },
-    hideLegend: true,
+    // hideLegend: true,
   }
 
   const setup = {

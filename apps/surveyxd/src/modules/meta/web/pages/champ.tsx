@@ -4,9 +4,13 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import { useSession } from "next-auth/react"
 
+import LogoWhite from "@/public/logo-white.svg"
+import { useCreateSurvey } from "@/survey/web"
+
 export const ChampPage: NextPage = () => {
   const router = useRouter()
   const { data: session } = useSession()
+  const { createSurvey } = useCreateSurvey()
 
   if (!session?.user) return <DefaultErrorPage statusCode={404} />
 
@@ -21,9 +25,16 @@ export const ChampPage: NextPage = () => {
         released.
       </p>
 
-      <div>
+      <div className="space-y-4">
+        <button className="xd-button-danger" onClick={() => createSurvey()}>
+          <span className="animate-slow">
+            <LogoWhite />
+          </span>
+          <span>Create new survey</span>
+        </button>
+
         <button className="xd-button" onClick={() => router.push("/")}>
-          <span className="material-symbols-outlined">arrow_back</span>
+          <span className="material-symbols-rounded">arrow_back</span>
           <span>Back to the chart</span>
         </button>
       </div>

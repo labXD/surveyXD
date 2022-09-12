@@ -41,7 +41,7 @@ export const TopNavComingSoon: FC = () => {
           }
         >
           {session?.user ? (
-            <span className="material-symbols-outlined">logout</span>
+            <span className="material-symbols-rounded">logout</span>
           ) : (
             <svg
               width="17"

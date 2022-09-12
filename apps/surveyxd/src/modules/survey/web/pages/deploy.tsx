@@ -45,13 +45,13 @@ export const DeployPage: NextPage = () => {
             <span className="flex-grow text-left truncate">
               https://www.surveyxd.com/live/dke34Df
             </span>
-            <span className="material-symbols-outlined">content_copy</span>
+            <span className="material-symbols-rounded">content_copy</span>
           </button>
           <button
             className="xd-button-danger w-full bg-xd-purple-primary ring-xd-purple-secondary"
             onClick={() => ""}
           >
-            <span className="material-symbols-outlined">stacked_bar_chart</span>
+            <span className="material-symbols-rounded">stacked_bar_chart</span>
             <span>View Results</span>
           </button>
         </div>

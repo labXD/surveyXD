@@ -1,32 +1,23 @@
 import clsx from "clsx"
-import React, { FC } from "react"
+import React, { FC, ReactNode } from "react"
 
 export interface TextInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   cls?: string
   inputCls?: string
-  inline?: boolean
 }
-export const TextInput: FC<TextInputProps> = ({
-  cls,
-  inputCls,
-  inline,
-  ...props
-}) => {
+export const TextInput: FC<TextInputProps> = ({ cls, inputCls, ...props }) => {
   return (
     <div
-      className={clsx(cls, "border-b flex items-baseline justify-between", {
-        "border-b-neutral-300": !inline,
-        "border-b-transparent": inline,
-      })}
+      className={clsx(
+        cls,
+        "flex items-baseline justify-between border-b border-b-neutral-300"
+      )}
     >
       <input
         {...props}
-        className={clsx(
-          inputCls,
-          "w-full text-sm text-xd-text-primary placeholder:text-xd-text-primary/[.65]",
-          { "pb-1": !inline, "p-1": inline }
-        )}
+        type="text"
+        className={clsx(inputCls, "w-full text-sm")}
       />
     </div>
   )
@@ -35,36 +26,40 @@ export const TextInput: FC<TextInputProps> = ({
 export type QuestionTypeOptions = "single" | "multiple"
 export interface QuestionTypeProps {
   type?: QuestionTypeOptions
-  value?: string
+  children: ReactNode
+  remove?: () => void
 }
+
 export const QuestionType: FC<QuestionTypeProps> = ({
   type = "single",
-  value,
+  children,
+  remove,
+  ...otherProps
 }) => {
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between" {...otherProps}>
       <div className="flex items-center space-x-2 w-full">
-        <span className="text-lg material-symbols-outlined text-xd-text-primary/80">
+        <span className="text-lg material-symbols-rounded text-xd-text-primary/80">
           {type === "single" ? "circle" : "check_box_outline_blank"}
         </span>
-        <TextInput
-          inputCls="placeholder:text-blue-500"
-          value={value}
-          placeholder="Add option"
-          inline
-          cls="w-full"
-        />
+        <div
+          className={clsx(
+            "w-full",
+            "relative flex items-baseline justify-between border-b border-b-neutral-300"
+          )}
+        >
+          {children}
+        </div>
       </div>
-      <span
-        className={clsx(
-          "material-symbols-outlined text-xd-text-primary/[.65]",
-          {
-            hidden: !value,
-          }
-        )}
-      >
-        close
-      </span>
+      <button onClick={remove}>
+        <span
+          className={clsx(
+            "material-symbols-rounded text-xd-text-primary/[.65]"
+          )}
+        >
+          close
+        </span>
+      </button>
     </div>
   )
 }
