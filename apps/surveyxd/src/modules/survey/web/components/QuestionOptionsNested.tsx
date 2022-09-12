@@ -1,13 +1,14 @@
 import clsx from "clsx"
 import { FC } from "react"
-import { useFieldArray } from "react-hook-form"
+import { Control, useFieldArray, UseFormRegister } from "react-hook-form"
 
+import { NewSurveyPageNestedInterface } from "../types"
 import { QuestionType } from "./Forms"
 
 type QuestionOptionsNestedProps = {
   nestedIndex: number
-  control: any
-  register: any
+  control: Control<NewSurveyPageNestedInterface, any>
+  register: UseFormRegister<NewSurveyPageNestedInterface>
   errors: any
 }
 export const QuestionOptionsNested: FC<QuestionOptionsNestedProps> = ({

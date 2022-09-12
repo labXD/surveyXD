@@ -12,6 +12,7 @@ import { XDDropdownMenu } from "@/meta/web"
 import { QuestionTypeDropdown, RequiredToggle } from "../components"
 import { QuestionOptionsNested } from "../components"
 import { useActiveSurveyFromRoute } from "../hooks"
+import { NewSurveyPageNestedInterface } from "../types"
 
 const defaultValues = {
   surveyTitle: "New Survey",
@@ -47,20 +48,6 @@ const surveySchema = z.object({
     .min(1, { message: "Must have at least one question" }),
 })
 
-type SurveyQuestionTypes = {
-  questionTitle: string
-  //   questionDescription?: string
-  questionType: string
-  questionRequired?: boolean
-  options: {
-    text: string
-  }[]
-}
-
-interface NewSurveyPageNestedInterface {
-  surveyTitle: string
-  surveyQuestions: SurveyQuestionTypes[]
-}
 export const NewSurveyPageNested: NextPage = () => {
   const [title, setTitle] = useState("New Survey")
   const { loading } = useActiveSurveyFromRoute()
