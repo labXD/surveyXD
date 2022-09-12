@@ -1,8 +1,11 @@
 import { Tab } from "@headlessui/react"
+import { zodResolver } from "@hookform/resolvers/zod"
 import clsx from "clsx"
 import { NextPage } from "next"
 import Head from "next/head"
+import { FormEvent, useState } from "react"
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form"
+import { z } from "zod"
 
 import { XDDropdownMenu } from "@/meta/web"
 
@@ -17,10 +20,32 @@ const defaultValues = {
       questionTitle: "",
       questionType: "single",
       questionRequired: false,
-      options: [{ text: "" }],
+      options: [{ text: "" }, { text: "" }],
     },
   ],
 }
+
+const surveySchema = z.object({
+  surveyTitle: z.string().min(1),
+  surveyQuestions: z
+    .array(
+      z.object({
+        options: z
+          .array(
+            z.object({
+              text: z.string().min(1, { message: "Please enter an option" }),
+            })
+          )
+          .min(1, { message: "Must have at least one options" }),
+        questionRequired: z.boolean(),
+        questionTitle: z
+          .string()
+          .min(1, { message: "Please enter a question title" }),
+        questionType: z.enum(["single", "multiple"]),
+      })
+    )
+    .min(1, { message: "Must have at least one question" }),
+})
 
 type SurveyQuestionTypes = {
   questionTitle: string
@@ -37,12 +62,19 @@ interface NewSurveyPageNestedInterface {
   surveyQuestions: SurveyQuestionTypes[]
 }
 export const NewSurveyPageNested: NextPage = () => {
+  const [title, setTitle] = useState("New Survey")
   const { loading } = useActiveSurveyFromRoute()
 
-  const { register, control, handleSubmit, reset } =
-    useForm<NewSurveyPageNestedInterface>({
-      defaultValues,
-    })
+  const {
+    register,
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<NewSurveyPageNestedInterface>({
+    resolver: zodResolver(surveySchema),
+    defaultValues,
+  })
 
   const {
     fields: questionFields,
@@ -68,14 +100,21 @@ export const NewSurveyPageNested: NextPage = () => {
     },
   ]
 
-  const onSubmit: SubmitHandler<NewSurveyPageNestedInterface> = (data) =>
+  const submitSurvey = async (e: FormEvent) => {
+    e.preventDefault()
+    await handleSubmit(onSubmit)(e)
+  }
+
+  const onSubmit: SubmitHandler<NewSurveyPageNestedInterface> = (data) => {
     console.log("data:\n", data)
+  }
+
   return (
     <>
       <Head>
         <title>Create survey - surveyXD</title>
       </Head>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={submitSurvey}>
         <Tab.Group as={"div"} className="lg:max-w-7xl lg:mx-auto">
           <section className="pt-4 pb-3 bg-white shadow-md ring-1 ring-inset ring-neutral-200 sticky top-0 z-10">
             <div className="relative mx-4 border-b border-b-neutral-300 flex items-baseline justify-between">
@@ -84,9 +123,14 @@ export const NewSurveyPageNested: NextPage = () => {
                 placeholder="Survey Title"
                 className={clsx("w-full text-2xl font-bold")}
                 {...register("surveyTitle", { required: true })}
+                defaultValue={title}
+                onChange={(e) => {
+                  setTitle(e.currentTarget.value)
+                }}
               />
               <XDDropdownMenu data={menuItemArray} />
             </div>
+            {errors && errors.surveyTitle ? errors.surveyTitle.message : null}
             <Tab.List className="flex px-4 space-x-6">
               {TABS.map((tab) => (
                 <Tab
@@ -139,6 +183,9 @@ export const NewSurveyPageNested: NextPage = () => {
                       </span>
                     </button>
                   </div>
+                  {errors.surveyQuestions
+                    ? errors.surveyQuestions[index]?.questionTitle?.message
+                    : null}
                   {/* <div className="flex items-end space-x-2 w-full">
                     <label className={clsx("relative flex flex-col flex-1")}>
                       <div className="pb-1 mt-4">
@@ -183,7 +230,7 @@ export const NewSurveyPageNested: NextPage = () => {
                       control={control}
                       rules={{ required: true }}
                       type={["single", "multiple"]}
-                      defaultValue="single"
+                      defaultValue={title}
                     />
                   </div>
                   <aside className="pt-3 space-y-4">
@@ -191,7 +238,15 @@ export const NewSurveyPageNested: NextPage = () => {
                       nestedIndex={index}
                       control={control}
                       register={register}
+                      errors={
+                        errors.surveyQuestions
+                          ? errors.surveyQuestions[index]?.options
+                          : "No errors"
+                      }
                     />
+                    {errors.surveyQuestions
+                      ? errors.surveyQuestions[index]?.options?.message
+                      : null}
                   </aside>
                   <div className="flex justify-end pt-8">
                     {/* {requiredToggle} */}
@@ -208,12 +263,13 @@ export const NewSurveyPageNested: NextPage = () => {
         <div className="fixed bottom-0 left-4 right-4 z-10 ">
           <div className="bg-white flex justify-between p-4 rounded-t-lg drop-shadow-lg ring-2 ring-indigo-50        lg:max-w-3xl lg:mx-auto">
             <button
+              type="button"
               onClick={() =>
                 questionAppend({
                   questionTitle: "",
                   questionType: "single",
                   questionRequired: false,
-                  options: [{ text: "" }],
+                  options: [{ text: "" }, { text: "" }],
                 })
               }
             >
@@ -226,7 +282,7 @@ export const NewSurveyPageNested: NextPage = () => {
                 send
               </span>
             </button>
-            <button onClick={() => reset({})}>
+            <button type="reset" onClick={() => reset()}>
               <span className="material-symbols-rounded text-xd-text-primary/80">
                 restart_alt
               </span>
