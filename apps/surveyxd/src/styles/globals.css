@@ -1,9 +1,6 @@
 @import "@labxd/gustxd/styles.css";
 
 .sanddance-root {
-  /* position: relative; */
-  /* height: 100vh;
-  width: 100vw; */
   @apply w-full ring ring-xd-purple-500/30 text-sm;
   @apply block h-screen;
   @apply md:h-full md:grid md:grid-cols-[300px_1fr];
@@ -11,12 +8,6 @@
 }
 
 .sanddance-gl {
-  /* overflow: hidden; */
-  /* position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0; */
   @apply h-screen md:h-[unset];
 }
 
@@ -40,19 +31,9 @@
 }
 
 .sanddance-panel {
-  /* position: absolute;
-  top: 1em;
-  right: 1em;
-  bottom: 1em;
-  background: #fff;
-  box-shadow: 8px 8px 12px -6px #ccc;
-  border: 1px solid #ccc;
-  overflow-y: scroll;
-  padding-bottom: 1em;
-  padding-left: 1em; */
   grid-area: side;
   @apply left-0 border-r-2 border-r-neutral-300/60;
-  @apply static md:sticky ring ring-xd-purple-500/30;
+  @apply static md:sticky border-t border-t-xd-purple-500/30 md:border-t-transparent;
   @apply md:min-h-[600px] bg-neutral-50 flex flex-col space-y-4 py-4 w-full h-full overflow-auto;
 }
 
@@ -99,16 +80,8 @@
   overflow: hidden;
 }
 
-.sanddance-details {
-  /* font-size: smaller; */
-}
-
-.sanddance-details-scroll {
-  /* padding-bottom: 1em; */
-}
-
 .sanddance-tooltip {
-  z-index: 1;
+  @apply z-30;
 }
 
 .sanddance-tooltip table {
@@ -122,9 +95,13 @@
 }
 
 .sanddance-tooltip tr {
-  @apply flex flex-wrap justify-between p-2;
+  @apply grid grid-cols-[auto_auto] p-2;
 }
-.sanddance-tooltip td {
+.sanddance-tooltip table tr:first-child td {
+  @apply capitalize;
+}
+.sanddance-tooltip td:last-child {
+  justify-self: flex-end;
   /* max-width: 16em; */
   /* overflow: hidden;
     text-align: left;
@@ -182,7 +159,11 @@
 
 /* Top Controls */
 .sanddance-vegaControls {
-  @apply px-4 pt-10;
+  @apply px-4 pt-10 order-3 md:order-[unset];
+}
+
+.sanddance-vegaControls + h4 {
+  @apply pt-2 border-t border-t-neutral-300;
 }
 
 .vega-bind {
@@ -246,10 +227,6 @@
   @apply border-indigo-700 text-indigo-700;
   @apply hover:bg-indigo-100 focus:bg-indigo-700 focus:text-white active:bg-indigo-700 active:text-white !important;
   @apply disabled:bg-white disabled:border-neutral-300 disabled:cursor-not-allowed disabled:text-neutral-300;
-}
-
-.sanddance-vegaControls + h4 {
-  @apply pt-2 border-t border-t-neutral-300;
 }
 
 .sanddance-unitControls {

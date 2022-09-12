@@ -3,7 +3,7 @@ const withTM = require("next-transpile-modules")
 
 // verifyEnv()
 
-const modules = ["@msrvida/sanddance-explorer", "@msrvida/sanddance-react"]
+const modules = ["@msrvida/sanddance-react"]
 const plugins = [withTM(modules)]
 
 /** @type {import('next').NextConfig} */
