@@ -30,6 +30,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/modules/*"],
+      "@/prisma": ["./prisma/generated"],
       "~/*": ["./src/*"],
       "@/public/*": ["./public/*"]
     }
