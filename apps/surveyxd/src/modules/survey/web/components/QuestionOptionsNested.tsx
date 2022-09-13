@@ -1,18 +1,21 @@
 import clsx from "clsx"
 import { FC } from "react"
-import { useFieldArray } from "react-hook-form"
+import { Control, useFieldArray, UseFormRegister } from "react-hook-form"
 
+import { NewSurveyPageNestedInterface } from "../types"
 import { QuestionType } from "./Forms"
 
 type QuestionOptionsNestedProps = {
   nestedIndex: number
-  control: any
-  register: any
+  control: Control<NewSurveyPageNestedInterface, any>
+  register: UseFormRegister<NewSurveyPageNestedInterface>
+  errors: any
 }
 export const QuestionOptionsNested: FC<QuestionOptionsNestedProps> = ({
   nestedIndex,
   control,
   register,
+  errors,
 }) => {
   const {
     fields: optionFields,
@@ -27,20 +30,28 @@ export const QuestionOptionsNested: FC<QuestionOptionsNestedProps> = ({
     <>
       {optionFields.map((field, index) => {
         return (
-          <QuestionType key={field.id} remove={() => optionRemove(index)}>
-            <input
+          <>
+            <QuestionType
               key={field.id}
-              type="text"
-              placeholder="Option text"
-              {...register(
-                `surveyQuestions.${nestedIndex}.options.${index}.text` as const,
-                {
-                  required: true,
-                }
-              )}
-              className={clsx("w-full text-sm")}
-            />
-          </QuestionType>
+              remove={() => {
+                optionFields.length !== 1 && optionRemove(index)
+              }}
+            >
+              <input
+                key={field.id}
+                type="text"
+                placeholder="Option text"
+                {...register(
+                  `surveyQuestions.${nestedIndex}.options.${index}.text` as const,
+                  {
+                    required: true,
+                  }
+                )}
+                className={clsx("w-full text-sm")}
+              />
+            </QuestionType>
+            {errors && errors[index] ? errors[index].text?.message : null}
+          </>
         )
       })}
       <button

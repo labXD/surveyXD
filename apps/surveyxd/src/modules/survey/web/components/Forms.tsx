@@ -51,7 +51,7 @@ export const QuestionType: FC<QuestionTypeProps> = ({
           {children}
         </div>
       </div>
-      <button onClick={remove}>
+      <button type="button" onClick={remove}>
         <span
           className={clsx(
             "material-symbols-rounded text-xd-text-primary/[.65]"
