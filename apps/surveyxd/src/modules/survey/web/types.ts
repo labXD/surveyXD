@@ -1,6 +1,5 @@
 export type SurveyQuestionTypes = {
   questionTitle: string
-  //   questionDescription?: string
   questionType: string
   questionRequired?: boolean
   options: {
@@ -11,4 +10,15 @@ export type SurveyQuestionTypes = {
 export interface NewSurveyPageNestedInterface {
   surveyTitle: string
   surveyQuestions: SurveyQuestionTypes[]
+}
+
+// SurveyDropdownMenu
+export type SurveyDropdownMenuItem = {
+  label: string
+  icon?: string
+  onClick?: () => void
+  buttonType?: "button" | "submit" | "reset"
+}
+export interface SurveyDropdownMenuInterface {
+  data: SurveyDropdownMenuItem[]
 }

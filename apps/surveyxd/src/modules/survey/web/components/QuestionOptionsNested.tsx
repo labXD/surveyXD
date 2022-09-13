@@ -3,7 +3,7 @@ import { FC } from "react"
 import { Control, useFieldArray, UseFormRegister } from "react-hook-form"
 
 import { NewSurveyPageNestedInterface } from "../types"
-import { QuestionType } from "./Forms"
+import { FormInputError, QuestionType } from "./Forms"
 
 type QuestionOptionsNestedProps = {
   nestedIndex: number
@@ -22,7 +22,7 @@ export const QuestionOptionsNested: FC<QuestionOptionsNestedProps> = ({
     append: optionAppend,
     remove: optionRemove,
   } = useFieldArray({
-    name: `surveyQuestions.${nestedIndex}.options`,
+    name: `surveyQuestions.${nestedIndex}.options` as "surveyQuestions.0.options",
     control,
   })
 
@@ -49,8 +49,10 @@ export const QuestionOptionsNested: FC<QuestionOptionsNestedProps> = ({
                 )}
                 className={clsx("w-full text-sm")}
               />
+              {errors && errors[index] && (
+                <FormInputError>{errors[index].text?.message}</FormInputError>
+              )}
             </QuestionType>
-            {errors && errors[index] ? errors[index].text?.message : null}
           </>
         )
       })}

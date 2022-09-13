@@ -63,3 +63,20 @@ export const QuestionType: FC<QuestionTypeProps> = ({
     </div>
   )
 }
+
+interface FormInputInterface {
+  cls?: string | Record<string, boolean>
+  children: ReactNode
+}
+export const FormInputError: FC<FormInputInterface> = ({ cls, children }) => {
+  return (
+    <div
+      className={clsx(
+        cls,
+        " text-xd-danger-700 text-sm absolute bottom-0 left-0 translate-y-full"
+      )}
+    >
+      {children}
+    </div>
+  )
+}

@@ -74,6 +74,8 @@ export const DropdownMenu: FC = () => {
 type MenuItem = {
   label: string
   icon?: string
+  onClick?: () => void
+  buttonType?: "button" | "submit" | "reset"
 }
 interface XDDropdownMenuInterface {
   data: MenuItem[]
@@ -101,6 +103,8 @@ export const XDDropdownMenu: FC<XDDropdownMenuInterface> = ({ data }) => {
             <Menu.Item as="div" key={index}>
               {({ active }) => (
                 <button
+                  onClick={item.onClick}
+                  type={item.buttonType}
                   className={clsx(
                     "rounded-sm group flex w-full items-center px-4 py-2 text-sm space-x-2 transition-all",
                     {

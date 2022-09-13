@@ -9,10 +9,14 @@ import { z } from "zod"
 
 import { XDDropdownMenu } from "@/meta/web"
 
-import { QuestionTypeDropdown, RequiredToggle } from "../components"
+import {
+  FormInputError,
+  QuestionTypeDropdown,
+  RequiredToggle,
+} from "../components"
 import { QuestionOptionsNested } from "../components"
 import { useActiveSurveyFromRoute } from "../hooks"
-import { NewSurveyPageNestedInterface } from "../types"
+import { NewSurveyPageNestedInterface, SurveyDropdownMenuItem } from "../types"
 
 const defaultValues = {
   surveyTitle: "New Survey",
@@ -26,27 +30,29 @@ const defaultValues = {
   ],
 }
 
-const surveySchema = z.object({
-  surveyTitle: z.string().min(1),
-  surveyQuestions: z
-    .array(
-      z.object({
-        options: z
-          .array(
-            z.object({
-              text: z.string().min(1, { message: "Please enter an option" }),
-            })
-          )
-          .min(1, { message: "Must have at least one options" }),
-        questionRequired: z.boolean(),
-        questionTitle: z
-          .string()
-          .min(1, { message: "Please enter a question title" }),
-        questionType: z.enum(["single", "multiple"]),
-      })
-    )
-    .min(1, { message: "Must have at least one question" }),
-})
+const surveySchema: z.ZodType<NewSurveyPageNestedInterface> = z.lazy(() =>
+  z.object({
+    surveyTitle: z.string().min(1, { message: "Survey title is required" }),
+    surveyQuestions: z
+      .array(
+        z.object({
+          options: z
+            .array(
+              z.object({
+                text: z.string().min(1, { message: "Please enter an option" }),
+              })
+            )
+            .min(1, { message: "Must have at least one options" }),
+          questionRequired: z.boolean(),
+          questionTitle: z
+            .string()
+            .min(1, { message: "Please enter a question title" }),
+          questionType: z.enum(["single", "multiple"]),
+        })
+      )
+      .min(1, { message: "Must have at least one question" }),
+  })
+)
 
 export const NewSurveyPageNested: NextPage = () => {
   const [title, setTitle] = useState("New Survey")
@@ -80,10 +86,12 @@ export const NewSurveyPageNested: NextPage = () => {
 
   const TABS = ["Questions"]
 
-  const menuItemArray = [
+  const menuItemArray: SurveyDropdownMenuItem[] = [
     {
-      label: "Dashboard",
-      icon: "corporate_fare",
+      label: "Clear",
+      icon: "restart_alt",
+      onClick: () => reset(),
+      buttonType: "reset",
     },
   ]
 
@@ -94,6 +102,7 @@ export const NewSurveyPageNested: NextPage = () => {
 
   const onSubmit: SubmitHandler<NewSurveyPageNestedInterface> = (data) => {
     console.log("data:\n", data)
+    alert("You submitted " + data.surveyTitle.toString())
   }
 
   return (
@@ -104,21 +113,26 @@ export const NewSurveyPageNested: NextPage = () => {
       <form onSubmit={submitSurvey}>
         <Tab.Group as={"div"} className="lg:max-w-7xl lg:mx-auto">
           <section className="pt-4 pb-3 bg-white shadow-md ring-1 ring-inset ring-neutral-200 sticky top-0 z-10">
-            <div className="relative mx-4 border-b border-b-neutral-300 flex items-baseline justify-between">
-              <input
-                type="text"
-                placeholder="Survey Title"
-                className={clsx("w-full text-2xl font-bold")}
-                {...register("surveyTitle", { required: true })}
-                defaultValue={title}
-                onChange={(e) => {
-                  setTitle(e.currentTarget.value)
-                }}
-              />
+            <div className="flex">
+              <div className="relative flex-1 mx-4 border-b border-b-neutral-300 flex items-baseline justify-between">
+                <input
+                  type="text"
+                  placeholder="Survey Title"
+                  aria-invalid={errors?.surveyTitle ? "true" : "false"}
+                  className={clsx("w-full text-2xl font-bold")}
+                  {...register("surveyTitle")}
+                  defaultValue={title}
+                  onChange={(e) => {
+                    setTitle(e.currentTarget.value)
+                  }}
+                />
+                {errors && errors?.surveyTitle && (
+                  <FormInputError>{errors.surveyTitle.message}</FormInputError>
+                )}
+              </div>
               <XDDropdownMenu data={menuItemArray} />
             </div>
-            {errors && errors.surveyTitle ? errors.surveyTitle.message : null}
-            <Tab.List className="flex px-4 space-x-6">
+            <Tab.List className="flex px-4 pt-2 space-x-6">
               {TABS.map((tab) => (
                 <Tab
                   key={tab}
@@ -135,14 +149,14 @@ export const NewSurveyPageNested: NextPage = () => {
               ))}
             </Tab.List>
           </section>
-          <Tab.Panels className="mt-4">
-            <Tab.Panel as="div" className={"space-y-4 overflow-auto pb-20"}>
+          <Tab.Panels className="mt-4 mb-20">
+            <Tab.Panel as="div" className={"space-y-4 overflow-auto"}>
               {questionFields.map((field, index) => (
                 <div
                   key={field.id}
                   className="xd-card xd-card-border-l xd-card-focus"
                 >
-                  <div className="flex items-center space-x-2 w-full">
+                  <div className="flex items-center w-full">
                     <div
                       className={clsx(
                         "relative flex flex-1 items-baseline justify-between border-b border-b-neutral-300"
@@ -151,50 +165,31 @@ export const NewSurveyPageNested: NextPage = () => {
                       <input
                         placeholder="Question title"
                         type="text"
+                        aria-invalid={
+                          errors?.surveyQuestions?.[index]?.questionTitle
+                            ? "true"
+                            : "false"
+                        }
                         className={clsx("w-full text-sm")}
                         {...register(
-                          `surveyQuestions.${index}.questionTitle` as const,
-                          {
-                            required: true,
-                          }
+                          `surveyQuestions.${index}.questionTitle` as const
                         )}
                       />
+                      {errors &&
+                        errors?.surveyQuestions?.[index]?.questionTitle && (
+                          <FormInputError>
+                            {
+                              errors?.surveyQuestions?.[index]?.questionTitle
+                                ?.message
+                            }
+                          </FormInputError>
+                        )}
                     </div>
-                    <button onClick={() => questionRemove(index)}>
-                      <span
-                        className={clsx(
-                          "material-symbols-rounded text-xd-text-primary/[.65]"
-                        )}
-                      >
-                        close
-                      </span>
-                    </button>
-                  </div>
-                  {errors.surveyQuestions
-                    ? errors.surveyQuestions[index]?.questionTitle?.message
-                    : null}
-                  {/* <div className="flex items-end space-x-2 w-full">
-                    <label className={clsx("relative flex flex-col flex-1")}>
-                      <div className="pb-1 mt-4">
-                        <span className="text-xs tracking-wider uppercase text-xd-text-primary/[.65]">
-                          Description
-                        </span>
-                      </div>
-                      <input
-                        placeholder="Question description"
-                        type="text"
-                        className={clsx("w-full text-sm bg-xd-text-primary/10")}
-                        {...register(
-                          `surveyQuestions.${index}.questionDescription` as const
-                        )}
-                      />
-                    </label>
                     <button
-                      onClick={() =>
-                        resetField(
-                          `surveyQuestions.${index}.questionDescription`
-                        )
-                      }
+                      type="button"
+                      onClick={() => {
+                        questionFields.length > 1 && questionRemove(index)
+                      }}
                     >
                       <span
                         className={clsx(
@@ -204,14 +199,8 @@ export const NewSurveyPageNested: NextPage = () => {
                         close
                       </span>
                     </button>
-                  </div> */}
-                  <div className="pt-3 flex justify-between">
-                    {/* <button className="xd-button-ghost xd-button-sm px-0">
-                      <span className="text-xs material-symbols-rounded">
-                        add
-                      </span>
-                      <span>Add description</span>
-                    </button> */}
+                  </div>
+                  <div className="pt-4 flex justify-end pr-6">
                     <QuestionTypeDropdown
                       name={`surveyQuestions.${index}.questionType` as const}
                       control={control}
@@ -220,7 +209,7 @@ export const NewSurveyPageNested: NextPage = () => {
                       defaultValue={title}
                     />
                   </div>
-                  <aside className="pt-3 space-y-4">
+                  <aside className="pt-4 space-y-4">
                     <QuestionOptionsNested
                       nestedIndex={index}
                       control={control}
@@ -231,9 +220,8 @@ export const NewSurveyPageNested: NextPage = () => {
                           : "No errors"
                       }
                     />
-                    {errors.surveyQuestions
-                      ? errors.surveyQuestions[index]?.options?.message
-                      : null}
+                    {errors?.surveyQuestions &&
+                      errors.surveyQuestions[index]?.options?.message}
                   </aside>
                   <div className="flex justify-end pt-8">
                     {/* {requiredToggle} */}
