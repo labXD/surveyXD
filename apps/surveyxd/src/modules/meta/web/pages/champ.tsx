@@ -1,12 +1,10 @@
 import { NextPage } from "next"
 import DefaultErrorPage from "next/error"
-import Image from "next/image"
 import { useRouter } from "next/router"
 import { useSession } from "next-auth/react"
 
-import LogoWhite from "@/public/logo-white.svg"
+import FireWorksSVG from "@/public/assets/firework-xd.svg"
 import { useCreateSurvey } from "@/survey/web"
-
 export const ChampPage: NextPage = () => {
   const router = useRouter()
   const { data: session } = useSession()
@@ -16,26 +14,31 @@ export const ChampPage: NextPage = () => {
 
   return (
     <main className="p-4 xl:max-w-7xl mx-auto text-center flex flex-col items-center space-y-6">
-      <Image src="/assets/trophy.png" width={100} height={100} />
-      <h1 className="text-3xl font-semibold">
-        Thank you for being our Champion!
-      </h1>
-      <p>
-        Keep checking back. You will get access to new futures as they get
-        released.
+      <h1 className="text-2xl font-bold">Congratulations!</h1>
+      <p className="text-xd-text-primary-black/80">
+        You joined the pre-release of surveyXD, which means you&apos;ll be the
+        first to know about the newest features and have early access to
+        exclusive benefits.
       </p>
-
-      <div className="space-y-4">
-        <button className="xd-button-danger" onClick={() => createSurvey()}>
-          <span className="animate-slow">
-            <LogoWhite />
-          </span>
-          <span>Create new survey</span>
+      <div>
+        <FireWorksSVG />
+      </div>
+      <div className="space-y-4 w-full md:w-auto flex flex-col items-center">
+        <button className="xd-button w-full" onClick={() => router.push("/")}>
+          <span className="text-sm material-symbols-rounded">arrow_back</span>
+          <span>Back to chart</span>
         </button>
-
-        <button className="xd-button" onClick={() => router.push("/")}>
-          <span className="material-symbols-rounded">arrow_back</span>
-          <span>Back to the chart</span>
+        <button
+          className="xd-button-link w-full"
+          onClick={() => router.push("/response")}
+        >
+          <span>Demo response page</span>
+        </button>
+        <button
+          className="xd-button-link w-full"
+          onClick={() => createSurvey()}
+        >
+          <span>Demo create new survey</span>
         </button>
       </div>
     </main>

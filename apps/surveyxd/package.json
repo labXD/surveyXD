@@ -23,7 +23,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.0",
     "@hookform/resolvers": "2.9.7",
-    "@labxd/gustxd": "^0.6.0",
+    "@labxd/gustxd": "^0.6.1",
     "@msrvida/sanddance-react": "^4",
     "@next-auth/prisma-adapter": "^1.0.4",
     "@prisma/client": "^4.3.1",

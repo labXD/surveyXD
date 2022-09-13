@@ -6,6 +6,7 @@ import Head from "next/head"
 import { useRouter } from "next/router"
 import { Session } from "next-auth"
 import { SessionProvider } from "next-auth/react"
+import { useMemo } from "react"
 
 import { BaseLayout, Footer, TopNavComingSoon } from "@/meta/web/components"
 import { type AppRouter } from "@/trpc/shared/types"
@@ -16,6 +17,16 @@ type AppProps<P = unknown> = {
 
 function App({ Component, pageProps }: AppProps<{ session: Session }>) {
   const router = useRouter()
+  const colorBg = useMemo(() => {
+    if (router.pathname.includes("/response")) {
+      return "bg-xd-primary-100"
+    }
+    if (router.pathname.includes("/survey")) {
+      return "bg-xd-primary-100"
+    }
+    return "bg-white"
+  }, [router.pathname])
+
   return (
     <>
       <SessionProvider session={pageProps.session}>
@@ -26,11 +37,7 @@ function App({ Component, pageProps }: AppProps<{ session: Session }>) {
           />
         </Head>
         <BaseLayout
-          cls={
-            router.pathname.includes("/survey")
-              ? "bg-xd-primary-100"
-              : "bg-white"
-          }
+          cls={colorBg}
           topNav={!router.pathname.includes("/survey") && <TopNavComingSoon />}
           footer={<Footer />}
         >

@@ -1,0 +1,47 @@
+{
+  "surveyTitle": "Health and Safety Survey",
+  "surveyQuestions": [
+    {
+      "questionTitle": "I know what's expected of me at work.",
+      "questionType": "single",
+      "questionRequired": true,
+      "options": [
+        {
+          "text": "Yes"
+        },
+        {
+          "text": "No"
+        }
+      ]
+    },
+    {
+      "questionTitle": "I am confident in the abilities of our senior leadership teaml3. I am informed about important changes at work in a timely manner.",
+      "questionType": "single",
+      "questionRequired": false,
+      "options": [
+        {
+          "text": "Yes"
+        },
+        {
+          "text": "No"
+        }
+      ]
+    },
+    {
+      "questionTitle": "What do you know about important changes at work.",
+      "questionType": "multiple",
+      "questionRequired": true,
+      "options": [
+        {
+          "text": "I don't know anything"
+        },
+        {
+          "text": "I know some things"
+        },
+        {
+          "text": "I know a lot of things"
+        }
+      ]
+    }
+  ]
+}
