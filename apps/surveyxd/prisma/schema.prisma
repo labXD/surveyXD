@@ -1,7 +1,8 @@
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity", "fullTextIndex", "fullTextSearch", "interactiveTransactions"]
-  output          = "../src/modules/meta/api/generated"
+  output          = "./generated"
+  binaryTargets = ["native", "linux-musl"]
 }
 
 datasource db {
