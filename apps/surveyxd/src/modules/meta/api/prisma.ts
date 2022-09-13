@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from "@prisma/client"
+import { Prisma, PrismaClient } from "@/prisma"
 
 declare global {
   // eslint-disable-next-line no-var

@@ -1,8 +1,7 @@
-const { verifyEnv } = require("./env.config")
 const withPlugins = require("next-compose-plugins")
 const withTM = require("next-transpile-modules")
 
-verifyEnv()
+// verifyEnv()
 
 const modules = ["@msrvida/sanddance-react"]
 const plugins = [withTM(modules)]

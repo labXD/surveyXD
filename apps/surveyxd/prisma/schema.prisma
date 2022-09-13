@@ -1,6 +1,8 @@
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity", "fullTextIndex", "fullTextSearch", "interactiveTransactions"]
+  output          = "./generated"
+  binaryTargets = ["native", "linux-musl"]
 }
 
 datasource db {
@@ -111,6 +113,7 @@ enum QuestionType {
 model Question {
   id           String       @id @default(cuid())
   title        String
+  description  String?
   questionType QuestionType
 
   surveyId String

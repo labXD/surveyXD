@@ -1,6 +1,6 @@
-import { SurveyPublishStatus } from "@prisma/client"
 import { z } from "zod"
 
+import { SurveyPublishStatus } from "@/meta/api/generated"
 import { createRouter } from "@/trpc/api"
 
 export const surveyRoutes = createRouter()

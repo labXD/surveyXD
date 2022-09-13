@@ -6,8 +6,8 @@ const EnvSchema = z.object({
   APP_ENV: z.enum(["local", "development", "production"]),
   URL: z.string().optional(),
   DATABASE_URL: z.string(),
-  NEXT_AUTH_URL: z.string(),
-  NEXT_AUTH_SECRET: z.string(),
+  NEXTAUTH_URL: z.string(),
+  NEXTAUTH_SECRET: z.string(),
 })
 
 const verifyEnv = () => {
