@@ -10,7 +10,6 @@ RUN pnpm fetch
 
 # Copy surveyxd
 COPY apps/surveyxd apps/surveyxd
-# RUN pnpm install -r --offline
 
 RUN pnpm install -r --prefer-offline
 
@@ -20,6 +19,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN pnpm run db:gen
 RUN pnpm build
+
 
 COPY apps/surveyxd/prisma/schema.prisma ./.next/server/chunks/schema.prisma
 
@@ -47,6 +47,7 @@ WORKDIR /app/apps/surveyxd
 COPY --from=builder /app/apps/surveyxd/next.config.js ./
 # COPY --from=builder /app/apps/surveyxd/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/apps/surveyxd/.next ./.next
+COPY --from=builder --chown=nextjs:nodejs /app/apps/surveyxd/prisma/generated/libquery_engine-linux-musl.so.node ./.next/server/chunks/libquery_engine-linux-musl.so.node
 COPY --from=builder /app/apps/surveyxd/package.json ./package.json
 
 RUN pnpm install --prefer-offline --prod
