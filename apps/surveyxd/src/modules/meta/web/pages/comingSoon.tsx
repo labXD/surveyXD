@@ -1,7 +1,10 @@
 import type { NextPage } from "next"
+import dynamic from "next/dynamic"
 import Head from "next/head"
 
-import { XDSandDance } from "@/survey/web/components"
+const XDSandDance = dynamic(() => import("@/survey/web/components/Explorer"), {
+  ssr: false,
+})
 
 export const ComingSoonPage: NextPage = () => {
   return (
