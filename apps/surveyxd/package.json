@@ -1,5 +1,6 @@
 {
   "name": "surveyxd",
+  "description": "Survey generator and data visualization",
   "private": true,
   "version": "0.0.1-dev",
   "scripts": {
@@ -64,7 +65,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/labXD/surveyXD.git",
+    "url": "https://github.com/labXD/surveyXD.git",
     "directory": "apps/surveyxd"
   }
 }
