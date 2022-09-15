@@ -52,9 +52,10 @@ function getBaseUrl() {
   if (typeof window !== "undefined") {
     return ""
   }
-  // reference for vercel.com
-  if (process.env.URL) {
-    return `https://${process.env.URL}`
+
+  // for deployment
+  if (process.env.NEXT_AUTH_URL) {
+    return `https://${process.env.NEXTAUTH_URL}`
   }
 
   // assume localhost
