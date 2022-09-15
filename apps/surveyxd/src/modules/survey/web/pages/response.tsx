@@ -3,7 +3,7 @@ import { NextPage } from "next"
 import Head from "next/head"
 
 import data from "../responseData.json"
-const ResponsePage: NextPage = () => {
+export const ResponsePage: NextPage = () => {
   return (
     <>
       <Head>
@@ -75,5 +75,3 @@ const ResponsePage: NextPage = () => {
     </>
   )
 }
-
-export default ResponsePage

@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { SurveyPublishStatus } from "@/meta/api/generated"
+import { SurveyPublishStatus } from "@/prisma"
 import { createRouter } from "@/trpc/api"
 
 export const surveyRoutes = createRouter()
