@@ -43,50 +43,59 @@ export const ResponsePage: NextPage = () => {
         </div>
         <form className="space-y-4" onSubmit={submitResponse}>
           {data.surveyQuestions.map((question, questionIndex) => (
-            <fieldset
-              key={questionIndex}
-              className={clsx(
-                "xd-card xd-card-border-l xd-card-focus ring-neutral-300 text-sm text-xd-text-primary-black"
-              )}
-              {...register(`question.${questionIndex}` as const, {
-                required: question.questionRequired,
-              })}
-            >
-              <span className="pr-4 text-xd-text-primary-back font-medium">
-                {question.questionTitle}
-                {question?.questionRequired && (
-                  <span className="text-xs text-xd-danger-700 material-symbols-rounded">
-                    emergency
-                  </span>
+            <>
+              <fieldset
+                key={questionIndex}
+                className={clsx(
+                  `${
+                    errors.question && errors.question[questionIndex]
+                      ? "border-4 border-xd-danger-800 xd-card xd-card-focus"
+                      : "xd-card xd-card-border-l xd-card-focus ring-neutral-300 text-sm text-xd-text-primary-black"
+                  }`
                 )}
-              </span>
-              <div className="space-y-4 pt-6 flex flex-col">
-                {question.options.map((option, optIndex) => (
-                  <label
-                    key={optIndex}
-                    className="relative cursor-pointer inline-flex"
-                  >
-                    <span className="absolute left-0 top-[1px] flex">
-                      <input
-                        type={
-                          question.questionType === "multiple"
-                            ? "checkbox"
-                            : "radio"
-                        }
-                        id={`question-${questionIndex}-option-${optIndex}`}
-                        value={option.text}
-                        {...register(`question.${questionIndex}` as const)}
-                      />
+                {...register(`question.${questionIndex}` as const, {
+                  required: question.questionRequired,
+                })}
+              >
+                <span className="pr-4 text-xd-text-primary-back font-medium">
+                  {question.questionTitle}
+                  {question?.questionRequired && (
+                    <span className="text-xs text-xd-danger-700 material-symbols-rounded">
+                      emergency
                     </span>
-                    <span className="pl-6">{option.text}</span>
-                  </label>
-                ))}
-              </div>
-              {errors.question && errors.question[questionIndex]
-                ? "Question is Required"
-                : null}
-            </fieldset>
+                  )}
+                </span>
+                <div className="space-y-4 pt-6 flex flex-col">
+                  {question.options.map((option, optIndex) => (
+                    <label
+                      key={optIndex}
+                      className="relative cursor-pointer inline-flex"
+                    >
+                      <span className="absolute left-0 top-[1px] flex">
+                        <input
+                          type={
+                            question.questionType === "multiple"
+                              ? "checkbox"
+                              : "radio"
+                          }
+                          id={`question-${questionIndex}-option-${optIndex}`}
+                          value={option.text}
+                          {...register(`question.${questionIndex}` as const)}
+                        />
+                      </span>
+                      <span className="pl-6">{option.text}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+              {errors.question && errors.question[questionIndex] && (
+                <div className="text-xd-danger-800 text-sm mt-4">
+                  Please make a selection to submit this form
+                </div>
+              )}
+            </>
           ))}
+
           <div className="flex justify-between">
             <button type="submit" className="xd-button">
               Submit
