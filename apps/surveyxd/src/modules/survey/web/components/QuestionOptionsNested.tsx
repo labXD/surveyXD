@@ -9,6 +9,7 @@ import {
   UseFormRegister,
 } from "react-hook-form"
 
+import { useQuestionState } from "../containers/QuestionProvider"
 import { NewSurveyPageNestedInterface } from "../types"
 import { FormInputError, QuestionType } from "./Forms"
 
@@ -38,6 +39,8 @@ export const QuestionOptionsNested: FC<QuestionOptionsNestedProps> = ({
     control,
   })
 
+  const { type } = useQuestionState()
+
   return (
     <>
       {optionFields.map((field, index) => {
@@ -45,6 +48,7 @@ export const QuestionOptionsNested: FC<QuestionOptionsNestedProps> = ({
           <>
             <QuestionType
               key={field.id}
+              type={type}
               remove={() => {
                 optionFields.length !== 1 && optionRemove(index)
               }}

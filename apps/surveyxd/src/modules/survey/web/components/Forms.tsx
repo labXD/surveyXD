@@ -1,6 +1,8 @@
 import clsx from "clsx"
 import React, { FC, ReactNode } from "react"
 
+import { QuestionTypeOptions } from "../types"
+
 export interface TextInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   cls?: string
@@ -23,7 +25,6 @@ export const TextInput: FC<TextInputProps> = ({ cls, inputCls, ...props }) => {
   )
 }
 
-export type QuestionTypeOptions = "single" | "multiple"
 export interface QuestionTypeProps {
   type?: QuestionTypeOptions
   children: ReactNode

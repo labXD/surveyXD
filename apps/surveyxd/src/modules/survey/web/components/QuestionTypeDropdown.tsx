@@ -3,26 +3,36 @@ import clsx from "clsx"
 import { Fragment } from "react"
 import { FieldValues, useController, UseControllerProps } from "react-hook-form"
 
+import { useQuestionState } from "../containers/QuestionProvider"
+import { QuestionTypeOptions } from "../types"
+
 const capitalize = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 interface QuestionTypeDropdownInterface {
-  type: string[]
+  type: QuestionTypeOptions[]
 }
+
 type QuestionTypeDropdownTypes<T extends FieldValues> =
   QuestionTypeDropdownInterface & UseControllerProps<T>
 
 export const QuestionTypeDropdown = <T extends FieldValues>(
   props: QuestionTypeDropdownTypes<T>
 ) => {
+  const { toggle } = useQuestionState()
   const {
     field: { value, onChange },
   } = useController(props)
 
+  function _onChange(e: string) {
+    onChange(e)
+    toggle()
+  }
+
   const { type } = props
   return (
-    <Listbox value={value} onChange={onChange}>
+    <Listbox value={value} onChange={_onChange}>
       <div className="relative">
         <Listbox.Button className="relative xd-button-secondary-light xd-button-sm w-36">
           <span className="text-xs material-symbols-rounded">

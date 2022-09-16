@@ -22,3 +22,6 @@ export type SurveyDropdownMenuItem = {
 export interface SurveyDropdownMenuInterface {
   data: SurveyDropdownMenuItem[]
 }
+
+// Forms
+export type QuestionTypeOptions = "single" | "multiple"

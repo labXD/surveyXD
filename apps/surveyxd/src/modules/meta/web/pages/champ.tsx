@@ -1,14 +1,11 @@
 import { NextPage } from "next"
 import DefaultErrorPage from "next/error"
-import { useRouter } from "next/router"
+import Link from "next/link"
 import { useSession } from "next-auth/react"
 
 import FireWorksSVG from "@/public/assets/firework-xd.svg"
-import { useCreateSurvey } from "@/survey/web"
 export const ChampPage: NextPage = () => {
-  const router = useRouter()
   const { data: session } = useSession()
-  const { createSurvey } = useCreateSurvey()
 
   if (!session?.user) return <DefaultErrorPage statusCode={404} />
 
@@ -24,22 +21,17 @@ export const ChampPage: NextPage = () => {
         <FireWorksSVG />
       </div>
       <div className="space-y-4 w-full md:w-auto flex flex-col items-center">
-        <button className="xd-button w-full" onClick={() => router.push("/")}>
-          <span className="text-sm material-symbols-rounded">arrow_back</span>
-          <span>Back to chart</span>
-        </button>
-        <button
-          className="xd-button-link w-full"
-          onClick={() => router.push("/response")}
-        >
-          <span>Demo response page</span>
-        </button>
-        <button
-          className="xd-button-link w-full"
-          onClick={() => createSurvey()}
-        >
-          <span>Demo create new survey</span>
-        </button>
+        <Link href={"/"}>
+          <button className="xd-button w-full">
+            <span className="text-sm material-symbols-rounded">arrow_back</span>
+            <span>Back to chart</span>
+          </button>
+        </Link>
+        <Link href={"/survey/create"}>
+          <button className="xd-button-link w-full">
+            <span>Demo create new survey</span>
+          </button>
+        </Link>
       </div>
     </main>
   )

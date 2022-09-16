@@ -1,11 +1,12 @@
 import { NextPage } from "next"
 import Head from "next/head"
 import Image from "next/image"
+import Link from "next/link"
 import { signIn, useSession } from "next-auth/react"
 
 import DataImage from "@/public/assets/data-img.png"
 
-export const DeployPage: NextPage = () => {
+export const SuccessPage: NextPage = () => {
   const { data: session } = useSession()
   return (
     <>
@@ -47,13 +48,14 @@ export const DeployPage: NextPage = () => {
             </span>
             <span className="material-symbols-rounded">content_copy</span>
           </button>
-          <button
-            className="xd-button-danger w-full bg-xd-purple-primary ring-xd-purple-secondary"
-            onClick={() => ""}
-          >
-            <span className="material-symbols-rounded">stacked_bar_chart</span>
-            <span>View Results</span>
-          </button>
+          <Link href={"/survey/09162022"}>
+            <button className="xd-button w-full">
+              <span className="material-symbols-rounded">
+                stacked_bar_chart
+              </span>
+              <span>Take the survey</span>
+            </button>
+          </Link>
         </div>
         {!session?.user && (
           <div className="text-center pt-8">

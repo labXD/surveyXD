@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import clsx from "clsx"
 import { NextPage } from "next"
 import Head from "next/head"
+import { useRouter } from "next/router"
 import { FormEvent, useState } from "react"
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod"
@@ -11,10 +12,11 @@ import { XDDropdownMenu } from "@/meta/web"
 
 import {
   FormInputError,
+  QuestionOptionsNested,
   QuestionTypeDropdown,
   RequiredToggle,
 } from "../components"
-import { QuestionOptionsNested } from "../components"
+import { QuestionProvider } from "../containers"
 import { useActiveSurveyFromRoute } from "../hooks"
 import { NewSurveyPageNestedInterface, SurveyDropdownMenuItem } from "../types"
 
@@ -57,7 +59,7 @@ const surveySchema: z.ZodType<NewSurveyPageNestedInterface> = z.lazy(() =>
 export const NewSurveyPageNested: NextPage = () => {
   const [title, setTitle] = useState("New Survey")
   const { loading } = useActiveSurveyFromRoute()
-
+  const router = useRouter()
   const {
     register,
     control,
@@ -103,6 +105,7 @@ export const NewSurveyPageNested: NextPage = () => {
   const onSubmit: SubmitHandler<NewSurveyPageNestedInterface> = (data) => {
     console.log("data:\n", data)
     alert("You submitted " + data.surveyTitle.toString())
+    router.replace("/survey/09162022/success")
   }
 
   return (
@@ -200,28 +203,29 @@ export const NewSurveyPageNested: NextPage = () => {
                       </span>
                     </button>
                   </div>
-                  <div className="pt-4 flex justify-end pr-6">
-                    <QuestionTypeDropdown
-                      name={`surveyQuestions.${index}.questionType` as const}
-                      control={control}
-                      rules={{ required: true }}
-                      type={["single", "multiple"]}
-                      defaultValue={title}
-                    />
-                  </div>
-                  <aside className="pt-4 space-y-4">
-                    <QuestionOptionsNested
-                      nestedIndex={index}
-                      control={control}
-                      register={register}
-                      errors={
-                        errors.surveyQuestions &&
-                        errors.surveyQuestions[index]?.options
-                      }
-                    />
-                    {errors?.surveyQuestions &&
-                      errors.surveyQuestions[index]?.options?.message}
-                  </aside>
+                  <QuestionProvider>
+                    <div className="pt-4 flex justify-end pr-6">
+                      <QuestionTypeDropdown
+                        name={`surveyQuestions.${index}.questionType` as const}
+                        control={control}
+                        rules={{ required: true }}
+                        type={["single", "multiple"]}
+                      />
+                    </div>
+                    <aside className="pt-4 space-y-4">
+                      <QuestionOptionsNested
+                        nestedIndex={index}
+                        control={control}
+                        register={register}
+                        errors={
+                          errors.surveyQuestions &&
+                          errors.surveyQuestions[index]?.options
+                        }
+                      />
+                      {errors?.surveyQuestions &&
+                        errors.surveyQuestions[index]?.options?.message}
+                    </aside>
+                  </QuestionProvider>
                   <div className="flex justify-end pt-8">
                     {/* {requiredToggle} */}
                     <RequiredToggle
