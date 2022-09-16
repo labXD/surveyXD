@@ -1,10 +1,11 @@
 {
-  "name": "formxd",
+  "name": "surveyxd-mono",
   "description": "Monorepo for surveyXD",
   "author": "labXD Core",
   "contributors": [
     "Jimmy Nguyen <jimmy@labxd.com> (https://github.com/jimmynxd)",
-    "Walee Ahmed <walee@labxd.com> (https://github.com/wallexd)"
+    "Walee Ahmed <walee@labxd.com> (https://github.com/wallexd)",
+    "DJ Wooster"
   ],
   "packageManager": "pnpm@7.2.1",
   "license": "UNLICENSED",
@@ -12,6 +13,8 @@
   "scripts": {
     "bootstrap": "corepack enable && pnpm install",
     "dev": "pnpm -F surveyxd dev",
+    "restore": "npm run clean && npm run clean:root && npm install && lerna bootstrap && gulp copy",
+    "clean": "rm -fr node_modules ; rm -fr pnpm-lock.yaml",
     "lint": "pnpm exec eslint --ext .ts,.tsx .",
     "lint:fix": "pnpm run lint --fix",
     "hook:pre-commit": "lint-staged",
@@ -20,21 +23,13 @@
     "cli": "node scripts/cli.mjs"
   },
   "devDependencies": {
+    "eslint-config-labxd": "^0.1.0",
     "@changesets/cli": "^2.24.3",
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
-    "@rushstack/eslint-patch": "^1.1.4",
-    "@types/node": "v16",
-    "@typescript-eslint/eslint-plugin": "^5.33.1",
-    "@typescript-eslint/parser": "^5.33.1",
     "eslint": "^8.22.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-markdown": "^3.0.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "7.30.1",
-    "eslint-plugin-simple-import-sort": "^7.0.0",
-    "eslint-plugin-jsx-a11y": "^6.6.1",
     "hygen": "^6.2.8",
     "prettier": "^2.7.1",
     "stylelint": "^14.10.0",

@@ -1,6 +1,7 @@
 import type { NextPage } from "next"
 import dynamic from "next/dynamic"
 import Head from "next/head"
+import Link from "next/link"
 
 const XDSandDance = dynamic(() => import("@/survey/web/components/Explorer"), {
   ssr: false,
@@ -25,6 +26,13 @@ export const ComingSoonPage: NextPage = () => {
         </div>
         <div className="md:px-4 mx-auto w-full">
           <XDSandDance />
+        </div>
+        <div className="pt-6">
+          <Link href={"/survey/create"}>
+            <button className="xd-button w-full">
+              <span>Demo create new survey</span>
+            </button>
+          </Link>
         </div>
       </main>
     </>

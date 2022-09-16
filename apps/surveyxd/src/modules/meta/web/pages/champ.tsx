@@ -1,31 +1,37 @@
 import { NextPage } from "next"
 import DefaultErrorPage from "next/error"
-import Image from "next/image"
-import { useRouter } from "next/router"
+import Link from "next/link"
 import { useSession } from "next-auth/react"
 
+import FireWorksSVG from "@/public/assets/firework-xd.svg"
 export const ChampPage: NextPage = () => {
-  const router = useRouter()
   const { data: session } = useSession()
 
   if (!session?.user) return <DefaultErrorPage statusCode={404} />
 
   return (
     <main className="p-4 xl:max-w-7xl mx-auto text-center flex flex-col items-center space-y-6">
-      <Image src="/assets/trophy.png" width={100} height={100} />
-      <h1 className="text-3xl font-semibold">
-        Thank you for being our Champion!
-      </h1>
-      <p>
-        Keep checking back. You will get access to new futures as they get
-        released.
+      <h1 className="text-2xl font-bold">Congratulations!</h1>
+      <p className="text-xd-text-primary-black/80">
+        You joined the pre-release of surveyXD, which means you&apos;ll be the
+        first to know about the newest features and have early access to
+        exclusive benefits.
       </p>
-
       <div>
-        <button className="xd-button" onClick={() => router.push("/")}>
-          <span className="material-symbols-outlined">arrow_back</span>
-          <span>Back to the chart</span>
-        </button>
+        <FireWorksSVG />
+      </div>
+      <div className="space-y-4 w-full md:w-auto flex flex-col items-center">
+        <Link href={"/"}>
+          <button className="xd-button w-full">
+            <span className="text-sm material-symbols-rounded">arrow_back</span>
+            <span>Back to chart</span>
+          </button>
+        </Link>
+        <Link href={"/survey/create"}>
+          <button className="xd-button-link w-full">
+            <span>Demo create new survey</span>
+          </button>
+        </Link>
       </div>
     </main>
   )

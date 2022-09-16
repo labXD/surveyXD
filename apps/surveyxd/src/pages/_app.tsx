@@ -3,10 +3,12 @@ import "../styles/globals.css"
 import { withTRPC } from "@trpc/next"
 import type { AppProps as NextAppProps } from "next/app"
 import Head from "next/head"
+import { useRouter } from "next/router"
 import { Session } from "next-auth"
 import { SessionProvider } from "next-auth/react"
+import { useMemo } from "react"
 
-import { BaseLayout, TopNavComingSoon } from "@/meta/web/components"
+import { BaseLayout, Footer, TopNavComingSoon } from "@/meta/web/components"
 import { type AppRouter } from "@/trpc/shared/types"
 
 type AppProps<P = unknown> = {
@@ -14,14 +16,16 @@ type AppProps<P = unknown> = {
 } & Omit<NextAppProps<P>, "pageProps">
 
 function App({ Component, pageProps }: AppProps<{ session: Session }>) {
-  const footer = (
-    <footer className="pt-8 pb-4 text-center">
-      <span className="inline-flex items-center text-xs text-xd-text-primary/[.65]">
-        <span className="material-symbols-outlined text-sm">copyright</span>
-        {new Date().getFullYear()} surveyXD
-      </span>
-    </footer>
-  )
+  const router = useRouter()
+  const colorBg = useMemo(() => {
+    if (router.pathname.includes("/response")) {
+      return "bg-xd-primary-100"
+    }
+    if (router.pathname.includes("/survey")) {
+      return "bg-xd-primary-100"
+    }
+    return "bg-white"
+  }, [router.pathname])
 
   return (
     <>
@@ -32,7 +36,11 @@ function App({ Component, pageProps }: AppProps<{ session: Session }>) {
             content="initial-scale=1.0, width=device-width"
           />
         </Head>
-        <BaseLayout topNav={<TopNavComingSoon />} footer={footer}>
+        <BaseLayout
+          cls={colorBg}
+          topNav={!router.pathname.includes("/survey") && <TopNavComingSoon />}
+          footer={<Footer />}
+        >
           <Component {...pageProps} />
         </BaseLayout>
       </SessionProvider>
