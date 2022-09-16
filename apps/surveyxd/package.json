@@ -5,6 +5,7 @@
   "version": "0.0.1-dev",
   "scripts": {
     "dev": "concurrently pnpm:dev:db pnpm:dev:app",
+    "dev:clean": "rm -rf .next && pnpm run dev",
     "dev:app": "wait-on tcp:3306 && pnpm run db:gen && pnpm run dev:next",
     "dev:db": "pscale connect surveyxd dev --org labxd",
     "build": "next build",
@@ -24,7 +25,7 @@
   "dependencies": {
     "@headlessui/react": "1.7.1",
     "@hookform/resolvers": "2.9.8",
-    "@labxd/gustxd": "^0.6.2",
+    "@labxd/gustxd": "0.7.0",
     "@msrvida/sanddance-react": "^4",
     "@next-auth/prisma-adapter": "^1.0.4",
     "@prisma/client": "^4.3.1",

@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { FC } from "react"
 
@@ -8,9 +9,30 @@ export const Footer: FC = () => {
       {router.pathname.includes("/response") && (
         <div>This content is neither created nor endorsed by surveyXD</div>
       )}
-      <div className="inline-flex items-center">
-        <span className="material-symbols-rounded text-sm">copyright</span>
-        {new Date().getFullYear()} surveyXD
+      <div className="space-x-8">
+        <Link href="/">
+          <a className="cursor-pointer transition-all hover:text-xd-primary-purple-700">
+            <span className="inline-flex items-center">
+              labXD
+              <span className="material-symbols-rounded text-sm pl-1">
+                copyright
+              </span>
+              {new Date().getFullYear()}
+            </span>
+          </a>
+        </Link>
+        <Link href={"/terms"}>
+          <span>
+            <a className="cursor-pointer transition-all hover:text-xd-primary-purple-700">
+              Terms of Use
+            </a>
+          </span>
+        </Link>
+        <Link href={"/privacy"}>
+          <span className="cursor-pointer transition-all hover:text-xd-primary-purple-700">
+            <a>Privacy Policy</a>
+          </span>
+        </Link>
       </div>
     </footer>
   )

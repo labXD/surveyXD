@@ -1,4 +1,8 @@
-import { Listbox, Switch, Transition } from "@headlessui/react"
+import {
+  Listbox,
+  // Switch,
+  Transition,
+} from "@headlessui/react"
 import * as SandDanceReact from "@msrvida/sanddance-react"
 import clsx from "clsx"
 import * as React from "react"
@@ -18,8 +22,15 @@ export const XDSandDance: React.FC = () => {
     // "treemap",
   ]
   const [selected, setSelected] = React.useState("barchartV")
-  const [enabled, setEnabled] = React.useState(false)
+  const [enabled] = React.useState(false)
   SandDanceReact.use(React, ReactDOM, vega)
+
+  // change chart type to barchartH after 500ms
+  React.useEffect(() => {
+    setTimeout(() => {
+      setSelected("barchartH")
+    }, 5000)
+  }, [])
 
   const names = ["Jimmy", "Walee", "DJ"]
 
@@ -28,6 +39,9 @@ export const XDSandDance: React.FC = () => {
     "Rate your knowledge of JavaScript": Math.floor(Math.random() * 5) + 1,
     "Rate your knowledge of React": Math.floor(Math.random() * 5) + 1,
     "Rate your knowledge of Vue": Math.floor(Math.random() * 5) + 1,
+    "Rate your knowledge of Basketball": Math.floor(Math.random() * 5) + 1,
+    "Rate your knowledge of Baseball": Math.floor(Math.random() * 5) + 1,
+    "Rate your knowledge of Football": Math.floor(Math.random() * 5) + 1,
   }))
 
   const insight = {
@@ -42,8 +56,8 @@ export const XDSandDance: React.FC = () => {
     chart: selected,
     view: enabled ? "3d" : "2d",
     size: {
-      height: 800,
-      width: 800,
+      height: 600,
+      width: 600,
     },
     viewerOptions: {
       fontFamily: "Red Hat Text",
@@ -79,8 +93,10 @@ export const XDSandDance: React.FC = () => {
       dimension: "x",
     },
     transitionDurations: {
-      position: 702,
-      stagger: 1998.0000000000002,
+      //   position: 702,
+      position: 400,
+      //   stagger: 1998.0000000000002,
+      stagger: 1000,
       view: 600,
     },
   }
@@ -147,7 +163,7 @@ export const XDSandDance: React.FC = () => {
         </Listbox>
       </div>
       {/* 3D Toggle */}
-      <div className="absolute top-16 z-10 right-4 flex items-center">
+      {/* <div className="absolute top-16 z-10 right-4 flex items-center">
         <Switch
           checked={enabled}
           onChange={setEnabled}
@@ -171,7 +187,7 @@ export const XDSandDance: React.FC = () => {
           />
         </Switch>
         <span className="pl-2 text-xd-text-primary leading-4">3D</span>
-      </div>
+      </div> */}
       {/* @ts-ignore-expect-error */}
       <SandDanceReact.Viewer data={data} insight={insight} setup={setup} />
     </div>

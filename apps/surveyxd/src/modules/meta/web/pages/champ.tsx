@@ -20,16 +20,11 @@ export const ChampPage: NextPage = () => {
       <div>
         <FireWorksSVG />
       </div>
-      <div className="space-y-4 w-full md:w-auto flex flex-col items-center">
+      <div className="space-y-4 w-full max-w-xl">
         <Link href={"/"}>
-          <button className="xd-button w-full">
+          <button className="button-primary space-x-2 w-full">
             <span className="text-sm material-symbols-rounded">arrow_back</span>
             <span>Back to chart</span>
-          </button>
-        </Link>
-        <Link href={"/survey/create"}>
-          <button className="xd-button-link w-full">
-            <span>Demo create new survey</span>
           </button>
         </Link>
       </div>
