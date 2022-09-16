@@ -215,9 +215,8 @@ export const NewSurveyPageNested: NextPage = () => {
                       control={control}
                       register={register}
                       errors={
-                        errors.surveyQuestions
-                          ? errors.surveyQuestions[index]?.options
-                          : "No errors"
+                        errors.surveyQuestions &&
+                        errors.surveyQuestions[index]?.options
                       }
                     />
                     {errors?.surveyQuestions &&

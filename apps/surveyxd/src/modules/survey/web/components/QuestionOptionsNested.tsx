@@ -1,6 +1,13 @@
 import clsx from "clsx"
 import { FC } from "react"
-import { Control, useFieldArray, UseFormRegister } from "react-hook-form"
+import {
+  Control,
+  FieldError,
+  FieldErrorsImpl,
+  Merge,
+  useFieldArray,
+  UseFormRegister,
+} from "react-hook-form"
 
 import { NewSurveyPageNestedInterface } from "../types"
 import { FormInputError, QuestionType } from "./Forms"
@@ -9,7 +16,12 @@ type QuestionOptionsNestedProps = {
   nestedIndex: number
   control: Control<NewSurveyPageNestedInterface, any>
   register: UseFormRegister<NewSurveyPageNestedInterface>
-  errors: any
+  errors:
+    | Merge<
+        FieldError,
+        (Merge<FieldError, FieldErrorsImpl<{ text: string }>> | undefined)[]
+      >
+    | undefined
 }
 export const QuestionOptionsNested: FC<QuestionOptionsNestedProps> = ({
   nestedIndex,
@@ -50,7 +62,7 @@ export const QuestionOptionsNested: FC<QuestionOptionsNestedProps> = ({
                 className={clsx("w-full text-sm")}
               />
               {errors && errors[index] && (
-                <FormInputError>{errors[index].text?.message}</FormInputError>
+                <FormInputError>{errors[index]?.text?.message}</FormInputError>
               )}
             </QuestionType>
           </>
