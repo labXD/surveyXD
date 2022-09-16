@@ -1,9 +1,31 @@
 import clsx from "clsx"
 import { NextPage } from "next"
 import Head from "next/head"
+import { FormEvent } from "react"
+import { SubmitHandler, useForm } from "react-hook-form"
 
 import data from "../responseData.json"
 export const ResponsePage: NextPage = () => {
+  interface ResponseInterface {
+    question: Array<string | null | boolean | Array<string>>
+  }
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ResponseInterface>()
+
+  const submitResponse = async (e: FormEvent) => {
+    e.preventDefault()
+    await handleSubmit(onSubmit)(e)
+  }
+
+  const onSubmit: SubmitHandler<any> = (data) => {
+    console.log("data:\n", data)
+  }
+
   return (
     <>
       <Head>
@@ -19,15 +41,18 @@ export const ResponsePage: NextPage = () => {
             <span className="">Required</span>
           </div>
         </div>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={submitResponse}>
           {data.surveyQuestions.map((question, questionIndex) => (
             <fieldset
               key={questionIndex}
               className={clsx(
                 "xd-card xd-card-border-l xd-card-focus ring-neutral-300 text-sm text-xd-text-primary-black"
               )}
+              {...register(`question.${questionIndex}` as const, {
+                required: question.questionRequired,
+              })}
             >
-              <span className="pr-4 text-xd-text-primary-black font-medium">
+              <span className="pr-4 text-xd-text-primary-back font-medium">
                 {question.questionTitle}
                 {question?.questionRequired && (
                   <span className="text-xs text-xd-danger-700 material-symbols-rounded">
@@ -49,14 +74,17 @@ export const ResponsePage: NextPage = () => {
                             : "radio"
                         }
                         id={`question-${questionIndex}-option-${optIndex}`}
-                        name={`question-${questionIndex}`}
                         value={option.text}
+                        {...register(`question.${questionIndex}` as const)}
                       />
                     </span>
                     <span className="pl-6">{option.text}</span>
                   </label>
                 ))}
               </div>
+              {errors.question && errors.question[questionIndex]
+                ? "Question is Required"
+                : null}
             </fieldset>
           ))}
           <div className="flex justify-between">
@@ -64,8 +92,9 @@ export const ResponsePage: NextPage = () => {
               Submit
             </button>
             <button
-              type="submit"
+              type="reset"
               className="xd-button-secondary-light text-xd-primary-700"
+              onClick={() => reset()}
             >
               Clear form
             </button>
