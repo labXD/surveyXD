@@ -9,7 +9,7 @@ import { SubmitHandler, useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { XDDropdownMenu } from "@/meta/web"
-
+import { trpc } from "@/trpc/web"
 import {
   FormInputError,
   QuestionOptionsNested,
@@ -26,7 +26,7 @@ const defaultValues = {
   surveyQuestions: [
     {
       questionTitle: "",
-      questionType: "single",
+      questionType:   QuestionType.SINGLE_CHOICE,
       questionRequired: false,
       options: [{ text: "" }, { text: "" }],
     },
@@ -50,7 +50,7 @@ const surveySchema: z.ZodType<NewSurveyPageNestedInterface> = z.lazy(() =>
           questionTitle: z
             .string()
             .min(1, { message: "Please enter a question title" }),
-          questionType: z.enum(["single", "multiple"]),
+          questionType: z.nativeEnum(QuestionType),
         })
       )
       .min(1, { message: "Must have at least one question" }),
@@ -81,6 +81,10 @@ export const NewSurveyPageNested: NextPage = () => {
     control,
   })
 
+  const createSurveyMutation  = trpc.useMutation([
+    "survey.createSurvey",
+  ])
+
   if (loading) {
     return <div>Loading...</div>
   }
@@ -103,10 +107,24 @@ export const NewSurveyPageNested: NextPage = () => {
     await handleSubmit(onSubmit)(e)
   }
 
-  const onSubmit: SubmitHandler<NewSurveyPageNestedInterface> = (data) => {
+  const onSubmit: SubmitHandler<NewSurveyPageNestedInterface> = async (
+    data
+  ) => {
     console.log("data:\n", data)
-    alert("You submitted " + data.surveyTitle.toString())
-    router.replace("/survey/09162022/success")
+
+    const res = await createSurveyMutation.mutateAsync({
+      title: data.surveyTitle,
+      questions: data.surveyQuestions.map((question) => ({
+        type: question.questionType,
+        title: question.questionTitle,
+        required: question.questionRequired,
+        options: question.options.map((option) => ({
+          value: option.text
+        }))
+      }))
+    })
+
+    router.replace(`/survey/${res.id}/success`)
   }
 
   return (
@@ -246,7 +264,7 @@ export const NewSurveyPageNested: NextPage = () => {
               onClick={() =>
                 questionAppend({
                   questionTitle: "",
-                  questionType: "single",
+                  questionType: QuestionType.SINGLE_CHOICE,
                   questionRequired: false,
                   options: [{ text: "" }, { text: "" }],
                 })
