@@ -209,7 +209,7 @@ export const NewSurveyPageNested: NextPage = () => {
                         name={`surveyQuestions.${index}.questionType` as const}
                         control={control}
                         rules={{ required: true }}
-                        type={["single", "multiple"]}
+                        type={['SINGLE_CHOICE', 'MULTIPLE_CHOICE']}
                       />
                     </div>
                     <aside className="pt-4 space-y-4">

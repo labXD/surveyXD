@@ -1,3 +1,5 @@
+import { type QuestionType } from "@/prisma"
+
 export type SurveyQuestionTypes = {
   questionTitle: string
   questionType: string
@@ -24,4 +26,4 @@ export interface SurveyDropdownMenuInterface {
 }
 
 // Forms
-export type QuestionTypeOptions = "single" | "multiple"
+export type QuestionTypeOptions = QuestionType
