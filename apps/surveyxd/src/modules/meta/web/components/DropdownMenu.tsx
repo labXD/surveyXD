@@ -85,7 +85,7 @@ export const XDDropdownMenu: FC<XDDropdownMenuInterface> = ({ data }) => {
   return (
     <Menu as="div" className="relative">
       <div>
-        <Menu.Button className="p-2 text-xd-text-primary-black/80 hover:text-xd-primary-800">
+        <Menu.Button className="button-sm text-xd-secondary-black-rgb hover:text-xd-primary-purple-800">
           <span className="material-symbols-rounded">menu</span>
         </Menu.Button>
       </div>
@@ -98,7 +98,7 @@ export const XDDropdownMenu: FC<XDDropdownMenuInterface> = ({ data }) => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 w-56 origin-top-right divide-y divide-neutral-300 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="absolute right-0 w-56 origin-top-right divide-y divide-xd-neutral-300 rounded-sm bg-white ring ring-xd-primary-purple-700/20">
           {data.map((item: MenuItem, index) => (
             <Menu.Item as="div" key={index}>
               {({ active }) => (
@@ -106,10 +106,10 @@ export const XDDropdownMenu: FC<XDDropdownMenuInterface> = ({ data }) => {
                   onClick={item.onClick}
                   type={item.buttonType}
                   className={clsx(
-                    "rounded-sm group flex w-full items-center px-4 py-2 text-sm space-x-2 transition-all",
+                    "xd-button-ghost w-full space-x-2 justify-start",
                     {
-                      "text-xd-text-primary": !active,
-                      "bg-xd-primary-700 text-white": active,
+                      "text-xd-secondary-black-rgb": !active,
+                      "bg-xd-primary-purple-700 text-white": active,
                     }
                   )}
                 >

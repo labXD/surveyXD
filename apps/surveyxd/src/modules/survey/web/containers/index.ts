@@ -1,1 +1,2 @@
-export * from "./QuestionProvider"
+export * from "./questionProvider"
+export * from "./sandDanceWrapper"

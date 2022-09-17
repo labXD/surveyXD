@@ -3,7 +3,7 @@
   "surveyQuestions": [
     {
       "questionTitle": "I know what's expected of me at work.",
-      "questionType": "single",
+      "questionType": "SINGLE_CHOICE",
       "questionRequired": true,
       "options": [
         {
@@ -18,8 +18,8 @@
       ]
     },
     {
-      "questionTitle": "I am confident in the abilities of our senior leadership teaml3. I am informed about important changes at work in a timely manner.",
-      "questionType": "single",
+      "questionTitle": "I am confident in the abilities of our senior leadership team. I am informed about important changes at work in a timely manner.",
+      "questionType": "SINGLE_CHOICE",
       "questionRequired": false,
       "options": [
         {
@@ -32,7 +32,7 @@
     },
     {
       "questionTitle": "What do you know about important changes at work.",
-      "questionType": "multiple",
+      "questionType": "MULTIPLE_CHOICE",
       "questionRequired": true,
       "options": [
         {

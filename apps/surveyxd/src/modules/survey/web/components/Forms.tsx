@@ -26,13 +26,13 @@ export const TextInput: FC<TextInputProps> = ({ cls, inputCls, ...props }) => {
 }
 
 export interface QuestionTypeProps {
-  type?: QuestionTypeOptions
+  type: QuestionTypeOptions
   children: ReactNode
   remove?: () => void
 }
 
 export const QuestionType: FC<QuestionTypeProps> = ({
-  type = "single",
+  type = "SINGLE_CHOICE",
   children,
   remove,
   ...otherProps
@@ -40,8 +40,8 @@ export const QuestionType: FC<QuestionTypeProps> = ({
   return (
     <div className="flex items-center justify-between" {...otherProps}>
       <div className="flex items-center space-x-2 w-full">
-        <span className="text-lg material-symbols-rounded text-xd-text-primary/80">
-          {type === "single" ? "circle" : "check_box_outline_blank"}
+        <span className="text-lg material-symbols-rounded text-xd-secondary-black-rgb">
+          {type === "SINGLE_CHOICE" ? "circle" : "check_box_outline_blank"}
         </span>
         <div
           className={clsx(
@@ -52,10 +52,10 @@ export const QuestionType: FC<QuestionTypeProps> = ({
           {children}
         </div>
       </div>
-      <button type="button" onClick={remove}>
+      <button type="button" onClick={remove} className="button-sm">
         <span
           className={clsx(
-            "material-symbols-rounded text-xd-text-primary/[.65]"
+            "material-symbols-rounded text-xd-disabled-black-rgb"
           )}
         >
           close

@@ -1,11 +1,13 @@
 import clsx from "clsx"
 import { NextPage } from "next"
 import Head from "next/head"
+import { useRouter } from "next/router"
 import { FormEvent } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 
 import data from "../responseData.json"
 export const ResponsePage: NextPage = () => {
+  const router = useRouter()
   interface ResponseInterface {
     question: Array<string | null | boolean | Array<string>>
   }
@@ -24,6 +26,7 @@ export const ResponsePage: NextPage = () => {
 
   const onSubmit: SubmitHandler<any> = (data) => {
     console.log("data:\n", data)
+    router.replace("/survey/09222022/sent")
   }
 
   return (
@@ -32,32 +35,28 @@ export const ResponsePage: NextPage = () => {
         <title>Your Response - surveyXD</title>
       </Head>
       <main className="p-4 space-y-4 lg:max-w-7xl lg:mx-auto">
-        <div className="bg-white ring-1 ring-neutral-300 space-y-2 px-4 py-2 rounded">
-          <h1 className="text-lg text-xd-text-primary-black font-bold">
+        <div className="bg-white ring-1 ring-xd-primary-purple-700/10 space-y-2 px-4 py-2 rounded">
+          <h1 className="text-lg text-xd-primary-black font-bold">
             {data.surveyTitle}
           </h1>
-          <div className="text-xd-danger-700 text-sm">
-            <span className="text-xs material-symbols-rounded">emergency</span>
-            <span className="">Required</span>
-          </div>
         </div>
-        <form className="space-y-4" onSubmit={submitResponse}>
+        <form className="space-y-6" onSubmit={submitResponse}>
           {data.surveyQuestions.map((question, questionIndex) => (
             <>
               <fieldset
                 key={questionIndex}
                 className={clsx(
-                  `${
-                    errors.question && errors.question[questionIndex]
-                      ? "border-4 border-xd-danger-800 xd-card xd-card-focus"
-                      : "xd-card xd-card-border-l xd-card-focus ring-neutral-300 text-sm text-xd-text-primary-black"
-                  }`
+                  "relative xd-card ring-xd-primary-purple-700/10",
+                  {
+                    "ring-2 ring-inset ring-xd-danger-800":
+                      errors.question && errors.question[questionIndex],
+                  }
                 )}
                 {...register(`question.${questionIndex}` as const, {
                   required: question.questionRequired,
                 })}
               >
-                <span className="pr-4 text-xd-text-primary-back font-medium">
+                <span className="pr-4 text-xd-primary-black font-medium">
                   {question.questionTitle}
                   {question?.questionRequired && (
                     <span className="text-xs text-xd-danger-700 material-symbols-rounded">
@@ -74,7 +73,7 @@ export const ResponsePage: NextPage = () => {
                       <span className="absolute left-0 top-[1px] flex">
                         <input
                           type={
-                            question.questionType === "multiple"
+                            question.questionType === "MULTIPLE_CHOICE"
                               ? "checkbox"
                               : "radio"
                           }
@@ -87,22 +86,22 @@ export const ResponsePage: NextPage = () => {
                     </label>
                   ))}
                 </div>
+                {errors.question && errors.question[questionIndex] && (
+                  <div className="absolute bottom-0 left-0 translate-y-full text-xd-danger-800 text-sm">
+                    Please make a selection to submit this form
+                  </div>
+                )}
               </fieldset>
-              {errors.question && errors.question[questionIndex] && (
-                <div className="text-xd-danger-800 text-sm mt-4">
-                  Please make a selection to submit this form
-                </div>
-              )}
             </>
           ))}
 
           <div className="flex justify-between">
-            <button type="submit" className="xd-button">
+            <button type="submit" className="button-primary min-w-[8rem]">
               Submit
             </button>
             <button
               type="reset"
-              className="xd-button-secondary-light text-xd-primary-700"
+              className="button-outline text-xd-primary-purple-700 min-w-[8rem]"
               onClick={() => reset()}
             >
               Clear form

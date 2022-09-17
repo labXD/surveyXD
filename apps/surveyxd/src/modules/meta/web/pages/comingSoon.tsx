@@ -1,14 +1,14 @@
+import clsx from "clsx"
 import type { NextPage } from "next"
-import dynamic from "next/dynamic"
 import Head from "next/head"
+import { useRouter } from "next/router"
 import { signIn, useSession } from "next-auth/react"
 
-const XDSandDance = dynamic(() => import("@/survey/web/components/Explorer"), {
-  ssr: false,
-})
+import { XDSandDanceNoSSR } from "@/survey/web"
 
 export const ComingSoonPage: NextPage = () => {
   const { data: session } = useSession()
+  const router = useRouter()
   return (
     <>
       <Head>
@@ -22,21 +22,32 @@ export const ComingSoonPage: NextPage = () => {
           </p>
         </div>
         <div className="md:px-4 mx-auto w-full pt-8">
-          <XDSandDance />
+          <XDSandDanceNoSSR />
         </div>
-        {!session?.user && (
-          <div className="px-4 pt-6 max-w-xl flex flex-col w-full space-y-2">
+        <div className="px-4 pt-6 max-w-xl flex flex-col w-full space-y-2">
+          {!session?.user && (
             <div className="font-semibold text-sm">
               Get notified when we launch
             </div>
-            <button
-              onClick={() => signIn("google", { callbackUrl: "/champ" })}
-              className="button-primary w-full"
-            >
-              <span>Subscribe with your google account</span>
-            </button>
-          </div>
-        )}
+          )}
+          <button
+            onClick={() =>
+              session?.user
+                ? router.push("/dashboard")
+                : signIn("google", { callbackUrl: "/champ" })
+            }
+            className={clsx(" w-full", {
+              "button-primary": !session?.user,
+              "button-outline": session?.user,
+            })}
+          >
+            <span>
+              {session?.user
+                ? "Go to your dashboard"
+                : "Subscribe with your google account"}
+            </span>
+          </button>
+        </div>
       </main>
     </>
   )

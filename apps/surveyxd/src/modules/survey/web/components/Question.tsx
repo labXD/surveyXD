@@ -72,7 +72,7 @@ export const Question: FC = () => {
           name="questionType"
           control={control}
           rules={{ required: true }}
-          type={["single", "multiple"]}
+          type={["SINGLE_CHOICE", "MULTIPLE_CHOICE"]}
           defaultValue="single"
         />
       </div>

@@ -1,7 +1,6 @@
 import clsx from "clsx"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { useSession } from "next-auth/react"
 import React, { FC } from "react"
 
 import Logo from "@/public/assets/surveyxd-landing.svg"
@@ -42,7 +41,7 @@ export const TopNavComingSoon: FC = () => {
         )}
       >
         <Link href={"/"}>
-          <div className="flex flex-col items-center justify-center">
+          <div className="cursor-pointer flex flex-col items-center justify-center">
             <Logo />
             <p className="text-xd-primary-black/[.65]">Coming Soon</p>
           </div>

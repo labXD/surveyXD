@@ -9,7 +9,7 @@ import {
   UseFormRegister,
 } from "react-hook-form"
 
-import { useQuestionState } from "../containers/QuestionProvider"
+import { useQuestionState } from "../containers"
 import { NewSurveyPageNestedInterface } from "../types"
 import { FormInputError, QuestionType } from "./Forms"
 
@@ -41,6 +41,7 @@ export const QuestionOptionsNested: FC<QuestionOptionsNestedProps> = ({
 
   const { type } = useQuestionState()
 
+  console.log("mytype", type)
   return (
     <>
       {optionFields.map((field, index) => {
@@ -79,7 +80,7 @@ export const QuestionOptionsNested: FC<QuestionOptionsNestedProps> = ({
             text: "",
           })
         }
-        className="xd-button-ghost xd-button-sm"
+        className="xd-button-ghost text-xd-primary-purple-700 px-[26px] button-sm"
       >
         <span className="text-sm material-symbols-rounded">add</span>
         Add option

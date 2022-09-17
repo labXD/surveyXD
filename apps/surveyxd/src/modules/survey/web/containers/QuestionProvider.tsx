@@ -12,7 +12,7 @@ interface QTCxtInterface {
 }
 
 export const QuestionProviderClx = createContext<QTCxtInterface>({
-  type: "single",
+  type: "SINGLE_CHOICE",
   toggle: () => {},
 })
 
@@ -20,10 +20,12 @@ export const QuestionProvider: FC<QuestionProviderInterface> = ({
   children,
 }) => {
   const [questionType, setQuestionType] =
-    useState<QuestionTypeOptions>("single")
+    useState<QuestionTypeOptions>("SINGLE_CHOICE")
 
   const toggleQuestionType = () => {
-    setQuestionType((prev) => (prev === "single" ? "multiple" : "single"))
+    setQuestionType((prev) =>
+      prev === "SINGLE_CHOICE" ? "MULTIPLE_CHOICE" : "SINGLE_CHOICE"
+    )
   }
 
   return (

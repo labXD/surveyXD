@@ -18,11 +18,16 @@ type AppProps<P = unknown> = {
 function App({ Component, pageProps }: AppProps<{ session: Session }>) {
   const router = useRouter()
   const colorBg = useMemo(() => {
-    if (router.pathname.includes("/response")) {
-      return "bg-xd-primary-100"
+    if (router.pathname.endsWith("/create")) {
+      return "bg-xd-primary-purple-100"
     }
-    if (router.pathname.includes("/survey")) {
-      return "bg-xd-primary-100"
+    // if router starts with /survey and doesnt have more than 2 /
+
+    if (router.pathname.startsWith("/survey")) {
+      const split = router.pathname.split("/")
+      if (split.length === 3) {
+        return "bg-xd-primary-purple-100"
+      }
     }
     return "bg-white"
   }, [router.pathname])
@@ -38,7 +43,7 @@ function App({ Component, pageProps }: AppProps<{ session: Session }>) {
         </Head>
         <BaseLayout
           cls={colorBg}
-          topNav={!router.pathname.includes("/survey") && <TopNavComingSoon />}
+          topNav={!router.pathname.endsWith("/create") && <TopNavComingSoon />}
           footer={<Footer />}
         >
           <Component {...pageProps} />
