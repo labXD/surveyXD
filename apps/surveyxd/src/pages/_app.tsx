@@ -5,7 +5,7 @@ import type { AppProps as NextAppProps } from "next/app"
 import Head from "next/head"
 import { useRouter } from "next/router"
 import { Session } from "next-auth"
-import { SessionProvider } from "next-auth/react"
+import { SessionProvider, signOut } from "next-auth/react"
 import { useMemo } from "react"
 
 import { BaseLayout, Footer, TopNavComingSoon } from "@/meta/web/components"
@@ -47,6 +47,14 @@ function App({ Component, pageProps }: AppProps<{ session: Session }>) {
           footer={<Footer />}
         >
           <Component {...pageProps} />
+          <div className="fixed bottom-4 right-4">
+            <button
+              className="button-primary opacity-0 hover:opacity-100 transition-all z-20"
+              onClick={() => signOut()}
+            >
+              Sign jout
+            </button>
+          </div>
         </BaseLayout>
       </SessionProvider>
     </>

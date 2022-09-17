@@ -21,14 +21,14 @@ export const XDSandDance: React.FC = () => {
     // "strips",
     // "treemap",
   ]
-  const [selected, setSelected] = React.useState("barchartV")
+  const [selected, setSelected] = React.useState("barchartH")
   const [enabled] = React.useState(false)
   SandDanceReact.use(React, ReactDOM, vega)
 
   // change chart type to barchartH after 500ms
   React.useEffect(() => {
     setTimeout(() => {
-      setSelected("barchartH")
+      setSelected("barchartV")
     }, 5000)
   }, [])
 
