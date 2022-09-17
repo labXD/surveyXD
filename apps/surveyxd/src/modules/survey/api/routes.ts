@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { SurveyPublishStatus, QuestionType } from "@/prisma"
+import { QuestionType, SurveyPublishStatus } from "@/prisma"
 import { createRouter } from "@/trpc/api"
 
 export const surveyRoutes = createRouter()
@@ -49,6 +49,7 @@ export const surveyRoutes = createRouter()
             create: input.questions.map((q) => ({
               title: q.title,
               questionType: q.type,
+              isRequired: q.required,
               options: {
                 create: q.options.map((opt, i) => ({
                   numericValue: i,
@@ -77,8 +78,12 @@ export const surveyRoutes = createRouter()
       return ctx.prisma.survey.findUnique({
         where: { id: input.surveyId },
         select: {
+          id: true,
+          title: true,
           questions: {
             select: {
+              questionType: true,
+              isRequired: true,
               id: true,
               title: true,
               createdAt: true,
@@ -87,5 +92,32 @@ export const surveyRoutes = createRouter()
           },
         },
       })
+    },
+  })
+  .mutation("submitResponse", {
+    input: z.object({
+      surveyId: z.string(),
+      responses: z
+        .object({
+          questionId: z.string(),
+          responseIds: z.string().array(),
+        })
+        .array(),
+    }),
+    resolve: async ({ ctx, input }) => {
+      const data = input.responses
+        .map((res) =>
+          res.responseIds.map((id) => ({
+            questionId: res.questionId,
+            answerId: id,
+            surveyId: input.surveyId,
+          }))
+        )
+        .flatMap((v) => v)
+      const res = await ctx.prisma.answer.createMany({
+        data,
+      })
+
+      return res.count === data.length
     },
   })
