@@ -19,6 +19,7 @@ import {
 import { QuestionProvider } from "../containers"
 import { useActiveSurveyFromRoute } from "../hooks"
 import { NewSurveyPageNestedInterface, SurveyDropdownMenuItem } from "../types"
+import { QuestionType } from "@/prisma"
 
 const defaultValues = {
   surveyTitle: "New Survey",
@@ -209,7 +210,7 @@ export const NewSurveyPageNested: NextPage = () => {
                         name={`surveyQuestions.${index}.questionType` as const}
                         control={control}
                         rules={{ required: true }}
-                        type={['SINGLE_CHOICE', 'MULTIPLE_CHOICE']}
+                        type={[QuestionType.MULTIPLE_CHOICE, QuestionType.SINGLE_CHOICE]}
                       />
                     </div>
                     <aside className="pt-4 space-y-4">
