@@ -30,15 +30,6 @@ jobs:
         shell: bash
         run: gcloud --quiet auth configure-docker
 
-      - name: Cache Docker images.
-        uses: ScribeMD/docker-cache@0.2.3
-        with:
-          key: docker-${{ runner.os }}-${{ hashFiles(...) }}
-
-      # - uses: satackey/action-docker-layer-caching@v0.0.11
-      #   # Ignore the failure of a step and avoid terminating the job.
-      #   continue-on-error: true
-      #
       - name: Get node version
         run: |
           echo "PROJECT_NODE_VERSION=$(cat $GITHUB_WORKSPACE/.nvmrc)" >> $GITHUB_ENV
