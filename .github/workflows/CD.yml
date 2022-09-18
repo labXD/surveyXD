@@ -66,12 +66,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Login to gcloud registry
-        id: gcloud
-        uses: elgohr/gcloud-login-action@v1
-        with:
-          account_key: ${{ secrets.GCP_CREDENTIALS_BASE64 }}
-
       - name: Deploy
         run: |
           pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
