@@ -16,11 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # - name: Cache Docker images.
-      #   uses: ScribeMD/docker-cache@0.2.3
-      #   with:
-      #     key: docker-${{ runner.os }}-${{ hashFiles(...) }}
-
       - uses: satackey/action-docker-layer-caching@v0.0.11
         # Ignore the failure of a step and avoid terminating the job.
         continue-on-error: true
@@ -75,8 +70,27 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: start deployment
+        uses: tallyb/deployments@master
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: preview
+          ref: ${{ github.head_ref }}
+
       - name: Deploy
+        id: deploy
         run: |
           pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           pnpm run cli deploy surveyxd preview pr-"$pull_number" 
 
+      - name: update deployment status
+        uses: tallyb/deployments@master
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          deployment_id: ${{ github.event.deployment.id }}
+          env_url: ${{ steps.deploy.outputs.url }}
