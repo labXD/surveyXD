@@ -15,7 +15,7 @@ generator client {
 //   provider       = "prisma-trpc-generator"
 //   withMiddleware = false
 //   withShield     = false
-//   contextPath    = "../src/modules/trpc/api/utils.ts"
+//   contextPath    = "@/trpc/api/utils"
 //   output         = "./generated/trpc"
 // }
 
