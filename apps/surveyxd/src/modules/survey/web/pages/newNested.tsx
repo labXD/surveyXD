@@ -9,7 +9,9 @@ import { SubmitHandler, useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { XDDropdownMenu } from "@/meta/web"
+import { QuestionType } from "@/prisma"
 import { trpc } from "@/trpc/web"
+
 import {
   FormInputError,
   QuestionOptionsNested,
@@ -19,14 +21,13 @@ import {
 import { QuestionProvider } from "../containers"
 import { useActiveSurveyFromRoute } from "../hooks"
 import { NewSurveyPageNestedInterface, SurveyDropdownMenuItem } from "../types"
-import { QuestionType } from "@/prisma"
 
 const defaultValues = {
   surveyTitle: "New Survey",
   surveyQuestions: [
     {
       questionTitle: "",
-      questionType:   QuestionType.SINGLE_CHOICE,
+      questionType: QuestionType.SINGLE_CHOICE,
       questionRequired: false,
       options: [{ text: "" }, { text: "" }],
     },
@@ -81,9 +82,7 @@ export const NewSurveyPageNested: NextPage = () => {
     control,
   })
 
-  const createSurveyMutation  = trpc.useMutation([
-    "survey.createSurvey",
-  ])
+  const createSurveyMutation = trpc.useMutation(["survey.createSurvey"])
 
   if (loading) {
     return <div>Loading...</div>
@@ -119,9 +118,9 @@ export const NewSurveyPageNested: NextPage = () => {
         title: question.questionTitle,
         required: question.questionRequired,
         options: question.options.map((option) => ({
-          value: option.text
-        }))
-      }))
+          value: option.text,
+        })),
+      })),
     })
 
     router.replace(`/survey/${res.id}/success`)
@@ -228,7 +227,10 @@ export const NewSurveyPageNested: NextPage = () => {
                         name={`surveyQuestions.${index}.questionType` as const}
                         control={control}
                         rules={{ required: true }}
-                        type={[QuestionType.MULTIPLE_CHOICE, QuestionType.SINGLE_CHOICE]}
+                        type={[
+                          QuestionType.MULTIPLE_CHOICE,
+                          QuestionType.SINGLE_CHOICE,
+                        ]}
                       />
                     </div>
                     <aside className="pt-4 space-y-4">

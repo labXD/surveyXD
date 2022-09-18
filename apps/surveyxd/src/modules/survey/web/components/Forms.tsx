@@ -1,6 +1,8 @@
 import clsx from "clsx"
 import React, { FC, ReactNode } from "react"
 
+import { QuestionType as QType } from "@/prisma"
+
 import { QuestionTypeOptions } from "../types"
 
 export interface TextInputProps
@@ -32,7 +34,7 @@ export interface QuestionTypeProps {
 }
 
 export const QuestionType: FC<QuestionTypeProps> = ({
-  type = "single",
+  type = QType.SINGLE_CHOICE,
   children,
   remove,
   ...otherProps
@@ -41,7 +43,7 @@ export const QuestionType: FC<QuestionTypeProps> = ({
     <div className="flex items-center justify-between" {...otherProps}>
       <div className="flex items-center space-x-2 w-full">
         <span className="text-lg material-symbols-rounded text-xd-text-primary/80">
-          {type === "single" ? "circle" : "check_box_outline_blank"}
+          {type === QType.SINGLE_CHOICE ? "circle" : "check_box_outline_blank"}
         </span>
         <div
           className={clsx(

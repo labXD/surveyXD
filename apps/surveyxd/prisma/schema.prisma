@@ -1,15 +1,23 @@
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity", "fullTextIndex", "fullTextSearch", "interactiveTransactions"]
-  output          = "./generated"
-  binaryTargets = ["native", "linux-musl"]
-}
-
 datasource db {
   provider             = "mysql"
   referentialIntegrity = "prisma"
   url                  = env("DATABASE_URL")
 }
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity", "fullTextIndex", "fullTextSearch", "interactiveTransactions"]
+  output          = "./generated"
+  binaryTargets   = ["native", "linux-musl"]
+}
+
+// generator trpc {
+//   provider       = "prisma-trpc-generator"
+//   withMiddleware = false
+//   withShield     = false
+//   contextPath    = "../src/modules/trpc/api/utils.ts"
+//   output         = "./generated/trpc"
+// }
 
 // Next auth models
 model Account {
@@ -115,6 +123,7 @@ model Question {
   title        String
   description  String?
   questionType QuestionType
+  isRequired   Boolean @default(false)
 
   surveyId String
   survey   Survey @relation(fields: [surveyId], references: [id], onDelete: Cascade)

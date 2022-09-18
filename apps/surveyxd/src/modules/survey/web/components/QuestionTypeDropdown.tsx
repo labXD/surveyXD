@@ -3,6 +3,8 @@ import clsx from "clsx"
 import { Fragment } from "react"
 import { FieldValues, useController, UseControllerProps } from "react-hook-form"
 
+import { QuestionType } from "@/prisma"
+
 import { useQuestionState } from "../containers/QuestionProvider"
 import { QuestionTypeOptions } from "../types"
 
@@ -36,10 +38,12 @@ export const QuestionTypeDropdown = <T extends FieldValues>(
       <div className="relative">
         <Listbox.Button className="relative xd-button-secondary-light xd-button-sm w-36">
           <span className="text-xs material-symbols-rounded">
-            {value === "single" ? "radio_button_checked" : "check_box"}
+            {value === QuestionType.SINGLE_CHOICE
+              ? "radio_button_checked"
+              : "check_box"}
           </span>
           <span className="flex flex-grow truncate">
-            {value && capitalize(value)} choice
+            {value && capitalize(value).replace("_CHOICE", "")}&nbsp;choice
           </span>
           <span className="text-xs material-symbols-rounded">unfold_more</span>
         </Listbox.Button>
@@ -76,7 +80,8 @@ export const QuestionTypeDropdown = <T extends FieldValues>(
                     </span>
 
                     <span className={clsx("block truncate font-semibold")}>
-                      {option && capitalize(option)} choice
+                      {option && capitalize(option.replace("_CHOICE", ""))}
+                      &nbsp;choice
                     </span>
                   </>
                 )}
