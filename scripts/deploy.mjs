@@ -134,7 +134,15 @@ export const main = async ({ service, env, tag }) => {
           },
         })
 
-        if (process.env.CI) $`echo "::set-output name=url::${url}"`
+        if (process.env.CI) {
+          const command = `echo "::set-output name=url::${url}"`
+
+          const q = $.quote
+          $.quote = (v) => v
+          await $`${command}`
+
+          $.quote = q
+        }
 
         break
       }
