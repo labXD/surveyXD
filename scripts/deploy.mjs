@@ -77,7 +77,10 @@ export const deployService = async ({
       )
     )
 
-    return out.toString().match(/(https?:\/\/[^ ]*)/)[0]
+    return out
+      .toString()
+      .match(/(https?:\/\/[^ ]*)/)[0]
+      .replace("\n", "")
   } catch (p) {
     console.log(chalk.red(`Failed to deploy ${serviceName} into ${env}`))
 

@@ -71,7 +71,7 @@ jobs:
         run: pnpm install
 
       - name: start deployment
-        uses: tallyb/deployments@master
+        uses: bobheadxi/deployments@v1
         id: deployment
         with:
           step: start
@@ -86,11 +86,12 @@ jobs:
           pnpm run cli deploy surveyxd preview pr-"$pull_number" 
 
       - name: update deployment status
-        uses: tallyb/deployments@master
+        uses: bobheadxi/deployments@v1
         if: always()
         with:
           step: finish
           token: ${{ secrets.GITHUB_TOKEN }}
           status: ${{ job.status }}
-          deployment_id: ${{ github.event.deployment.id }}
+          env: ${{ steps.deployment.outputs.env }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: ${{ steps.deploy.outputs.url }}
