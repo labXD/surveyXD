@@ -21,6 +21,12 @@ jobs:
 
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v0'
+        with:
+          project_id: ${{ steps.auth.outputs.project_id }}
+
+      - name: Configure Google Cloud as auth provider for docker
+        shell: bash
+        run: gcloud --quiet auth configure-docker
 
       - uses: actions/checkout@v3
 
@@ -60,8 +66,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Load Docker Credentials
-        run: gcloud auth configure-docker --quiet
+      - name: Login to gcloud registry
+        id: gcloud
+        uses: elgohr/gcloud-login-action@v1
+        with:
+          account_key: ${{ secrets.GCP_CREDENTIALS_BASE64 }}
 
       - name: Deploy
         run: |
