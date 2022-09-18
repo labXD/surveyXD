@@ -14,6 +14,8 @@ jobs:
     name: PR deployment
     runs-on: ubuntu-22.04
     steps:
+      - uses: actions/checkout@v3
+
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
         with:
@@ -27,8 +29,6 @@ jobs:
       - name: Configure Google Cloud as auth provider for docker
         shell: bash
         run: gcloud --quiet auth configure-docker
-
-      - uses: actions/checkout@v3
 
       - name: Get node version
         run: |
