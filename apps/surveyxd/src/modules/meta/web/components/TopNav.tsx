@@ -4,8 +4,7 @@ import { useRouter } from "next/router"
 import { signIn, signOut, useSession } from "next-auth/react"
 import React, { FC } from "react"
 
-import Logo from "@/public/logo.svg"
-
+import Logo from "../assets/logo.svg"
 import { DropdownMenu } from "./DropdownMenu"
 
 export const TopNav: FC = () => {

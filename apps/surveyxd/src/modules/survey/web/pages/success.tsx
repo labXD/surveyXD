@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { signIn, useSession } from "next-auth/react"
 
-import DataImage from "@/public/assets/data-img.png"
+import DataImage from "../assets/data-img.png"
 
 export const SuccessPage: NextPage = () => {
   const { data: session } = useSession()

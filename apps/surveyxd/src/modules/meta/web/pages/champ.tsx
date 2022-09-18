@@ -3,7 +3,8 @@ import DefaultErrorPage from "next/error"
 import Link from "next/link"
 import { useSession } from "next-auth/react"
 
-import FireWorksSVG from "@/public/assets/firework-xd.svg"
+import FireWorksSVG from "../assets/firework-xd.svg"
+
 export const ChampPage: NextPage = () => {
   const { data: session } = useSession()
 
