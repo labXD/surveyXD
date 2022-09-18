@@ -16,10 +16,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Cache Docker images.
-        uses: ScribeMD/docker-cache@0.2.3
-        with:
-          key: docker-${{ runner.os }}-${{ hashFiles(...) }}
+      # - name: Cache Docker images.
+      #   uses: ScribeMD/docker-cache@0.2.3
+      #   with:
+      #     key: docker-${{ runner.os }}-${{ hashFiles(...) }}
+
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        # Ignore the failure of a step and avoid terminating the job.
+        continue-on-error: true
 
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
