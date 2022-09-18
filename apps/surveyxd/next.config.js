@@ -1,5 +1,5 @@
-const withPlugins = require("next-compose-plugins")
 const withTM = require("next-transpile-modules")
+const { withPlugins } = require('next-composed-plugins');
 
 // verifyEnv()
 
@@ -20,6 +20,6 @@ const nextConfig = {
   },
 }
 
-const config = withPlugins(plugins, nextConfig)
+const config = withPlugins(nextConfig, plugins)
 
 module.exports = config

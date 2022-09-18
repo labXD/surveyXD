@@ -22,7 +22,9 @@ export const deployService = async ({
     const gcloudProjectNameRaw = await $`gcloud config get-value project`
     const gcloudProjectName = gcloudProjectNameRaw.stdout.replace("\n", "")
 
-    const imageTag = `gcr.io/${gcloudProjectName}/${deploymentName}:${tag}`
+    const imageTag = `gcr.io/${gcloudProjectName}/${deploymentName}:${
+      tag ?? env
+    }`
 
     console.log(chalk.blue(`Deploying ${serviceName} to ${env} environment`))
     await $`docker build --platform linux/amd64 -f ./apps/${serviceName}/Dockerfile ./ --tag ${imageTag}`
@@ -43,6 +45,10 @@ export const deployService = async ({
         .join(",")
 
       baseDepComand += ` --set-env-vars "${envVarsString}"`
+    }
+
+    if (tag) {
+      baseDepComand += ` --tag ${tag}`
     }
 
     // add secrets
@@ -77,16 +83,40 @@ export const deployService = async ({
   }
 }
 
-export const main = async ({ service, env }) => {
+export const main = async ({ service, env, tag }) => {
   switch (service) {
     case "surveyxd": {
-      if (env !== "production") {
+      if (env === "development") {
         return deployService({
           serviceName: service,
           env,
           envVars: {
             APP_ENV: "developoment",
             NEXTAUTH_URL: "dev.surveyxd.com",
+          },
+          secrets: {
+            DATABASE_URL: "DATABASE_URL",
+            NEXTAUTH_SECRET: "NEXT_AUTH_SECRET",
+            GOOGLE_CLIENT_ID: "GOOGLE_CLIENT_ID",
+            GOOGLE_CLIENT_SECRET: "GOOGLE_CLIENT_SECRET",
+          },
+        })
+      }
+
+      if (env === "preview") {
+        if (!tag) {
+          console.error(
+            chalk.red("Error: Tag not provided for preview deployment")
+          )
+          break
+        }
+        return deployService({
+          serviceName: service,
+          env: "development",
+          tag,
+          envVars: {
+            APP_ENV: "preview",
+            NEXTAUTH_URL: `https://${tag}---surveyxd-development-clk4zbjf3q-ue.a.run.app`,
           },
           secrets: {
             DATABASE_URL: "DATABASE_URL",
@@ -119,7 +149,7 @@ export const main = async ({ service, env }) => {
 }
 
 export const command = {
-  command: "deploy <service> [env]",
+  command: "deploy <service> [env] [tag]",
   describe: "Deploy a service to an environment",
   builder: (yargs) => yargs.default("env", "development"),
   handler: async (argv) => {

@@ -2,6 +2,8 @@ import clsx from "clsx"
 import { FC } from "react"
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form"
 
+import { QuestionType as QType } from "@/prisma"
+
 import { QuestionType } from "./Forms"
 import { QuestionTypeDropdown } from "./QuestionTypeDropdown"
 import { RequiredToggle } from "./RequiredToggle"
@@ -72,7 +74,7 @@ export const Question: FC = () => {
           name="questionType"
           control={control}
           rules={{ required: true }}
-          type={["single", "multiple"]}
+          type={[QType.SINGLE_CHOICE, QType.MULTIPLE_CHOICE]}
           defaultValue="single"
         />
       </div>
