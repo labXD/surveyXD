@@ -16,6 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Cache Docker images.
+        uses: ScribeMD/docker-cache@0.2.3
+        with:
+          key: docker-${{ runner.os }}-${{ hashFiles(...) }}
+
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
         with:
