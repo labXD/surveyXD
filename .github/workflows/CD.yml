@@ -1,4 +1,4 @@
-name: CI
+name: CD
 on:
   pull_request:
     types:
@@ -59,6 +59,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      - name: Load Docker Credentials
+        run: gcloud auth configure-docker --quiet
 
       - name: Deploy
         run: |
