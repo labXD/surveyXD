@@ -20,7 +20,7 @@ export const Footer: FC = () => {
     <footer className="pt-8 pb-4 text-center text-xs text-xd-neutral-700 space-y-2">
       {responsePage()}
       <div className="space-x-1">
-        <Link href="/">
+        <Link href="https://www.labxd.com" target="_blank">
           <a className="cursor-pointer transition-all border-b border-b-xd-neutral-700">
             <span className="inline-flex items-center">
               labXD

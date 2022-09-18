@@ -17,7 +17,7 @@ export const ChampPage: NextPage = () => {
       </Head>
       <main className="p-4 xl:max-w-7xl mx-auto text-center flex flex-col items-center space-y-6">
         <h1 className="text-2xl font-bold">Congratulations!</h1>
-        <p className="text-xd-text-primary-black/80">
+        <p className="text-xd-secondary-black-rgb max-w-xl">
           You joined the pre-release of surveyXD, which means you&apos;ll be the
           first to know about the newest features and have early access to
           exclusive benefits.

@@ -1,5 +1,7 @@
 import { createContext, FC, ReactNode, useContext, useState } from "react"
 
+import { QuestionType } from "@/prisma"
+
 import { QuestionTypeOptions } from "../types"
 
 interface QuestionProviderInterface {
@@ -12,19 +14,22 @@ interface QTCxtInterface {
 }
 
 export const QuestionProviderClx = createContext<QTCxtInterface>({
-  type: "SINGLE_CHOICE",
+  type: QuestionType.SINGLE_CHOICE,
   toggle: () => {},
 })
 
 export const QuestionProvider: FC<QuestionProviderInterface> = ({
   children,
 }) => {
-  const [questionType, setQuestionType] =
-    useState<QuestionTypeOptions>("SINGLE_CHOICE")
+  const [questionType, setQuestionType] = useState<QuestionTypeOptions>(
+    QuestionType.SINGLE_CHOICE
+  )
 
   const toggleQuestionType = () => {
     setQuestionType((prev) =>
-      prev === "SINGLE_CHOICE" ? "MULTIPLE_CHOICE" : "SINGLE_CHOICE"
+      prev === QuestionType.SINGLE_CHOICE
+        ? QuestionType.MULTIPLE_CHOICE
+        : QuestionType.SINGLE_CHOICE
     )
   }
 

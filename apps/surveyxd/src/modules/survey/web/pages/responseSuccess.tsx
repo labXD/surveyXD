@@ -1,5 +1,6 @@
 import { NextPage } from "next"
 import Head from "next/head"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { signIn, useSession } from "next-auth/react"
 
@@ -8,6 +9,12 @@ import FireWorksSVG from "@/public/assets/firework-xd.svg"
 export const ResponseSuccessPage: NextPage = () => {
   const { data: session } = useSession()
   const router = useRouter()
+  const { surveyId } = router.query
+
+  if (!surveyId) {
+    return null
+  }
+
   return (
     <>
       <Head>
@@ -20,8 +27,14 @@ export const ResponseSuccessPage: NextPage = () => {
         <div>
           <FireWorksSVG />
         </div>
-
-        <div className="px-4 pt-6 max-w-xl flex flex-col w-full space-y-2">
+        <div className="px-4 w-full max-w-xl">
+          <Link href={`/survey/${surveyId}`}>
+            <a className="button button-outline w-full ring-xd-primary-purple-700">
+              Submit another response.
+            </a>
+          </Link>
+        </div>
+        <div className="px-4 max-w-xl flex flex-col w-full space-y-2">
           {!session?.user && (
             <div className="font-semibold text-sm">
               Want to create your own survey?

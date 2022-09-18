@@ -1,6 +1,6 @@
-export * from "./new"
 export * from "./newNested"
 export * from "./response"
 export * from "./responseSuccess"
 export * from "./results"
 export * from "./success"
+export * from "./voteSuccess"

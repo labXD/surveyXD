@@ -1,15 +1,23 @@
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity", "fullTextIndex", "fullTextSearch", "interactiveTransactions"]
-  output          = "./generated"
-  binaryTargets = ["native", "linux-musl"]
-}
-
 datasource db {
   provider             = "mysql"
   referentialIntegrity = "prisma"
   url                  = env("DATABASE_URL")
 }
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity", "fullTextIndex", "fullTextSearch", "interactiveTransactions"]
+  output          = "./generated"
+  binaryTargets   = ["native", "linux-musl"]
+}
+
+// generator trpc {
+//   provider       = "prisma-trpc-generator"
+//   withMiddleware = false
+//   withShield     = false
+//   contextPath    = "../src/modules/trpc/api/utils.ts"
+//   output         = "./generated/trpc"
+// }
 
 // Next auth models
 model Account {
@@ -115,20 +123,25 @@ model Question {
   title        String
   description  String?
   questionType QuestionType
+  isRequired   Boolean @default(false)
 
   surveyId String
   survey   Survey @relation(fields: [surveyId], references: [id], onDelete: Cascade)
 
   answers Answer[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  options   AnswerOption[]
 
   @@fulltext([title])
 }
 
-model QuestionAnswer {
+model AnswerOption {
   id String @id @default(cuid())
+
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id])
 
   numericValue Int
   textValue    String
@@ -138,13 +151,15 @@ model QuestionAnswer {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("QuestionAnswer")
 }
 
 model Answer {
   id String @id @default(cuid())
 
   answerId       String
-  answer         QuestionAnswer @relation(fields: [answerId], references: [id], onDelete: Cascade)
+  answer         AnswerOption @relation(fields: [answerId], references: [id], onDelete: Cascade)
   freeTextAnswer String?
 
   surveyId String

@@ -2,7 +2,7 @@ import { type QuestionType } from "@/prisma"
 
 export type SurveyQuestionTypes = {
   questionTitle: string
-  questionType: string
+  questionType: QuestionType
   questionRequired?: boolean
   options: {
     text: string

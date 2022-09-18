@@ -8,6 +8,8 @@ import { signIn, useSession } from "next-auth/react"
 export const SuccessPage: NextPage = () => {
   const { data: session } = useSession()
   const router = useRouter()
+  const { surveyId } = router.query
+
   return (
     <>
       <Head>
@@ -31,10 +33,10 @@ export const SuccessPage: NextPage = () => {
           />
         </div>
         <div className="lg:-mt-36 pt-6 space-y-2 text-center lg:max-w-xl z-[1]">
-          <h2 className="text-2xl font-bold text-center text-xd-text-primary">
+          <h2 className="text-2xl font-bold text-center text-xd-primary-black">
             Survey is Live!
           </h2>
-          <p className="text-base text-xd-text-primary/80">
+          <p className="text-base text-xd-secondary-black-rgb">
             Send the link and view the results.
           </p>
         </div>
@@ -44,11 +46,11 @@ export const SuccessPage: NextPage = () => {
             onClick={() => ""}
           >
             <span className="flex-grow text-left truncate">
-              https://www.surveyxd.com/survey/ekd345l
+              {`https://www.surveyxd.com/survey/${surveyId}`}
             </span>
             <span className="material-symbols-rounded">content_copy</span>
           </button>
-          <Link href={"/survey/testlink"}>
+          <Link href={`/survey/${surveyId}`}>
             <button className="button-primary space-x-2 w-full">
               <span className="material-symbols-sharp">stacked_bar_chart</span>
               <span>Go to the survey</span>

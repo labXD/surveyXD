@@ -3,6 +3,8 @@ import clsx from "clsx"
 import { Fragment } from "react"
 import { FieldValues, useController, UseControllerProps } from "react-hook-form"
 
+import { QuestionType } from "@/prisma"
+
 import { useQuestionState } from "../containers"
 import { QuestionTypeOptions } from "../types"
 
@@ -35,26 +37,30 @@ export const QuestionTypeDropdown = <T extends FieldValues>(
     <Listbox value={value} onChange={_onChange}>
       {({ open }) => (
         <div className="relative">
-          <Listbox.Button className="relative button-outline text-xs button-sm w-40 space-x-1 justify-between">
-            {value === "SINGLE_CHOICE" ? (
-              <span className="text-sm material-symbols-rounded">
-                radio_button_checked
-              </span>
-            ) : (
-              <span className="text-sm material-symbols-sharp">check_box</span>
-            )}
-
-            <span className="block truncate">
-              {capitalize(value.replace(/_/g, " ").toLowerCase())}
-            </span>
-            <span
-              className={clsx(
-                "flex flex-grow justify-end text-sm material-symbols-rounded"
+          <div>
+            <Listbox.Button className="button-outline button-sm text-xs w-40 space-x-1 justify-between">
+              {value === QuestionType.SINGLE_CHOICE ? (
+                <span className="text-sm material-symbols-rounded">
+                  radio_button_checked
+                </span>
+              ) : (
+                <span className="text-sm material-symbols-sharp">
+                  check_box
+                </span>
               )}
-            >
-              {open ? "expand_less" : "expand_more"}
-            </span>
-          </Listbox.Button>
+
+              <span className="block truncate">
+                {capitalize(value.replace(/_/g, " ").toLowerCase())}
+              </span>
+              <span
+                className={clsx(
+                  "flex flex-grow justify-end text-sm material-symbols-rounded"
+                )}
+              >
+                {open ? "expand_less" : "expand_more"}
+              </span>
+            </Listbox.Button>
+          </div>
           <Transition
             as={Fragment}
             leave="transition ease-in duration-100"

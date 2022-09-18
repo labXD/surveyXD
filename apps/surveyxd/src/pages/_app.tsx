@@ -8,7 +8,7 @@ import { Session } from "next-auth"
 import { SessionProvider, signOut } from "next-auth/react"
 import { useMemo } from "react"
 
-import { BaseLayout, Footer, TopNavComingSoon } from "@/meta/web/components"
+import { BaseLayout, Footer, TopNav } from "@/meta/web/components"
 import { type AppRouter } from "@/trpc/shared/types"
 
 type AppProps<P = unknown> = {
@@ -43,7 +43,7 @@ function App({ Component, pageProps }: AppProps<{ session: Session }>) {
         </Head>
         <BaseLayout
           cls={colorBg}
-          topNav={!router.pathname.endsWith("/create") && <TopNavComingSoon />}
+          topNav={!router.pathname.endsWith("/create") && <TopNav />}
           footer={<Footer />}
         >
           <Component {...pageProps} />

@@ -1,21 +1,22 @@
-import { Tab } from "@headlessui/react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import clsx from "clsx"
 import { NextPage } from "next"
 import Head from "next/head"
 import { useRouter } from "next/router"
-import { FormEvent, Fragment, useState } from "react"
+import { FormEvent, useState } from "react"
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { XDDropdownMenu } from "@/meta/web"
+import { SurveyDropdownMenu } from "@/meta/web"
 import { QuestionType } from "@/prisma"
+import { trpc } from "@/trpc/web"
 
 import {
   FormInputError,
   QuestionOptionsNested,
   QuestionTypeDropdown,
   RequiredToggle,
+  TextInputWithClose,
 } from "../components"
 import { QuestionProvider } from "../containers"
 import { useActiveSurveyFromRoute } from "../hooks"
@@ -26,7 +27,7 @@ const defaultValues = {
   surveyQuestions: [
     {
       questionTitle: "",
-      questionType: "SINGLE_CHOICE",
+      questionType: QuestionType.SINGLE_CHOICE,
       questionRequired: false,
       options: [{ text: "" }, { text: "" }],
     },
@@ -50,7 +51,7 @@ const surveySchema: z.ZodType<NewSurveyPageNestedInterface> = z.lazy(() =>
           questionTitle: z
             .string()
             .min(1, { message: "Please enter a question title" }),
-          questionType: z.enum(["SINGLE_CHOICE", "MULTIPLE_CHOICE"]),
+          questionType: z.nativeEnum(QuestionType),
         })
       )
       .min(1, { message: "Must have at least one question" }),
@@ -81,6 +82,8 @@ export const NewSurveyPageNested: NextPage = () => {
     control,
   })
 
+  const createSurveyMutation = trpc.useMutation(["survey.createSurvey"])
+
   if (loading) {
     return <div className="p-8 animate-pulse">Loading...</div>
   }
@@ -101,9 +104,24 @@ export const NewSurveyPageNested: NextPage = () => {
     await handleSubmit(onSubmit)(e)
   }
 
-  const onSubmit: SubmitHandler<NewSurveyPageNestedInterface> = (data) => {
+  const onSubmit: SubmitHandler<NewSurveyPageNestedInterface> = async (
+    data
+  ) => {
     console.log("data:\n", data)
-    router.replace("/survey/09162022/success")
+
+    const res = await createSurveyMutation.mutateAsync({
+      title: data.surveyTitle,
+      questions: data.surveyQuestions.map((question) => ({
+        type: question.questionType,
+        title: question.questionTitle,
+        required: question.questionRequired,
+        options: question.options.map((option) => ({
+          value: option.text,
+        })),
+      })),
+    })
+
+    router.replace(`/survey/${res.id}/success`)
   }
 
   return (
@@ -112,9 +130,9 @@ export const NewSurveyPageNested: NextPage = () => {
         <title>Create survey - surveyXD</title>
       </Head>
       <form onSubmit={submitSurvey}>
-        <Tab.Group as={"div"} className="md:px-4 lg:max-w-7xl lg:mx-auto">
-          <section className="drop-shadow xd-card sticky top-0 z-10">
-            <div className="flex py-4">
+        <div className="md:px-4 xd-layout-width">
+          <section className="xd-card sticky top-0 z-10 ring">
+            <div className="flex py-4 space-x-2">
               <div className="relative flex-1 border-b border-b-neutral-300 flex items-baseline justify-between">
                 <input
                   type="text"
@@ -131,121 +149,81 @@ export const NewSurveyPageNested: NextPage = () => {
                   <FormInputError>{errors.surveyTitle.message}</FormInputError>
                 )}
               </div>
-              <XDDropdownMenu data={menuItemArray} />
+              <SurveyDropdownMenu data={menuItemArray} />
             </div>
-            {/* <Tab.List as="ul" className="flex px-4 pt-2 space-x-6">
-              {TABS.map((tab) => (
-                <Tab
-                  as="li"
-                  key={tab}
-                  className={({ selected }) =>
-                    clsx("pb-2 pt-3 border-b-2 font-semibold transition-all", {
-                      "text-xd-text-primary/[.65] border-b-transparent":
-                        !selected,
-                      "text-xd-primary-700  border-b-xd-primary-700": selected,
-                    })
-                  }
-                >
-                  {tab}
-                </Tab>
-              ))}
-            </Tab.List> */}
           </section>
-          <Tab.Panels>
-            <Tab.Panel as={Fragment}>
-              <div className="pt-6 pb-20 space-y-4 focus-visible:outline-none">
-                {questionFields.map((field, index) => (
-                  <div
-                    key={field.id}
-                    className="xd-card xd-card-border-l xd-card-focus"
-                  >
-                    <div className="flex items-center w-full">
-                      <div
-                        className={clsx(
-                          "relative flex flex-1 items-baseline justify-between border-b border-b-neutral-300"
-                        )}
-                      >
-                        <input
-                          placeholder="Question title"
-                          type="text"
-                          aria-invalid={
-                            errors?.surveyQuestions?.[index]?.questionTitle
-                              ? "true"
-                              : "false"
-                          }
-                          className={clsx("w-full text-sm")}
-                          {...register(
-                            `surveyQuestions.${index}.questionTitle` as const
-                          )}
-                        />
-                        {errors &&
-                          errors?.surveyQuestions?.[index]?.questionTitle && (
-                            <FormInputError>
-                              {
-                                errors?.surveyQuestions?.[index]?.questionTitle
-                                  ?.message
-                              }
-                            </FormInputError>
-                          )}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          questionFields.length > 1 && questionRemove(index)
-                        }}
-                        className="button-sm"
-                      >
-                        <span
-                          className={clsx(
-                            "material-symbols-rounded text-xd-text-primary/[.65]"
-                          )}
-                        >
-                          close
-                        </span>
-                      </button>
-                    </div>
-                    <QuestionProvider>
-                      <div className="pt-4 flex justify-end pr-6">
-                        {/* Question type */}
-                        <QuestionTypeDropdown
-                          name={
-                            `surveyQuestions.${index}.questionType` as const
-                          }
-                          control={control}
-                          rules={{ required: true }}
-                          type={[
-                            QuestionType.MULTIPLE_CHOICE,
-                            QuestionType.SINGLE_CHOICE,
-                          ]}
-                        />
-                      </div>
-                      <aside className="pt-4 space-y-4">
-                        <QuestionOptionsNested
-                          nestedIndex={index}
-                          control={control}
-                          register={register}
-                          errors={
-                            errors.surveyQuestions &&
-                            errors.surveyQuestions[index]?.options
-                          }
-                        />
-                        {errors?.surveyQuestions &&
-                          errors.surveyQuestions[index]?.options?.message}
-                      </aside>
-                    </QuestionProvider>
-                    <div className="flex justify-end pt-8">
-                      {/* Required toggle */}
-                      <RequiredToggle
-                        name={`surveyQuestions.${index}.questionRequired`}
-                        control={control}
-                      />
-                    </div>
+          <div className="pt-6 pb-20 space-y-4 focus-visible:outline-none">
+            {questionFields.map((field, index) => (
+              <div
+                key={field.id}
+                className="xd-card xd-card-border-l xd-card-focus"
+              >
+                <TextInputWithClose
+                  remove={() => {
+                    questionFields.length > 1 && questionRemove(index)
+                  }}
+                >
+                  <input
+                    placeholder="Question title"
+                    type="text"
+                    aria-invalid={
+                      errors?.surveyQuestions?.[index]?.questionTitle
+                        ? "true"
+                        : "false"
+                    }
+                    className={clsx("w-full text-sm")}
+                    {...register(
+                      `surveyQuestions.${index}.questionTitle` as const
+                    )}
+                  />
+                  {errors &&
+                    errors?.surveyQuestions?.[index]?.questionTitle && (
+                      <FormInputError>
+                        {
+                          errors?.surveyQuestions?.[index]?.questionTitle
+                            ?.message
+                        }
+                      </FormInputError>
+                    )}
+                </TextInputWithClose>
+                <QuestionProvider>
+                  <div className="pt-4 flex justify-end">
+                    {/* Question type */}
+                    <QuestionTypeDropdown
+                      name={`surveyQuestions.${index}.questionType` as const}
+                      control={control}
+                      rules={{ required: true }}
+                      type={[
+                        QuestionType.MULTIPLE_CHOICE,
+                        QuestionType.SINGLE_CHOICE,
+                      ]}
+                    />
                   </div>
-                ))}
+                  <aside className="pt-4 space-y-4">
+                    <QuestionOptionsNested
+                      nestedIndex={index}
+                      control={control}
+                      register={register}
+                      errors={
+                        errors.surveyQuestions &&
+                        errors.surveyQuestions[index]?.options
+                      }
+                    />
+                    {errors?.surveyQuestions &&
+                      errors.surveyQuestions[index]?.options?.message}
+                  </aside>
+                </QuestionProvider>
+                <div className="flex justify-end pt-8">
+                  {/* Required toggle */}
+                  <RequiredToggle
+                    name={`surveyQuestions.${index}.questionRequired`}
+                    control={control}
+                  />
+                </div>
               </div>
-            </Tab.Panel>
-          </Tab.Panels>
-        </Tab.Group>
+            ))}
+          </div>
+        </div>
         <div className="fixed bottom-2 md:bottom-4 left-4 right-4 z-10 ">
           <div
             className={clsx(
@@ -258,7 +236,7 @@ export const NewSurveyPageNested: NextPage = () => {
               onClick={() =>
                 questionAppend({
                   questionTitle: "",
-                  questionType: "single",
+                  questionType: QuestionType.SINGLE_CHOICE,
                   questionRequired: false,
                   options: [{ text: "" }, { text: "" }],
                 })

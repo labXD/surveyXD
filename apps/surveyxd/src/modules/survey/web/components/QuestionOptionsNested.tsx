@@ -73,18 +73,24 @@ export const QuestionOptionsNested: FC<QuestionOptionsNestedProps> = ({
           </>
         )
       })}
-      <button
-        type="button"
-        onClick={() =>
-          optionAppend({
-            text: "",
-          })
-        }
-        className="xd-button-ghost text-xd-primary-purple-700 px-[26px] button-sm"
-      >
-        <span className="text-sm material-symbols-rounded">add</span>
-        Add option
-      </button>
+      <QuestionType type={type} readonly>
+        {/* <span className="text-blue-700 border border-transparent px-3 py-2">
+          Add option
+        </span> */}
+        <button
+          type="button"
+          onClick={() =>
+            optionAppend({
+              text: "",
+            })
+          }
+          className="xd-button-ghost button-sm font-normal group"
+        >
+          <span className="text-blue-700 group-hover:drop-shadow">
+            Add option
+          </span>
+        </button>
+      </QuestionType>
     </>
   )
 }

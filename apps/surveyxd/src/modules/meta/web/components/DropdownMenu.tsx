@@ -1,14 +1,25 @@
 import { Menu, Transition } from "@headlessui/react"
 import clsx from "clsx"
 import { signIn, signOut, useSession } from "next-auth/react"
-import { FC, Fragment } from "react"
+import { FC, Fragment, ReactNode } from "react"
 
-export const DropdownMenu: FC = () => {
-  const { data: session } = useSession()
+interface DropdownMenuWrapperInterface {
+  children: ReactNode
+  menuBtnCls?: string
+}
+const DropdownMenuWrapper: FC<DropdownMenuWrapperInterface> = ({
+  children,
+  menuBtnCls,
+}) => {
   return (
     <Menu as="div" className="relative">
       <div>
-        <Menu.Button className="p-2 text-xd-text-primary-black/80 hover:text-xd-primary-800">
+        <Menu.Button
+          className={clsx(
+            menuBtnCls,
+            "button-sm text-xd-secondary-black-rgb hover:text-xd-primary-purple-800"
+          )}
+        >
           <span className="material-symbols-rounded">menu</span>
         </Menu.Button>
       </div>
@@ -21,53 +32,58 @@ export const DropdownMenu: FC = () => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 w-56 origin-top-right divide-y divide-neutral-300 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          {session?.user && (
-            <div>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={clsx(
-                      "rounded-sm group flex w-full items-center px-4 py-2 text-sm space-x-2 transition-all",
-                      {
-                        "text-xd-text-primary": !active,
-                        "bg-xd-purple-500 text-white": active,
-                      }
-                    )}
-                  >
-                    <span className={clsx("material-symbols-rounded")}>
-                      corporate_fare
-                    </span>
-                    <span>Dashboard</span>
-                  </button>
-                )}
-              </Menu.Item>
-            </div>
-          )}
-          <div>
-            <Menu.Item>
-              {({ active }) => (
-                <button
-                  onClick={() => (session?.user ? signOut() : signIn("google"))}
-                  className={clsx(
-                    "rounded-sm group flex w-full items-center px-4 py-2 text-sm space-x-2 transition-all",
-                    {
-                      "text-xd-text-primary": !active,
-                      "bg-xd-purple-500 text-white": active,
-                    }
-                  )}
-                >
-                  <span className={clsx("material-symbols-rounded")}>
-                    {session?.user ? "logout" : "login"}
-                  </span>
-                  <span> {session?.user ? "Log out" : "Log in"}</span>
-                </button>
-              )}
-            </Menu.Item>
-          </div>
+        <Menu.Items className="absolute z-10 right-0 w-56 origin-top-right divide-y divide-xd-neutral-300 rounded-sm bg-white ring ring-xd-primary-purple-700/20">
+          {children}
         </Menu.Items>
       </Transition>
     </Menu>
+  )
+}
+export const HeaderDropdownMenu: FC = () => {
+  const { data: session } = useSession()
+  return (
+    <DropdownMenuWrapper>
+      {session?.user && (
+        <Menu.Item as="div">
+          {({ active }) => (
+            <button
+              className={clsx(
+                "xd-button-ghost button-sm w-full space-x-2 justify-start",
+                {
+                  "text-xd-secondary-black-rgb": !active,
+                  "bg-xd-primary-purple-700 text-white": active,
+                }
+              )}
+            >
+              <span className={clsx("material-symbols-rounded")}>
+                corporate_fare
+              </span>
+              <span>Dashboard</span>
+            </button>
+          )}
+        </Menu.Item>
+      )}
+
+      <Menu.Item as="div">
+        {({ active }) => (
+          <button
+            onClick={() => (session?.user ? signOut() : signIn("google"))}
+            className={clsx(
+              "xd-button-ghost button-sm w-full space-x-2 justify-start",
+              {
+                "text-xd-secondary-black-rgb": !active,
+                "bg-xd-primary-purple-700 text-white": active,
+              }
+            )}
+          >
+            <span className={clsx("material-symbols-rounded")}>
+              {session?.user ? "logout" : "login"}
+            </span>
+            <span> {session?.user ? "Log out" : "Log in"}</span>
+          </button>
+        )}
+      </Menu.Item>
+    </DropdownMenuWrapper>
   )
 }
 
@@ -81,50 +97,33 @@ interface XDDropdownMenuInterface {
   data: MenuItem[]
 }
 
-export const XDDropdownMenu: FC<XDDropdownMenuInterface> = ({ data }) => {
+export const SurveyDropdownMenu: FC<XDDropdownMenuInterface> = ({ data }) => {
   return (
-    <Menu as="div" className="relative">
-      <div>
-        <Menu.Button className="button-sm text-xd-secondary-black-rgb hover:text-xd-primary-purple-800">
-          <span className="material-symbols-rounded">menu</span>
-        </Menu.Button>
-      </div>
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <Menu.Items className="absolute right-0 w-56 origin-top-right divide-y divide-xd-neutral-300 rounded-sm bg-white ring ring-xd-primary-purple-700/20">
-          {data.map((item: MenuItem, index) => (
-            <Menu.Item as="div" key={index}>
-              {({ active }) => (
-                <button
-                  onClick={item.onClick}
-                  type={item.buttonType}
-                  className={clsx(
-                    "xd-button-ghost w-full space-x-2 justify-start",
-                    {
-                      "text-xd-secondary-black-rgb": !active,
-                      "bg-xd-primary-purple-700 text-white": active,
-                    }
-                  )}
-                >
-                  {item.icon && (
-                    <span className={clsx("material-symbols-rounded")}>
-                      {item.icon}
-                    </span>
-                  )}
-                  <span>{item.label}</span>
-                </button>
+    <DropdownMenuWrapper menuBtnCls="p-0">
+      {data.map((item: MenuItem, index) => (
+        <Menu.Item as="div" key={index}>
+          {({ active }) => (
+            <button
+              onClick={item.onClick}
+              type={item.buttonType}
+              className={clsx(
+                "xd-button-ghost w-full space-x-2 justify-start",
+                {
+                  "text-xd-secondary-black-rgb": !active,
+                  "bg-xd-primary-purple-700 text-white": active,
+                }
               )}
-            </Menu.Item>
-          ))}
-        </Menu.Items>
-      </Transition>
-    </Menu>
+            >
+              {item.icon && (
+                <span className={clsx("material-symbols-rounded")}>
+                  {item.icon}
+                </span>
+              )}
+              <span>{item.label}</span>
+            </button>
+          )}
+        </Menu.Item>
+      ))}
+    </DropdownMenuWrapper>
   )
 }

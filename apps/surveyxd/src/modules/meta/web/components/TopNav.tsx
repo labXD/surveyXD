@@ -3,23 +3,25 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import React, { FC } from "react"
 
-import Logo from "@/public/assets/surveyxd-landing.svg"
+import Logo from "@/public/sxd-header-logo-16.svg"
 
-import { DropdownMenu } from "./DropdownMenu"
+import { HeaderDropdownMenu } from "./DropdownMenu"
 
 export const TopNav: FC = () => {
   return (
     <nav>
       <div
         className={clsx(
-          "p-4 flex justify-between items-center lg:max-w-7xl lg:mx-auto min-h-[64px]"
+          "xd-layout p-4 flex justify-between items-center min-h-[64px]"
         )}
       >
-        <span className="flex items-center space-x-1">
-          <Logo />
-          <span className="font-medium">surveyXD</span>
-        </span>
-        <DropdownMenu />
+        <Link href={"/"}>
+          <span className="cursor-pointer">
+            <Logo />
+          </span>
+        </Link>
+
+        <HeaderDropdownMenu />
       </div>
     </nav>
   )

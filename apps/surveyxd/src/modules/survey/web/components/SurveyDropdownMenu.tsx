@@ -10,7 +10,7 @@ export const SurveyDropdownMenu: FC<SurveyDropdownMenuInterface> = ({
   return (
     <Menu as="div" className="relative">
       <div>
-        <Menu.Button className="p-2 text-xd-text-primary-black/80 hover:text-xd-primary-800">
+        <Menu.Button className="p-2 text-xd-secondary-black-rgb hover:text-xd-primary-800">
           <span className="material-symbols-rounded">menu</span>
         </Menu.Button>
       </div>
@@ -33,7 +33,7 @@ export const SurveyDropdownMenu: FC<SurveyDropdownMenuInterface> = ({
                   className={clsx(
                     "rounded-sm group flex w-full items-center px-4 py-2 text-sm space-x-2 transition-all",
                     {
-                      "text-xd-text-primary": !active,
+                      "text-xd-primary-black": !active,
                       "bg-xd-primary-700 text-white": active,
                     }
                   )}

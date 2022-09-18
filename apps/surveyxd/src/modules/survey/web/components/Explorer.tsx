@@ -133,7 +133,7 @@ export const XDSandDance: React.FC = () => {
                         "relative cursor-default select-none py-2 px-3 flex items-center space-x-1",
                         {
                           "bg-indigo-50 text-xd-purple-primary": active,
-                          "text-xd-text-primary/[.65]": !active,
+                          "text-xd-disabled-black-rgb": !active,
                         }
                       )
                     }
@@ -186,7 +186,7 @@ export const XDSandDance: React.FC = () => {
             )}
           />
         </Switch>
-        <span className="pl-2 text-xd-text-primary leading-4">3D</span>
+        <span className="pl-2 text-xd-primary-black leading-4">3D</span>
       </div> */}
       {/* @ts-ignore-expect-error */}
       <SandDanceReact.Viewer data={data} insight={insight} setup={setup} />

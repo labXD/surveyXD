@@ -1,6 +1,8 @@
 import clsx from "clsx"
 import React, { FC, ReactNode } from "react"
 
+import { QuestionType as QType } from "@/prisma"
+
 import { QuestionTypeOptions } from "../types"
 
 export interface TextInputProps
@@ -13,7 +15,7 @@ export const TextInput: FC<TextInputProps> = ({ cls, inputCls, ...props }) => {
     <div
       className={clsx(
         cls,
-        "flex items-baseline justify-between border-b border-b-neutral-300"
+        "flex items-baseline justify-between border-b border-b-xd-neutral-300"
       )}
     >
       <input
@@ -25,42 +27,80 @@ export const TextInput: FC<TextInputProps> = ({ cls, inputCls, ...props }) => {
   )
 }
 
-export interface QuestionTypeProps {
-  type: QuestionTypeOptions
+interface TextInputWithCloseInterface {
   children: ReactNode
-  remove?: () => void
+  remove: () => void
 }
-
-export const QuestionType: FC<QuestionTypeProps> = ({
-  type = "SINGLE_CHOICE",
+export const TextInputWithClose: FC<TextInputWithCloseInterface> = ({
   children,
   remove,
   ...otherProps
 }) => {
   return (
-    <div className="flex items-center justify-between" {...otherProps}>
+    <div
+      className="flex items-center justify-between space-x-2"
+      {...otherProps}
+    >
+      <div
+        className={clsx(
+          "w-full",
+          "relative flex items-baseline justify-between border-b border-b-xd-neutral-300"
+        )}
+      >
+        {children}
+      </div>
+      <button
+        type="button"
+        onClick={remove}
+        className="button-icon-ghost button-sm p-0"
+      >
+        <span className={clsx("material-symbols-rounded")}>close</span>
+      </button>
+    </div>
+  )
+}
+
+export interface QuestionTypeProps {
+  type: QuestionTypeOptions
+  children: ReactNode
+  readonly?: boolean
+  remove?: () => void
+}
+export const QuestionType: FC<QuestionTypeProps> = ({
+  type = QType.SINGLE_CHOICE,
+  children,
+  readonly,
+  remove,
+  ...otherProps
+}) => {
+  return (
+    <div
+      className="flex items-center justify-between space-x-2"
+      {...otherProps}
+    >
       <div className="flex items-center space-x-2 w-full">
         <span className="text-lg material-symbols-rounded text-xd-secondary-black-rgb">
-          {type === "SINGLE_CHOICE" ? "circle" : "check_box_outline_blank"}
+          {type === QType.SINGLE_CHOICE ? "circle" : "check_box_outline_blank"}
         </span>
         <div
           className={clsx(
             "w-full",
-            "relative flex items-baseline justify-between border-b border-b-neutral-300"
+            "relative flex items-baseline justify-between",
+            { "border-b border-b-xd-neutral-300": !readonly }
           )}
         >
           {children}
         </div>
       </div>
-      <button type="button" onClick={remove} className="button-sm">
-        <span
-          className={clsx(
-            "material-symbols-rounded text-xd-disabled-black-rgb"
-          )}
+      {!readonly && (
+        <button
+          type="button"
+          onClick={remove}
+          className="button-icon-ghost button-sm p-0"
         >
-          close
-        </span>
-      </button>
+          <span className={clsx("material-symbols-rounded")}>close</span>
+        </button>
+      )}
     </div>
   )
 }

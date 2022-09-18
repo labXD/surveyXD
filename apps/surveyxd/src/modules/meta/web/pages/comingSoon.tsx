@@ -17,7 +17,7 @@ export const ComingSoonPage: NextPage = () => {
 
       <main className="flex flex-col items-center lg:max-w-7xl lg:mx-auto pt-4">
         <div className="px-4 max-w-xl text-center">
-          <p className="text-base text-xd-text-primary/80">
+          <p className="text-base text-xd-secondary-black-rgb">
             A next-gen, interactive visual experience for viewing survey data.
           </p>
         </div>
