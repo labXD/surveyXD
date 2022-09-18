@@ -60,8 +60,8 @@ jobs:
         working-directory: apps/surveyxd
  
       - name: Typecheck
-        run: cd apps/surveyxd && pnpm exec tsc --noEmit
-        # working-directory: apps/surveyxd
+        run: pnpm run typecheck
+        working-directory: apps/surveyxd
 
   lint-pr-title:
     name: Validate PR title
