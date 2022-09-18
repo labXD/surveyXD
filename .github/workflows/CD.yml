@@ -11,7 +11,7 @@ on:
 
 jobs:
   deployment:
-    name: Check Code quality
+    name: PR deployment
     runs-on: ubuntu-22.04
     steps:
       - id: 'auth'
