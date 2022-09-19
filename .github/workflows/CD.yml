@@ -82,11 +82,11 @@ jobs:
       - name: Deployment env
         id: env
         run: |
-          event_name = ${{ github.event_name }} 
-          if [ event_name =~ .*pull_request.*] 
+          $event_name = ${{ github.event_name }} 
+          if [ $event_name =~ .*pull_request.*] 
           then
             echo "::set-output name=env_name::preview"
-          elif [ event_name =~ .*push.*] 
+          elif [ $event_name =~ .*push.*] 
           then
             echo "::set-output name=env_name::development"
           else
