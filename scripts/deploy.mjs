@@ -48,7 +48,7 @@ export const deployService = async ({
     }
 
     if (tag) {
-      baseDepComand += ` --tag ${tag}`
+      baseDepComand += ` --tag ${tag} --no-traffic`
     }
 
     // add secrets
@@ -67,7 +67,8 @@ export const deployService = async ({
 
     const q = $.quote
     $.quote = (v) => v
-    await $`${baseDepComand}`
+    const out = await $`${baseDepComand}`
+
     $.quote = q
 
     console.log(
@@ -75,11 +76,18 @@ export const deployService = async ({
         `Successfully deployed ${serviceName} into ${env} env using image ${imageTag}`
       )
     )
+
+    return out
+      .toString()
+      .match(/(https?:\/\/[^ ]*)/)[0]
+      .replace("\n", "")
   } catch (p) {
     console.log(chalk.red(`Failed to deploy ${serviceName} into ${env}`))
 
     console.log(chalk.red(`Exit code: ${p.exitCode}`))
     console.log(chalk.red(`Error: ${p.stderr}`))
+
+    await $`exit ${p.exitCode}`
   }
 }
 
@@ -110,7 +118,7 @@ export const main = async ({ service, env, tag }) => {
           )
           break
         }
-        return deployService({
+        const url = await deployService({
           serviceName: service,
           env: "development",
           tag,
@@ -125,6 +133,18 @@ export const main = async ({ service, env, tag }) => {
             GOOGLE_CLIENT_SECRET: "GOOGLE_CLIENT_SECRET",
           },
         })
+
+        if (process.env.CI) {
+          const command = `echo "::set-output name=url::${url}"`
+
+          const q = $.quote
+          $.quote = (v) => v
+          await $`${command}`
+
+          $.quote = q
+        }
+
+        break
       }
 
       return deployService({
