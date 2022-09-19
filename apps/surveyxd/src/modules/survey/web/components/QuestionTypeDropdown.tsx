@@ -5,7 +5,7 @@ import { FieldValues, useController, UseControllerProps } from "react-hook-form"
 
 import { QuestionType } from "@/prisma"
 
-import { useQuestionState } from "../containers/QuestionProvider"
+import { useQuestionState } from "../containers"
 import { QuestionTypeOptions } from "../types"
 
 const capitalize = (str: string) => {
@@ -27,7 +27,7 @@ export const QuestionTypeDropdown = <T extends FieldValues>(
     field: { value, onChange },
   } = useController(props)
 
-  function _onChange(e: string) {
+  function _onChange(e: QuestionTypeOptions) {
     onChange(e)
     toggle()
   }
@@ -35,61 +35,77 @@ export const QuestionTypeDropdown = <T extends FieldValues>(
   const { type } = props
   return (
     <Listbox value={value} onChange={_onChange}>
-      <div className="relative">
-        <Listbox.Button className="relative xd-button-secondary-light xd-button-sm w-36">
-          <span className="text-xs material-symbols-rounded">
-            {value === QuestionType.SINGLE_CHOICE
-              ? "radio_button_checked"
-              : "check_box"}
-          </span>
-          <span className="flex flex-grow truncate">
-            {value && capitalize(value).replace("_CHOICE", "")}&nbsp;choice
-          </span>
-          <span className="text-xs material-symbols-rounded">unfold_more</span>
-        </Listbox.Button>
-        <Transition
-          as={Fragment}
-          leave="transition ease-in duration-100"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <Listbox.Options className="z-10 absolute mt-1 max-h-60 w-full overflow-auto rounded-xs bg-white text-xs drop-shadow-md shadow">
-            {type.map((option, index) => (
-              <Listbox.Option
-                key={index}
-                className={({ active }) =>
-                  clsx(
-                    "relative cursor-default select-none py-2 px-3 flex items-center space-x-1",
-                    {
-                      "bg-indigo-50 text-xd-purple-primary": active,
-                      "text-xd-text-primary/[.65]": !active,
-                    }
-                  )
-                }
-                value={option}
-              >
-                {({ selected }) => (
-                  <>
-                    <span
-                      className={clsx("text-xs material-symbols-rounded", {
-                        "text-neutral-300": !selected,
-                        "text-xd-purple-primary": selected,
-                      })}
-                    >
-                      {selected ? "check" : "trending_flat"}
-                    </span>
+      {({ open }) => (
+        <div className="relative">
+          <div>
+            <Listbox.Button className="button-outline button-sm text-xs w-40 space-x-1 justify-between">
+              {value === QuestionType.SINGLE_CHOICE ? (
+                <span className="text-sm material-symbols-rounded">
+                  radio_button_checked
+                </span>
+              ) : (
+                <span className="text-sm material-symbols-sharp">
+                  check_box
+                </span>
+              )}
 
-                    <span className={clsx("block truncate font-semibold")}>
-                      {option && capitalize(option.replace("_CHOICE", ""))}
-                      &nbsp;choice
-                    </span>
-                  </>
+              <span className="block truncate">
+                {capitalize(value.replace(/_/g, " ").toLowerCase())}
+              </span>
+              <span
+                className={clsx(
+                  "flex flex-grow justify-end text-sm material-symbols-rounded"
                 )}
-              </Listbox.Option>
-            ))}
-          </Listbox.Options>
-        </Transition>
-      </div>
+              >
+                {open ? "expand_less" : "expand_more"}
+              </span>
+            </Listbox.Button>
+          </div>
+          <Transition
+            as={Fragment}
+            leave="transition ease-in duration-100"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <Listbox.Options className="z-10 absolute mt-1 max-h-60 w-full overflow-auto rounded-xs bg-white text-xs drop-shadow-md shadow">
+              {type.map((option, index) => (
+                <Listbox.Option as={Fragment} key={index} value={option}>
+                  {({ selected }) => (
+                    <div
+                      className={clsx(
+                        "relative cursor-pointer select-none py-2 px-3 flex items-center space-x-1",
+                        {
+                          "bg-xd-primary-purple-700/10 text-xd-primary-purple-800":
+                            selected,
+                          "text-xd-secondary-black-rgb hover:text-xd-primary-purple-700":
+                            !selected,
+                        }
+                      )}
+                    >
+                      {option === "MULTIPLE_CHOICE" ? (
+                        <span
+                          className={clsx("text-sm material-symbols-sharp")}
+                        >
+                          check_box
+                        </span>
+                      ) : (
+                        <span
+                          className={clsx("text-sm material-symbols-rounded")}
+                        >
+                          radio_button_checked
+                        </span>
+                      )}
+                      <span className={clsx("block truncate font-medium")}>
+                        {capitalize(option.replace(/_/g, " ").toLowerCase())}
+                      </span>
+                    </div>
+                  )}
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Transition>
+        </div>
+      )}
     </Listbox>
   )
 }

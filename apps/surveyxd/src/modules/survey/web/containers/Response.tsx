@@ -1,9 +1,9 @@
 import clsx from "clsx"
-import Head from "next/head"
 import { useRouter } from "next/router"
 import { FC, FormEvent } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 
+import { PageMetaTitle } from "@/meta/web"
 import { QuestionType } from "@/prisma"
 import { trpc } from "@/trpc/web"
 
@@ -84,52 +84,47 @@ export const Response: FC<ResponseProps> = ({ surveyId }) => {
       })),
     })
 
-    router.replace(`/survey/${surveyId}/vote/success`)
+    router.replace(`/survey/${surveyId}/response/success`)
   }
 
   if (isLoading) {
-    return <h1>Loading</h1>
+    return <div className="p-4">...Loading</div>
   }
 
   if (error) {
-    return <h1>{error.message}</h1>
+    return <div className="p-4">{error.message}</div>
   }
 
   if (!data) {
-    return <h1>Something went wrong</h1>
+    return <div className="p-4">Something went wrong</div>
   }
 
   return (
     <>
-      <Head>
-        <title>Your Response - surveyXD</title>
-      </Head>
+      <PageMetaTitle>Take the survey</PageMetaTitle>
       <main className="p-4 space-y-4 lg:max-w-7xl lg:mx-auto">
-        <div className="bg-white ring-1 ring-neutral-300 space-y-2 px-4 py-2 rounded">
-          <h1 className="text-lg text-xd-text-primary-black font-bold">
+        <div className="bg-white ring-1 ring-xd-primary-purple-700/10 space-y-2 px-4 py-2 rounded">
+          <h1 className="text-lg text-xd-primary-black font-bold">
             {data.title}
           </h1>
-          <div className="text-xd-danger-700 text-sm">
-            <span className="text-xs material-symbols-rounded">emergency</span>
-            <span className="">Required</span>
-          </div>
         </div>
-        <form className="space-y-4" onSubmit={submitResponse}>
+        <form className="space-y-6" onSubmit={submitResponse}>
           {data.questions.map((question, questionIndex) => (
-            <div key={question.id}>
+            <>
               <fieldset
+                key={question.id}
                 className={clsx(
-                  `${
-                    errors.question && errors.question[questionIndex]
-                      ? "border-4 border-xd-danger-800 xd-card xd-card-focus"
-                      : "xd-card xd-card-border-l xd-card-focus ring-neutral-300 text-sm text-xd-text-primary-black"
-                  }`
+                  "relative xd-card ring-xd-primary-purple-700/10",
+                  {
+                    "ring-2 ring-inset ring-xd-danger-800":
+                      errors.question && errors.question[questionIndex],
+                  }
                 )}
                 {...register(`question.${questionIndex}` as const, {
                   required: question.isRequired,
                 })}
               >
-                <span className="pr-4 text-xd-text-primary-back font-medium">
+                <span className="pr-4 text-xd-primary-back font-medium">
                   {question.title}
                   {question?.isRequired && (
                     <span className="text-xs text-xd-danger-700 material-symbols-rounded">
@@ -147,8 +142,8 @@ export const Response: FC<ResponseProps> = ({ surveyId }) => {
                         <input
                           type={
                             question.questionType === QuestionType.SINGLE_CHOICE
-                              ? "checkbox"
-                              : "radio"
+                              ? "radio"
+                              : "checkbox"
                           }
                           id={`question-${question.id}-option-${option.id}`}
                           value={option.id}
@@ -159,22 +154,22 @@ export const Response: FC<ResponseProps> = ({ surveyId }) => {
                     </label>
                   ))}
                 </div>
+                {errors.question && errors.question[questionIndex] && (
+                  <div className="absolute bottom-0 left-0 translate-y-full text-xd-danger-800 text-sm">
+                    Please make a selection to submit this form
+                  </div>
+                )}
               </fieldset>
-              {errors.question && errors.question[questionIndex] && (
-                <div className="text-xd-danger-800 text-sm mt-4">
-                  Please make a selection to submit this form
-                </div>
-              )}
-            </div>
+            </>
           ))}
 
           <div className="flex justify-between">
-            <button type="submit" className="xd-button">
+            <button type="submit" className="button-primary min-w-[8rem]">
               Submit
             </button>
             <button
               type="reset"
-              className="xd-button-secondary-light text-xd-primary-700"
+              className="button-outline text-xd-primary-purple-700 min-w-[8rem]"
               onClick={() => reset()}
             >
               Clear form

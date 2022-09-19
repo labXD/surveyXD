@@ -5,10 +5,10 @@ import type { AppProps as NextAppProps } from "next/app"
 import Head from "next/head"
 import { useRouter } from "next/router"
 import { Session } from "next-auth"
-import { SessionProvider } from "next-auth/react"
+import { SessionProvider, signOut } from "next-auth/react"
 import { useMemo } from "react"
 
-import { BaseLayout, Footer, TopNavComingSoon } from "@/meta/web/components"
+import { BaseLayout, Footer, TopNav } from "@/meta/web/components"
 import { type AppRouter } from "@/trpc/shared/types"
 
 type AppProps<P = unknown> = {
@@ -18,11 +18,14 @@ type AppProps<P = unknown> = {
 function App({ Component, pageProps }: AppProps<{ session: Session }>) {
   const router = useRouter()
   const colorBg = useMemo(() => {
-    if (router.pathname.includes("/response")) {
-      return "bg-xd-primary-100"
-    }
     if (router.pathname.includes("/survey")) {
-      return "bg-xd-primary-100"
+      const split = router.pathname.split("/")
+      if (split.length === 3) {
+        return "bg-xd-primary-purple-100"
+      }
+    }
+    if (router.pathname.endsWith("/create")) {
+      return "bg-xd-primary-purple-100"
     }
     return "bg-white"
   }, [router.pathname])
@@ -38,10 +41,18 @@ function App({ Component, pageProps }: AppProps<{ session: Session }>) {
         </Head>
         <BaseLayout
           cls={colorBg}
-          topNav={!router.pathname.includes("/survey") && <TopNavComingSoon />}
+          topNav={!router.pathname.endsWith("/create") && <TopNav />}
           footer={<Footer />}
         >
           <Component {...pageProps} />
+          <div className="fixed bottom-4 right-4">
+            <button
+              className="button-primary opacity-0 hover:opacity-100 transition-all z-20"
+              onClick={() => signOut()}
+            >
+              Sign jout
+            </button>
+          </div>
         </BaseLayout>
       </SessionProvider>
     </>

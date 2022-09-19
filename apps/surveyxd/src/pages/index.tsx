@@ -1,1 +1,1 @@
-export { ComingSoonPage as default } from "@/meta/web"
+export { LandingPage as default } from "@/meta/web"
