@@ -4,6 +4,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { signIn, useSession } from "next-auth/react"
 
+import DataImg from "@/survey/web/assets/data-img.png"
+
 import LogoGoogle from "../assets/google.svg"
 import LogoWhite from "../assets/logo-white.svg"
 
@@ -18,12 +20,7 @@ export const LandingPage: NextPage = () => {
 
       <main className="px-4 flex flex-col items-center xd-layout-width">
         <div className="max-w-2xl opacity-70">
-          <Image
-            className="w-auto"
-            src="/assets/data-img.png"
-            width={800}
-            height={400}
-          />
+          <Image className="w-auto" src={DataImg} width={800} height={400} />
         </div>
         <div className="md:-mt-36 pt-2 pb-2 space-y-2 text-center lg:max-w-xl z-[1]">
           <h2 className="text-2xl font-bold text-center text-xd-primary-black drop-shadow-sm">
