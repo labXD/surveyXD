@@ -1,7 +1,11 @@
 import { Menu, Transition } from "@headlessui/react"
 import clsx from "clsx"
+import Link from "next/link"
+import { useRouter } from "next/router"
 import { signIn, signOut, useSession } from "next-auth/react"
-import { FC, Fragment, ReactNode } from "react"
+import { FC, Fragment, ReactNode, useMemo } from "react"
+
+import Logo from "../assets/logo-16.svg"
 
 interface DropdownMenuWrapperInterface {
   children: ReactNode
@@ -41,33 +45,70 @@ const DropdownMenuWrapper: FC<DropdownMenuWrapperInterface> = ({
 }
 export const HeaderDropdownMenu: FC = () => {
   const { data: session } = useSession()
+  const router = useRouter()
+  const { surveyId } = router.query
+
+  const goHome = useMemo(() => {
+    if (router.pathname.includes("champ")) return "/"
+    return undefined
+  }, [router.pathname])
   return (
     <DropdownMenuWrapper>
       {session?.user && (
-        <Menu.Item as="div">
-          {({ active }) => (
-            <button
-              className={clsx(
-                "xd-button-ghost button-sm w-full space-x-2 justify-start",
-                {
-                  "text-xd-secondary-black-rgb": !active,
-                  "bg-xd-primary-purple-700 text-white": active,
-                }
+        <>
+          {!surveyId && (
+            <Menu.Item as="div">
+              {({ active }) => (
+                <Link href="/survey/create">
+                  <button
+                    className={clsx(
+                      "xd-button-ghost button-sm w-full space-x-2 justify-start",
+                      {
+                        "text-xd-secondary-black-rgb": !active,
+                        "bg-xd-primary-purple-700 text-white": active,
+                      }
+                    )}
+                  >
+                    <span className="animate-spin-slow w-4 h-4">
+                      <Logo />
+                    </span>
+                    <span>Create new survey</span>
+                  </button>
+                </Link>
               )}
-            >
-              <span className={clsx("material-symbols-rounded")}>
-                corporate_fare
-              </span>
-              <span>Dashboard</span>
-            </button>
+            </Menu.Item>
           )}
-        </Menu.Item>
+          <Menu.Item as="div">
+            {({ active }) => (
+              <Link href="/dashboard">
+                <button
+                  className={clsx(
+                    "xd-button-ghost button-sm w-full space-x-2 justify-start",
+                    {
+                      "text-xd-secondary-black-rgb": !active,
+                      "bg-xd-primary-purple-700 text-white": active,
+                    }
+                  )}
+                >
+                  <span className={clsx("material-symbols-rounded")}>
+                    corporate_fare
+                  </span>
+                  <span>Dashboard</span>
+                </button>
+              </Link>
+            )}
+          </Menu.Item>
+        </>
       )}
 
       <Menu.Item as="div">
         {({ active }) => (
           <button
-            onClick={() => (session?.user ? signOut() : signIn("google"))}
+            onClick={() =>
+              session?.user
+                ? signOut({ callbackUrl: goHome })
+                : signIn("google")
+            }
             className={clsx(
               "xd-button-ghost button-sm w-full space-x-2 justify-start",
               {
@@ -98,6 +139,8 @@ interface XDDropdownMenuInterface {
 }
 
 export const SurveyDropdownMenu: FC<XDDropdownMenuInterface> = ({ data }) => {
+  const { data: session } = useSession()
+
   return (
     <DropdownMenuWrapper menuBtnCls="p-0">
       {data.map((item: MenuItem, index) => (
@@ -109,8 +152,8 @@ export const SurveyDropdownMenu: FC<XDDropdownMenuInterface> = ({ data }) => {
               className={clsx(
                 "xd-button-ghost w-full space-x-2 justify-start",
                 {
-                  "text-xd-secondary-black-rgb": !active,
-                  "bg-xd-primary-purple-700 text-white": active,
+                  "text-xd-secondary-red-700": !active,
+                  "bg-xd-secondary-red-800 text-white": active,
                 }
               )}
             >
@@ -124,6 +167,49 @@ export const SurveyDropdownMenu: FC<XDDropdownMenuInterface> = ({ data }) => {
           )}
         </Menu.Item>
       ))}
+      {session?.user && (
+        <Menu.Item as="div">
+          {({ active }) => (
+            <Link href="/dashboard">
+              <button
+                className={clsx(
+                  "xd-button-ghost button-sm w-full space-x-2 justify-start",
+                  {
+                    "text-xd-secondary-black-rgb": !active,
+                    "bg-xd-primary-purple-700 text-white": active,
+                  }
+                )}
+              >
+                <span className={clsx("material-symbols-rounded")}>
+                  corporate_fare
+                </span>
+                <span>Go to dashboard</span>
+              </button>
+            </Link>
+          )}
+        </Menu.Item>
+      )}
+      <Menu.Item as="div">
+        {({ active }) => (
+          <button
+            onClick={() =>
+              session?.user ? signOut({ callbackUrl: "/" }) : signIn("google")
+            }
+            className={clsx(
+              "xd-button-ghost button-sm w-full space-x-2 justify-start",
+              {
+                "text-xd-secondary-black-rgb": !active,
+                "bg-xd-primary-purple-700 text-white": active,
+              }
+            )}
+          >
+            <span className={clsx("material-symbols-rounded")}>
+              {session?.user ? "logout" : "login"}
+            </span>
+            <span> {session?.user ? "Log out" : "Log in"}</span>
+          </button>
+        )}
+      </Menu.Item>
     </DropdownMenuWrapper>
   )
 }

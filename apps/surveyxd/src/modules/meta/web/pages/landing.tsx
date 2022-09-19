@@ -4,8 +4,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { signIn, useSession } from "next-auth/react"
 
-import LogoGoogle from "@/public/assets/google.svg"
-import LogoWhite from "@/public/logo-white.svg"
+import LogoGoogle from "../assets/google.svg"
+import LogoWhite from "../assets/logo-white.svg"
 
 export const LandingPage: NextPage = () => {
   const { data: session } = useSession()
@@ -36,7 +36,7 @@ export const LandingPage: NextPage = () => {
         </div>
         <div className="pt-6 space-y-6 w-full lg:max-w-xl z-[1]">
           <Link href="/survey/create">
-            <button className="button-red space-x-4 w-full bg-xd-secondary-red-700">
+            <button className="button-red space-x-4 w-full">
               <span className="animate-spin-slow">
                 <LogoWhite />
               </span>
@@ -60,7 +60,7 @@ export const LandingPage: NextPage = () => {
           ) : (
             <button
               className="button-outline w-full space-x-6"
-              onClick={() => signIn("google")}
+              onClick={() => signIn("google", { callbackUrl: "/champ" })}
             >
               <span>
                 <LogoGoogle />

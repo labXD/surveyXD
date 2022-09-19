@@ -4,7 +4,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { signIn, useSession } from "next-auth/react"
 
-import FireWorksSVG from "@/public/assets/firework-xd.svg"
+import FireWorksSVG from "../assets/firework-xd.svg"
 
 export const ResponseSuccessPage: NextPage = () => {
   const { data: session } = useSession()
@@ -29,12 +29,12 @@ export const ResponseSuccessPage: NextPage = () => {
         </div>
         <div className="px-4 w-full max-w-xl">
           <Link href={`/survey/${surveyId}`}>
-            <a className="button button-outline w-full ring-xd-primary-purple-700">
+            <a className="button button-outline w-full">
               Submit another response.
             </a>
           </Link>
         </div>
-        <div className="px-4 max-w-xl flex flex-col w-full space-y-2">
+        <div className="pt-8 px-4 max-w-xl flex flex-col w-full space-y-2">
           {!session?.user && (
             <div className="font-semibold text-sm">
               Want to create your own survey?

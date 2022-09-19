@@ -58,7 +58,7 @@ const surveySchema: z.ZodType<NewSurveyPageNestedInterface> = z.lazy(() =>
   })
 )
 
-export const NewSurveyPageNested: NextPage = () => {
+export const NewSurveyNestedPage: NextPage = () => {
   const [title, setTitle] = useState("New Survey")
   const { loading } = useActiveSurveyFromRoute()
   const router = useRouter()
@@ -92,7 +92,7 @@ export const NewSurveyPageNested: NextPage = () => {
 
   const menuItemArray: SurveyDropdownMenuItem[] = [
     {
-      label: "Clear",
+      label: "Reset survey",
       icon: "restart_alt",
       onClick: () => reset(),
       buttonType: "reset",

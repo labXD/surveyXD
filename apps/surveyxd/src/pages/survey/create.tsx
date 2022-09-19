@@ -1,1 +1,1 @@
-export { NewSurveyPageNested as default } from "@/survey/web"
+export { NewSurveyNestedPage as default } from "@/survey/web"

@@ -102,7 +102,7 @@ export const Response: FC<ResponseProps> = ({ surveyId }) => {
   return (
     <>
       <Head>
-        <title>Your Response - surveyXD</title>
+        <title>{data.title?.slice(0, 10)} - surveyXD</title>
       </Head>
       <main className="p-4 space-y-4 lg:max-w-7xl lg:mx-auto">
         <div className="bg-white ring-1 ring-xd-primary-purple-700/10 space-y-2 px-4 py-2 rounded">

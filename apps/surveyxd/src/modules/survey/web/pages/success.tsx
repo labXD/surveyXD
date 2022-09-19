@@ -15,7 +15,7 @@ export const SuccessPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>surveyXD - Survey Generator and Data Visualizer</title>
+        <title>Survey Created - surveyXD</title>
       </Head>
       {!session?.user && (
         <section className="bg-xd-warning-100">
@@ -62,7 +62,7 @@ export const SuccessPage: NextPage = () => {
             }
           >
             {session?.user
-              ? "Go to your dashboard"
+              ? "Return to your dashboard"
               : "Create an account to save your data!"}
           </button>
         </div>

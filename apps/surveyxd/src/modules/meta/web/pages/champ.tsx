@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useSession } from "next-auth/react"
 
 import FireWorksSVG from "../assets/firework-xd.svg"
+import LogoWhite from "../assets/logo-white.svg"
 
 export const ChampPage: NextPage = () => {
   const { data: session } = useSession()
@@ -14,7 +15,7 @@ export const ChampPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>You are in! - surveyXD</title>
+        <title>Welcome - surveyXD</title>
       </Head>
       <main className="p-4 xl:max-w-7xl mx-auto text-center flex flex-col items-center space-y-6">
         <h1 className="text-2xl font-bold">Congratulations!</h1>
@@ -27,12 +28,12 @@ export const ChampPage: NextPage = () => {
           <FireWorksSVG />
         </div>
         <div className="space-y-4 w-full max-w-xl">
-          <Link href={"/"}>
-            <button className="button-primary space-x-2 w-full">
-              <span className="text-sm material-symbols-rounded">
-                arrow_back
+          <Link href={"/survey/create"}>
+            <button className="button-red space-x-4 w-full">
+              <span className="animate-spin-slow">
+                <LogoWhite />
               </span>
-              <span>Back to chart</span>
+              <span>Create new survey</span>
             </button>
           </Link>
         </div>

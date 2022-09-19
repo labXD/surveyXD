@@ -7,11 +7,18 @@ import Logo from "../assets/sxd-header-logo-16.svg"
 import { HeaderDropdownMenu } from "./DropdownMenu"
 
 export const TopNav: FC = () => {
+  const router = useRouter()
+  const { surveyId } = router.query
+
   return (
-    <nav>
+    <nav
+      className={clsx({
+        "bg-white ring-2 ring-xd-neutral-300": surveyId,
+      })}
+    >
       <div
         className={clsx(
-          "xd-layout p-4 flex justify-between items-center min-h-[64px]"
+          "xd-layout p-4 flex items-center justify-between min-h-[64px]"
         )}
       >
         <Link href={"/"}>
