@@ -55,7 +55,7 @@ export const Response: FC<ResponseProps> = ({ surveyId }) => {
         return true
       })
       .map((res) => {
-        const q = data?.questions.find((q: { options: any[] }) =>
+        const q = data?.questions.find((q) =>
           q.options.find((o) =>
             Array.isArray(res) ? o.id === res[0] : o.id === res
           )

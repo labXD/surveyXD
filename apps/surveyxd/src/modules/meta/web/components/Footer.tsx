@@ -1,7 +1,7 @@
 import clsx from "clsx"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { FC } from "react"
+import { type FC } from "react"
 
 export const Footer: FC = () => {
   const router = useRouter()
