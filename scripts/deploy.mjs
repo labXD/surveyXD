@@ -22,7 +22,9 @@ export const deployService = async ({
     const gcloudProjectNameRaw = await $`gcloud config get-value project`
     const gcloudProjectName = gcloudProjectNameRaw.stdout.replace("\n", "")
 
-    const imageTag = `gcr.io/${gcloudProjectName}/${deploymentName}:${tag}`
+    const imageTag = `gcr.io/${gcloudProjectName}/${deploymentName}:${
+      tag ?? env
+    }`
 
     console.log(chalk.blue(`Deploying ${serviceName} to ${env} environment`))
     await $`docker build --platform linux/amd64 -f ./apps/${serviceName}/Dockerfile ./ --tag ${imageTag}`
@@ -45,6 +47,10 @@ export const deployService = async ({
       baseDepComand += ` --set-env-vars "${envVarsString}"`
     }
 
+    if (tag) {
+      baseDepComand += ` --tag ${tag} --no-traffic`
+    }
+
     // add secrets
     if (secrets) {
       const secretsString = Object.keys(secrets)
@@ -61,7 +67,8 @@ export const deployService = async ({
 
     const q = $.quote
     $.quote = (v) => v
-    await $`${baseDepComand}`
+    const out = await $`${baseDepComand}`
+
     $.quote = q
 
     console.log(
@@ -69,18 +76,25 @@ export const deployService = async ({
         `Successfully deployed ${serviceName} into ${env} env using image ${imageTag}`
       )
     )
+
+    return out
+      .toString()
+      .match(/(https?:\/\/[^ ]*)/)[0]
+      .replace("\n", "")
   } catch (p) {
     console.log(chalk.red(`Failed to deploy ${serviceName} into ${env}`))
 
     console.log(chalk.red(`Exit code: ${p.exitCode}`))
     console.log(chalk.red(`Error: ${p.stderr}`))
+
+    await $`exit ${p.exitCode}`
   }
 }
 
-export const main = async ({ service, env }) => {
+export const main = async ({ service, env, tag }) => {
   switch (service) {
     case "surveyxd": {
-      if (env !== "production") {
+      if (env === "development") {
         return deployService({
           serviceName: service,
           env,
@@ -95,6 +109,42 @@ export const main = async ({ service, env }) => {
             GOOGLE_CLIENT_SECRET: "GOOGLE_CLIENT_SECRET",
           },
         })
+      }
+
+      if (env === "preview") {
+        if (!tag) {
+          console.error(
+            chalk.red("Error: Tag not provided for preview deployment")
+          )
+          break
+        }
+        const url = await deployService({
+          serviceName: service,
+          env: "development",
+          tag,
+          envVars: {
+            APP_ENV: "preview",
+            NEXTAUTH_URL: `https://${tag}---surveyxd-development-clk4zbjf3q-ue.a.run.app`,
+          },
+          secrets: {
+            DATABASE_URL: "DATABASE_URL",
+            NEXTAUTH_SECRET: "NEXT_AUTH_SECRET",
+            GOOGLE_CLIENT_ID: "GOOGLE_CLIENT_ID",
+            GOOGLE_CLIENT_SECRET: "GOOGLE_CLIENT_SECRET",
+          },
+        })
+
+        if (process.env.CI) {
+          const command = `echo "::set-output name=url::${url}"`
+
+          const q = $.quote
+          $.quote = (v) => v
+          await $`${command}`
+
+          $.quote = q
+        }
+
+        break
       }
 
       return deployService({
@@ -119,7 +169,7 @@ export const main = async ({ service, env }) => {
 }
 
 export const command = {
-  command: "deploy <service> [env]",
+  command: "deploy <service> [env] [tag]",
   describe: "Deploy a service to an environment",
   builder: (yargs) => yargs.default("env", "development"),
   handler: async (argv) => {

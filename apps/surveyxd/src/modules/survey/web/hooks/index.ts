@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { useEffect, useMemo } from "react"
+import { useMemo } from "react"
 
 import { trpc } from "@/trpc/web"
 
@@ -31,25 +31,4 @@ export const useActiveSurveyFromRoute = () => {
   }, [surveyIdRaw])
 
   return useActiveSurvey(surveyId)
-}
-
-export const useCreateSurvey = (redirect = true) => {
-  const { mutate, data, isLoading, error } = trpc.useMutation(
-    "survey.createSurvey"
-  )
-  const router = useRouter()
-
-  useEffect(() => {
-    if (!redirect || !data?.id) {
-      return
-    }
-
-    router.push(`/survey/${data.id}`)
-  }, [data])
-
-  const createSurvey = (title?: string) => {
-    mutate({ title })
-  }
-
-  return { createSurvey, data, loading: isLoading, error }
 }

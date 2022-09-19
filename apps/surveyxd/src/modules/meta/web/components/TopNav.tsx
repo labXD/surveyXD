@@ -3,8 +3,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import React, { FC } from "react"
 
-import Logo from "@/public/sxd-header-logo-16.svg"
-
+import Logo from "../assets/sxd-header-logo-16.svg"
 import { HeaderDropdownMenu } from "./DropdownMenu"
 
 export const TopNav: FC = () => {
