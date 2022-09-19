@@ -1,19 +1,18 @@
 import clsx from "clsx"
 import type { NextPage } from "next"
-import Head from "next/head"
 import { useRouter } from "next/router"
 import { signIn, useSession } from "next-auth/react"
 
 import { XDSandDanceNoSSR } from "@/survey/web"
+
+import { PageMetaTitle } from "../components"
 
 export const ComingSoonPage: NextPage = () => {
   const { data: session } = useSession()
   const router = useRouter()
   return (
     <>
-      <Head>
-        <title>surveyXD - Survey Generator and Data Visualizer</title>
-      </Head>
+      <PageMetaTitle>Coming soon</PageMetaTitle>
 
       <main className="flex flex-col items-center lg:max-w-7xl lg:mx-auto pt-4">
         <div className="px-4 max-w-xl text-center">

@@ -1,5 +1,4 @@
 import type { NextPage } from "next"
-import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
 import { signIn, useSession } from "next-auth/react"
@@ -8,16 +7,16 @@ import DataImg from "@/survey/web/assets/data-img.png"
 
 import LogoGoogle from "../assets/google.svg"
 import LogoWhite from "../assets/logo-white.svg"
+import { PageMetaTitle } from "../components"
 
 export const LandingPage: NextPage = () => {
   const { data: session } = useSession()
 
   return (
     <>
-      <Head>
-        <title>surveyXD - Survey Generator and Data Visualizer</title>
-      </Head>
-
+      <PageMetaTitle primary>
+        surveyXD - Survey Generator and Data Visualizer
+      </PageMetaTitle>
       <main className="px-4 flex flex-col items-center xd-layout-width">
         <div className="max-w-2xl opacity-70">
           <Image className="w-auto" src={DataImg} width={800} height={400} />

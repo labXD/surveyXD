@@ -1,13 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import clsx from "clsx"
 import { NextPage } from "next"
-import Head from "next/head"
 import { useRouter } from "next/router"
 import { FormEvent, useState } from "react"
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { SurveyDropdownMenu } from "@/meta/web"
+import { PageMetaTitle, SurveyDropdownMenu } from "@/meta/web"
 import { QuestionType } from "@/prisma"
 import { trpc } from "@/trpc/web"
 
@@ -126,9 +125,7 @@ export const NewSurveyNestedPage: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Create survey - surveyXD</title>
-      </Head>
+      <PageMetaTitle>Create survey</PageMetaTitle>
       <form onSubmit={submitSurvey}>
         <div className="md:px-4 xd-layout-width">
           <section className="xd-card sticky top-0 z-10 ring">

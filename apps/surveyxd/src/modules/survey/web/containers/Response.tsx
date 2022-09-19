@@ -1,9 +1,9 @@
 import clsx from "clsx"
-import Head from "next/head"
 import { useRouter } from "next/router"
 import { FC, FormEvent } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 
+import { PageMetaTitle } from "@/meta/web"
 import { QuestionType } from "@/prisma"
 import { trpc } from "@/trpc/web"
 
@@ -101,9 +101,7 @@ export const Response: FC<ResponseProps> = ({ surveyId }) => {
 
   return (
     <>
-      <Head>
-        <title>{data.title?.slice(0, 10)} - surveyXD</title>
-      </Head>
+      <PageMetaTitle>Take the survey</PageMetaTitle>
       <main className="p-4 space-y-4 lg:max-w-7xl lg:mx-auto">
         <div className="bg-white ring-1 ring-xd-primary-purple-700/10 space-y-2 px-4 py-2 rounded">
           <h1 className="text-lg text-xd-primary-black font-bold">

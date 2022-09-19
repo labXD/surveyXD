@@ -1,8 +1,9 @@
 import { NextPage } from "next"
-import Head from "next/head"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { signIn, useSession } from "next-auth/react"
+
+import { PageMetaTitle } from "@/meta/web"
 
 import FireWorksSVG from "../assets/firework-xd.svg"
 
@@ -17,9 +18,7 @@ export const ResponseSuccessPage: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Response Submitted - surveyXD</title>
-      </Head>
+      <PageMetaTitle>Response submitted</PageMetaTitle>
       <main className="p-4 xl:max-w-7xl mx-auto items-center flex flex-col space-y-6">
         <div className="pt-12">
           <h2 className="font-bold">Submission successfully sent.</h2>

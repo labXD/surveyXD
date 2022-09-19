@@ -1,9 +1,10 @@
 import { NextPage } from "next"
-import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { signIn, useSession } from "next-auth/react"
+
+import { PageMetaTitle } from "@/meta/web"
 
 import DataImage from "../assets/data-img.png"
 
@@ -14,9 +15,7 @@ export const SuccessPage: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Survey Created - surveyXD</title>
-      </Head>
+      <PageMetaTitle>Survey created</PageMetaTitle>
       {!session?.user && (
         <section className="bg-xd-warning-100">
           <div className=" text-xd-warning-800 w-full p-4 lg:max-w-3xl lg:mx-auto">

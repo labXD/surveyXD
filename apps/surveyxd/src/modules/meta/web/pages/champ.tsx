@@ -1,11 +1,11 @@
 import { NextPage } from "next"
 import DefaultErrorPage from "next/error"
-import Head from "next/head"
 import Link from "next/link"
 import { useSession } from "next-auth/react"
 
 import FireWorksSVG from "../assets/firework-xd.svg"
 import LogoWhite from "../assets/logo-white.svg"
+import { PageMetaTitle } from "../components"
 
 export const ChampPage: NextPage = () => {
   const { data: session } = useSession()
@@ -14,9 +14,7 @@ export const ChampPage: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Welcome - surveyXD</title>
-      </Head>
+      <PageMetaTitle>Welcome</PageMetaTitle>
       <main className="p-4 xl:max-w-7xl mx-auto text-center flex flex-col items-center space-y-6">
         <h1 className="text-2xl font-bold">Congratulations!</h1>
         <p className="text-xd-secondary-black-rgb max-w-xl">

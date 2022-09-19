@@ -1,15 +1,14 @@
 import { NextPage } from "next"
-import Head from "next/head"
 import Link from "next/link"
+
+import { PageMetaTitle } from "@/meta/web"
 
 import { XDSandDanceNoSSR } from "../containers"
 
 export const ResultsPage: NextPage = () => {
   return (
     <>
-      <Head>
-        <title>Results - surveyXD</title>
-      </Head>
+      <PageMetaTitle>Results</PageMetaTitle>
       <main className="flex flex-col items-center lg:max-w-7xl lg:mx-auto pt-4">
         <div className="px-4 max-w-xl text-center">
           <h1>Survey Results</h1>
