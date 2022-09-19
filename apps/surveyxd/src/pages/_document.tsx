@@ -29,8 +29,18 @@ class MyDocument extends Document {
             href="https://fonts.gstatic.com"
             crossOrigin="true"
           />
-          <link rel="icon" sizes="16x16" href="/favicon-16.png" />
-          <link rel="icon" sizes="32x32" href="/favicon-32.png" />
+          <link
+            rel="icon"
+            sizes="16x16"
+            type="image/png"
+            href="favicon-16.png"
+          />
+          <link
+            rel="icon"
+            sizes="32x32"
+            type="image/png"
+            href="favicon-32.png"
+          />
         </Head>
         <body>
           <Main />
