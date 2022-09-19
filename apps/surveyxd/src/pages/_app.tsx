@@ -21,11 +21,10 @@ function App({ Component, pageProps }: AppProps<{ session: Session }>) {
     if (router.pathname.endsWith("/create")) {
       return "bg-xd-primary-purple-100"
     }
-    // if router starts with /survey and doesnt have more than 2 /
 
     if (router.pathname.startsWith("/survey")) {
       const split = router.pathname.split("/")
-      if (split.length === 3) {
+      if (split.length === 2) {
         return "bg-xd-primary-purple-100"
       }
     }

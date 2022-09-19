@@ -149,7 +149,7 @@ export const NewSurveyNestedPage: NextPage = () => {
               <SurveyDropdownMenu data={menuItemArray} />
             </div>
           </section>
-          <div className="pt-6 pb-20 space-y-4 focus-visible:outline-none">
+          <div className="pt-6 pb-8 space-y-4 focus-visible:outline-none">
             {questionFields.map((field, index) => (
               <div
                 key={field.id}

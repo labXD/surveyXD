@@ -18,7 +18,7 @@ export const TopNav: FC = () => {
     >
       <div
         className={clsx(
-          "xd-layout p-4 flex items-center justify-between min-h-[64px]"
+          "xd-layout px-4 flex items-center justify-between min-h-[64px]"
         )}
       >
         <Link href={"/"}>

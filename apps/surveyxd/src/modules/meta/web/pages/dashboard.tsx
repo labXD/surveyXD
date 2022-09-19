@@ -53,6 +53,9 @@ export const DashboardPage: NextPage = () => {
                 <th scope="col" className="py-3 px-6">
                   Survey link
                 </th>
+                <th scope="col" className="py-3 px-6">
+                  Responses
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -84,10 +87,21 @@ export const DashboardPage: NextPage = () => {
                       <span>{survey.responses}</span>
                     </div>
                   </td>
-                  <td className="py-4 px-6 flex justify-center">
-                    <a className="button xd-button-link">
-                      <span className="material-symbols-rounded">link</span>
-                    </a>
+                  <td className="py-4 px-6">
+                    <div className="flex justify-center">
+                      <a className="button xd-button-link">
+                        <span className="material-symbols-rounded">link</span>
+                      </a>
+                    </div>
+                  </td>
+                  <td className="py-4 px-6">
+                    <div className="flex justify-center">
+                      <Link href="/survey/results">
+                        <a className="button xd-button-link">
+                          <span className="material-symbols-rounded">link</span>
+                        </a>
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ))}

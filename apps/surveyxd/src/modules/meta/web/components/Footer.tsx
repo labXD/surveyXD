@@ -1,3 +1,4 @@
+import clsx from "clsx"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { FC } from "react"
@@ -8,7 +9,7 @@ export const Footer: FC = () => {
   const responsePage = () => {
     if (router.pathname.startsWith("/survey")) {
       const split = router.pathname.split("/")
-      if (split.length === 3) {
+      if (split.length === 2) {
         return (
           <div>This content is neither created nor endorsed by surveyXD</div>
         )
@@ -17,7 +18,12 @@ export const Footer: FC = () => {
     return
   }
   return (
-    <footer className="pt-8 pb-4 text-center text-xs text-xd-neutral-700 space-y-2">
+    <footer
+      className={clsx("text-center text-xs text-xd-neutral-700 space-y-2", {
+        "pt-8 pb-4": !router.pathname.endsWith("create"),
+        "pt-2 pb-20": router.pathname.endsWith("create"),
+      })}
+    >
       {responsePage()}
       <div className="space-x-1">
         <Link href="https://www.labxd.com" target="_blank">
