@@ -79,11 +79,25 @@ jobs:
           env: preview
           ref: ${{ github.head_ref }}
 
+      - name: Deployment env
+        id: env
+        run: |
+          event_name = ${{ github.event_name }} 
+          if [ event_name =~ .*pull_request.*] 
+          then
+            echo "::set-output name=env_name::preview"
+          elif [ event_name =~ .*push.*] 
+          then
+            echo "::set-output name=env_name::development"
+          else
+            echo "::set-output name=env_name::production"           
+          fi
+
       - name: Deploy
         id: deploy
         run: |
           pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-          pnpm run cli deploy surveyxd preview pr-"$pull_number" 
+          pnpm run cli deploy surveyxd "${{ steps.env.env_name }}" pr-"$pull_number" 
 
       - name: update deployment status
         uses: bobheadxi/deployments@v1
