@@ -9,7 +9,7 @@ export const Footer: FC = () => {
   const responsePage = () => {
     if (router.pathname.startsWith("/survey")) {
       const split = router.pathname.split("/")
-      if (split.length === 2) {
+      if (split.length === 3) {
         return (
           <div>This content is neither created nor endorsed by surveyXD</div>
         )
@@ -19,10 +19,12 @@ export const Footer: FC = () => {
   }
   return (
     <footer
-      className={clsx("text-center text-xs text-xd-neutral-700 space-y-2", {
-        "pt-8 pb-4": !router.pathname.endsWith("create"),
-        "pt-2 pb-20": router.pathname.endsWith("create"),
-      })}
+      className={clsx(
+        "py-4 text-center text-xs text-xd-neutral-700 space-y-2",
+        {
+          hidden: router.pathname.includes("create"),
+        }
+      )}
     >
       {responsePage()}
       <div className="space-x-1">

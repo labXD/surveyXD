@@ -18,15 +18,14 @@ type AppProps<P = unknown> = {
 function App({ Component, pageProps }: AppProps<{ session: Session }>) {
   const router = useRouter()
   const colorBg = useMemo(() => {
-    if (router.pathname.endsWith("/create")) {
-      return "bg-xd-primary-purple-100"
-    }
-
-    if (router.pathname.startsWith("/survey")) {
+    if (router.pathname.includes("/survey")) {
       const split = router.pathname.split("/")
-      if (split.length === 2) {
+      if (split.length === 3) {
         return "bg-xd-primary-purple-100"
       }
+    }
+    if (router.pathname.endsWith("/create")) {
+      return "bg-xd-primary-purple-100"
     }
     return "bg-white"
   }, [router.pathname])

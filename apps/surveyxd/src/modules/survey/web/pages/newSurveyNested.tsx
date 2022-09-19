@@ -27,7 +27,7 @@ const defaultValues = {
     {
       questionTitle: "",
       questionType: QuestionType.SINGLE_CHOICE,
-      questionRequired: false,
+      questionRequired: true,
       options: [{ text: "" }, { text: "" }],
     },
   ],
