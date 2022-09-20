@@ -3,19 +3,19 @@ import { useRouter } from "next/router"
 
 import { BaseLayout, ErrorUI, PageMetaTitle } from "../components"
 
-export const FourZeroFourPage: NextPage = () => {
+export const FiveZeroZeroPage: NextPage = () => {
   const router = useRouter()
   return (
     <>
-      <PageMetaTitle>Not found</PageMetaTitle>
+      <PageMetaTitle>Server side error</PageMetaTitle>
       <BaseLayout innerCls="flex flex-col">
         <ErrorUI
-          code={404}
+          code={500}
           buttonText="Go back"
           buttonIcon="west"
           onClick={() => router.back()}
         >
-          Page not found
+          It&apos;s a server error, not yours.
         </ErrorUI>
       </BaseLayout>
     </>
