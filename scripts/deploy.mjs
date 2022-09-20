@@ -95,7 +95,7 @@ export const main = async ({ service, env, tag }) => {
   switch (service) {
     case "surveyxd": {
       if (env === "development") {
-        return deployService({
+        await deployService({
           serviceName: service,
           env,
           envVars: {
@@ -109,6 +109,18 @@ export const main = async ({ service, env, tag }) => {
             GOOGLE_CLIENT_SECRET: "GOOGLE_CLIENT_SECRET",
           },
         })
+
+        if (process.env.CI) {
+          const command = `echo "::set-output name=url::https://dev.surveyxd.com"`
+
+          const q = $.quote
+          $.quote = (v) => v
+          await $`${command}`
+
+          $.quote = q
+        }
+
+        break
       }
 
       if (env === "preview") {
@@ -135,7 +147,7 @@ export const main = async ({ service, env, tag }) => {
         })
 
         if (process.env.CI) {
-          const command = `echo "::set-output name=url::${url}"`
+          const command = `echo "::set-output name=url::preview"`
 
           const q = $.quote
           $.quote = (v) => v
@@ -147,7 +159,7 @@ export const main = async ({ service, env, tag }) => {
         break
       }
 
-      return deployService({
+      await deployService({
         serviceName: service,
         env,
         envVars: {
@@ -161,6 +173,18 @@ export const main = async ({ service, env, tag }) => {
           GOOGLE_CLIENT_SECRET: "GOOGLE_CLIENT_SECRET",
         },
       })
+
+      if (process.env.CI) {
+        const command = `echo "::set-output name=url::https://www.surveyxd.com"`
+
+        const q = $.quote
+        $.quote = (v) => v
+        await $`${command}`
+
+        $.quote = q
+      }
+
+      break
     }
 
     default:
