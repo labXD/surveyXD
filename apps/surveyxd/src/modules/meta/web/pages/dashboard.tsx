@@ -33,7 +33,7 @@ export const DashboardPage: NextPage = () => {
     <>
       <PageMetaTitle>Dashboard</PageMetaTitle>
       <BaseLayout>
-        <main className="flex flex-col items-center lg:max-w-7xl lg:mx-auto pt-4 space-y-6">
+        <main className="flex flex-col items-center xd-layout-width pt-4 space-y-6">
           <div className="overflow-x-auto relative">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

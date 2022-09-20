@@ -10,7 +10,7 @@ export const ResultsPage: NextPage = () => {
     <>
       <PageMetaTitle>Results</PageMetaTitle>
       <BaseLayout>
-        <main className="flex flex-col items-center lg:max-w-7xl lg:mx-auto pt-4">
+        <main className="flex flex-col items-center xd-layout-width pt-4">
           <div className="px-4 max-w-xl text-center">
             <h1>Survey Results</h1>
           </div>

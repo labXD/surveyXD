@@ -25,7 +25,7 @@ export const SuccessPage: NextPage = () => {
             </div>
           </section>
         )}
-        <main className="px-4 pt-6 flex flex-col items-center lg:max-w-7xl lg:mx-auto">
+        <main className="px-4 pt-6 flex flex-col items-center xd-layout-width">
           <div className="max-w-2xl opacity-70">
             <Image
               className="w-auto"

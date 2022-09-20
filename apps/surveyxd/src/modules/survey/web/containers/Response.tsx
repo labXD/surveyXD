@@ -109,7 +109,7 @@ export const Response: FC<ResponseProps> = ({ surveyId }) => {
         cls="bg-xd-primary-purple-100"
         footer={<Footer>{FOOTER_MESSAGE}</Footer>}
       >
-        <main className="p-4 space-y-4 lg:max-w-7xl lg:mx-auto">
+        <main className="p-4 space-y-4 xd-layout-width">
           <div className="bg-white ring-1 ring-xd-primary-purple-700/10 space-y-2 px-4 py-2 rounded">
             <h1 className="text-lg text-xd-primary-black font-bold">
               {data.title}
