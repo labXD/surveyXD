@@ -3,12 +3,9 @@ import "../styles/globals.css"
 import { withTRPC } from "@trpc/next"
 import type { AppProps as NextAppProps } from "next/app"
 import Head from "next/head"
-import { useRouter } from "next/router"
 import { Session } from "next-auth"
 import { SessionProvider, signOut } from "next-auth/react"
-import { useMemo } from "react"
 
-import { BaseLayout, Footer, TopNav } from "@/meta/web/components"
 import { type AppRouter } from "@/trpc/shared/types"
 
 type AppProps<P = unknown> = {
@@ -16,20 +13,6 @@ type AppProps<P = unknown> = {
 } & Omit<NextAppProps<P>, "pageProps">
 
 function App({ Component, pageProps }: AppProps<{ session: Session }>) {
-  const router = useRouter()
-  const colorBg = useMemo(() => {
-    if (router.pathname.includes("/survey")) {
-      const split = router.pathname.split("/")
-      if (split.length === 3) {
-        return "bg-xd-primary-purple-100"
-      }
-    }
-    if (router.pathname.endsWith("/create")) {
-      return "bg-xd-primary-purple-100"
-    }
-    return "bg-white"
-  }, [router.pathname])
-
   return (
     <>
       <SessionProvider session={pageProps.session}>
@@ -39,21 +22,15 @@ function App({ Component, pageProps }: AppProps<{ session: Session }>) {
             content="initial-scale=1.0, width=device-width"
           />
         </Head>
-        <BaseLayout
-          cls={colorBg}
-          topNav={!router.pathname.endsWith("/create") && <TopNav />}
-          footer={<Footer />}
-        >
-          <Component {...pageProps} />
-          <div className="fixed bottom-4 right-4">
-            <button
-              className="button-primary opacity-0 hover:opacity-100 transition-all z-20"
-              onClick={() => signOut()}
-            >
-              Sign jout
-            </button>
-          </div>
-        </BaseLayout>
+        <Component {...pageProps} />
+        <div className="fixed bottom-4 right-4">
+          <button
+            className="button-primary opacity-0 hover:opacity-100 transition-all z-20"
+            onClick={() => signOut()}
+          >
+            Sign jout
+          </button>
+        </div>
       </SessionProvider>
     </>
   )

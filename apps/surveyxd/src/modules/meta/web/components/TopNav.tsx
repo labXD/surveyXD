@@ -8,12 +8,12 @@ import { HeaderDropdownMenu } from "./DropdownMenu"
 
 export const TopNav: FC = () => {
   const router = useRouter()
-  const { surveyId } = router.query
+  const addBottomBorder = router.pathname === "/survey/[surveyId]"
 
   return (
     <nav
-      className={clsx({
-        "bg-white ring-2 ring-xd-neutral-300": surveyId,
+      className={clsx("bg-white", {
+        "ring-2 ring-xd-neutral-300": addBottomBorder,
       })}
     >
       <div

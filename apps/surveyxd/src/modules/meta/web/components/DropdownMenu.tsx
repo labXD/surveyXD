@@ -36,7 +36,7 @@ const DropdownMenuWrapper: FC<DropdownMenuWrapperInterface> = ({
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute z-10 right-0 w-56 origin-top-right divide-y divide-xd-neutral-300 rounded-sm bg-white ring ring-xd-primary-purple-700/20">
+        <Menu.Items className="absolute z-[999] right-0 w-56 origin-top-right divide-y divide-xd-neutral-300 rounded-sm bg-white ring ring-xd-primary-purple-700/20">
           {children}
         </Menu.Items>
       </Transition>
