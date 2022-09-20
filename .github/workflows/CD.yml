@@ -47,6 +47,15 @@ jobs:
         with:
           node-version: ${{ env.PROJECT_NODE_VERSION }}
 
+      - name: start deployment
+        uses: bobheadxi/deployments@v1
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: preview
+          ref: ${{ github.head_ref }}
+
       - uses: pnpm/action-setup@v2.0.1
         name: Install pnpm
         id: pnpm-install
@@ -70,20 +79,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: start deployment
-        uses: bobheadxi/deployments@v1
-        id: deployment
-        with:
-          step: start
-          token: ${{ secrets.GITHUB_TOKEN }}
-          env: preview
-          ref: ${{ github.head_ref }}
+      - name: Deployment env
+        id: env
+        run: |
+          pnpm run cli ci set-env --event-type=${{ github.event_name }}
 
       - name: Deploy
         id: deploy
         run: |
           pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-          pnpm run cli deploy surveyxd preview pr-"$pull_number" 
+          pnpm run cli deploy surveyxd "${{ steps.env.outputs.env_name }}" pr-"$pull_number" 
 
       - name: update deployment status
         uses: bobheadxi/deployments@v1
