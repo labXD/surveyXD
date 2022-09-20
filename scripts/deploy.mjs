@@ -74,7 +74,7 @@ export const deployService = async ({
     )
 
     if (!tag) {
-      $`gcloud run services update-traffic ${serviceName} --to-latest --region us-east1`
+      $`gcloud run services update-traffic ${deploymentName} --to-latest --region us-east1`
     }
 
     return out
@@ -95,6 +95,9 @@ export const main = async ({ service, env, tag }) => {
   switch (service) {
     case "surveyxd": {
       if (env === "development") {
+        console.log(
+          chalk.greenBright("Starting Deployment into development env")
+        )
         await deployService({
           serviceName: service,
           env,
