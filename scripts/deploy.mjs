@@ -73,6 +73,10 @@ export const deployService = async ({
       )
     )
 
+    if (!tag) {
+      $`gcloud run services update-traffic ${serviceName} --to-latest`
+    }
+
     return out
       .toString()
       .match(/(https?:\/\/[^ ]*)/)[0]
