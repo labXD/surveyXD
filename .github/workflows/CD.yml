@@ -47,6 +47,15 @@ jobs:
         with:
           node-version: ${{ env.PROJECT_NODE_VERSION }}
 
+      - name: start deployment
+        uses: bobheadxi/deployments@v1
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: preview
+          ref: ${{ github.head_ref }}
+
       - uses: pnpm/action-setup@v2.0.1
         name: Install pnpm
         id: pnpm-install
@@ -69,15 +78,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-
-      - name: start deployment
-        uses: bobheadxi/deployments@v1
-        id: deployment
-        with:
-          step: start
-          token: ${{ secrets.GITHUB_TOKEN }}
-          env: preview
-          ref: ${{ github.head_ref }}
 
       - name: Deployment env
         id: env
