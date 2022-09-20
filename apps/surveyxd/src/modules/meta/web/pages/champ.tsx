@@ -1,17 +1,11 @@
 import { NextPage } from "next"
-import DefaultErrorPage from "next/error"
 import Link from "next/link"
-import { useSession } from "next-auth/react"
 
 import FireWorksSVG from "../assets/firework-xd.svg"
 import LogoWhite from "../assets/logo-white.svg"
 import { BaseLayout, PageMetaTitle } from "../components"
 
 export const ChampPage: NextPage = () => {
-  const { data: session } = useSession()
-
-  if (!session?.user) return <DefaultErrorPage statusCode={404} />
-
   return (
     <>
       <PageMetaTitle>Welcome</PageMetaTitle>
