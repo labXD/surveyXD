@@ -74,7 +74,7 @@ export const deployService = async ({
     )
 
     if (!tag) {
-      $`gcloud run services update-traffic ${serviceName} --to-latest`
+      $`gcloud run services update-traffic ${serviceName} --to-latest --region us-east1`
     }
 
     return out
