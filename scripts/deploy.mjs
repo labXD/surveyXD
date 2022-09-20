@@ -7,10 +7,6 @@ export const deployService = async ({
   envVars,
   secrets,
 }) => {
-  if (!tag) {
-    tag = "latest"
-  }
-
   if (!env) {
     env = "development"
   }
@@ -23,7 +19,7 @@ export const deployService = async ({
     const gcloudProjectName = gcloudProjectNameRaw.stdout.replace("\n", "")
 
     const imageTag = `gcr.io/${gcloudProjectName}/${deploymentName}:${
-      tag ?? env
+      tag ?? "latest"
     }`
 
     console.log(chalk.blue(`Deploying ${serviceName} to ${env} environment`))
