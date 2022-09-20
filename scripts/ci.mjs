@@ -6,11 +6,11 @@ const setEnv = (eventType) => {
 
   switch (eventType) {
     case "push":
-      $`echo "::set-output name=env_name::preview"`
+      $`echo "::set-output name=env_name::development"`
       break
 
     case "pull_request":
-      $`echo "::set-output name=env_name::development"`
+      $`echo "::set-output name=env_name::preview"`
       break
 
     default:
