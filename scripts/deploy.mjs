@@ -150,7 +150,7 @@ export const main = async ({ service, env, tag }) => {
         })
 
         if (process.env.CI) {
-          const command = `echo "::set-output name=url::preview"`
+          const command = `echo "::set-output name=url::${`https://${tag}---surveyxd-development-clk4zbjf3q-ue.a.run.app`}"`
 
           const q = $.quote
           $.quote = (v) => v
