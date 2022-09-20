@@ -88,7 +88,7 @@ jobs:
         id: deploy
         run: |
           pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-          pnpm run cli deploy surveyxd "${{ steps.env.env_name }}" pr-"$pull_number" 
+          pnpm run cli deploy surveyxd "${{ steps.env.outputs.env_name }}" pr-"$pull_number" 
 
       - name: update deployment status
         uses: bobheadxi/deployments@v1
