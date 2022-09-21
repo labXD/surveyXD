@@ -45,7 +45,7 @@ WORKDIR /app/apps/surveyxd
 
 # You only need to copy next.config.js if you are NOT using the default configuration
 COPY --from=builder /app/apps/surveyxd/next.config.js ./
-# COPY --from=builder /app/apps/surveyxd/public ./public
+COPY --from=builder /app/apps/surveyxd/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/apps/surveyxd/.next ./.next
 COPY --from=builder --chown=nextjs:nodejs /app/apps/surveyxd/prisma/generated/libquery_engine-linux-musl.so.node ./.next/server/chunks/libquery_engine-linux-musl.so.node
 COPY --from=builder /app/apps/surveyxd/package.json ./package.json
