@@ -6,13 +6,17 @@ import React, { FC } from "react"
 import Logo from "../assets/sxd-header-logo-16.svg"
 import { HeaderDropdownMenu } from "./DropdownMenu"
 
-export const TopNav: FC = () => {
+interface TopNavInterface {
+  cls?: string
+}
+
+export const TopNav: FC<TopNavInterface> = ({ cls }) => {
   const router = useRouter()
   const addBottomBorder = router.pathname === "/survey/[surveyId]"
 
   return (
     <nav
-      className={clsx("bg-white", {
+      className={clsx(`${cls ?? "bg-white"}`, {
         "ring-2 ring-xd-neutral-300": addBottomBorder,
       })}
     >

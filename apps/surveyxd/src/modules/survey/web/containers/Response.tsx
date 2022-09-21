@@ -117,58 +117,55 @@ export const Response: FC<ResponseProps> = ({ surveyId }) => {
           </div>
           <form className="space-y-6" onSubmit={submitResponse}>
             {data.questions.map((question, questionIndex) => (
-              <>
-                <fieldset
-                  key={question.id}
-                  className={clsx(
-                    "relative xd-card ring-xd-primary-purple-700/10",
-                    {
-                      "ring-2 ring-inset ring-xd-danger-800":
-                        errors.question && errors.question[questionIndex],
-                    }
+              <fieldset
+                key={question.id}
+                className={clsx(
+                  "relative xd-card ring-xd-primary-purple-700/10",
+                  {
+                    "ring-2 ring-inset ring-xd-danger-800":
+                      errors.question && errors.question[questionIndex],
+                  }
+                )}
+                {...register(`question.${questionIndex}` as const, {
+                  required: question.isRequired,
+                })}
+              >
+                <span className="pr-4 text-xd-primary-back font-medium">
+                  {question.title}
+                  {question?.isRequired && (
+                    <span className="text-xs text-xd-danger-700 material-symbols-rounded">
+                      emergency
+                    </span>
                   )}
-                  {...register(`question.${questionIndex}` as const, {
-                    required: question.isRequired,
-                  })}
-                >
-                  <span className="pr-4 text-xd-primary-back font-medium">
-                    {question.title}
-                    {question?.isRequired && (
-                      <span className="text-xs text-xd-danger-700 material-symbols-rounded">
-                        emergency
+                </span>
+                <div className="space-y-4 pt-6 flex flex-col">
+                  {question.options.map((option, optIndex) => (
+                    <label
+                      key={optIndex}
+                      className="relative cursor-pointer inline-flex"
+                    >
+                      <span className="absolute left-0 top-[1px] flex">
+                        <input
+                          type={
+                            question.questionType === QuestionType.SINGLE_CHOICE
+                              ? "radio"
+                              : "checkbox"
+                          }
+                          id={`question-${question.id}-option-${option.id}`}
+                          value={option.id}
+                          {...register(`question.${questionIndex}` as const)}
+                        />
                       </span>
-                    )}
-                  </span>
-                  <div className="space-y-4 pt-6 flex flex-col">
-                    {question.options.map((option, optIndex) => (
-                      <label
-                        key={optIndex}
-                        className="relative cursor-pointer inline-flex"
-                      >
-                        <span className="absolute left-0 top-[1px] flex">
-                          <input
-                            type={
-                              question.questionType ===
-                              QuestionType.SINGLE_CHOICE
-                                ? "radio"
-                                : "checkbox"
-                            }
-                            id={`question-${question.id}-option-${option.id}`}
-                            value={option.id}
-                            {...register(`question.${questionIndex}` as const)}
-                          />
-                        </span>
-                        <span className="pl-6">{option.textValue}</span>
-                      </label>
-                    ))}
+                      <span className="pl-6">{option.textValue}</span>
+                    </label>
+                  ))}
+                </div>
+                {errors.question && errors.question[questionIndex] && (
+                  <div className="absolute bottom-0 left-0 translate-y-full text-xd-danger-800 text-sm">
+                    Please make a selection to submit this form
                   </div>
-                  {errors.question && errors.question[questionIndex] && (
-                    <div className="absolute bottom-0 left-0 translate-y-full text-xd-danger-800 text-sm">
-                      Please make a selection to submit this form
-                    </div>
-                  )}
-                </fieldset>
-              </>
+                )}
+              </fieldset>
             ))}
 
             <div className="flex justify-between">

@@ -22,7 +22,7 @@ export const LandingPage: NextPage = () => {
           <div className="max-w-2xl opacity-70">
             <Image className="w-auto" src={DataImg} width={800} height={400} />
           </div>
-          <div className="md:-mt-36 pt-2 pb-2 space-y-2 text-center lg:max-w-xl z-[1]">
+          <div className="md:-mt-32 pt-2 pb-2 space-y-2 text-center lg:max-w-xl z-[1]">
             <h2 className="text-2xl font-bold text-center text-xd-primary-black drop-shadow-sm">
               See data. Different.
             </h2>
