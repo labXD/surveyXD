@@ -1,162 +1,276 @@
-import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
-} from "@tanstack/react-table"
+import { Listbox, Transition } from "@headlessui/react"
+import clsx from "clsx"
 import { NextPage } from "next"
-import { useState } from "react"
+import { Fragment, useState } from "react"
 
-import { BaseLayout, PageMetaTitle } from "@/meta/web"
+import { BaseLayout, PageMetaTitle, TopNav } from "@/meta/web"
 
-type AnswerTypes = {
-  id: number
-  text: string
-}
-interface ResponseInterface {
-  id: number
-  text: string
-  type: string
-  isRequired: boolean
-  answers: AnswerTypes[]
-}
-
-const SINGLE_RESPONSE: ResponseInterface[] = [
-  {
-    id: 1,
-    text: "Is it hot?",
-    type: "SINGLE_CHOICE",
-    isRequired: true,
-    answers: [
-      {
-        id: Math.floor(Math.random() * 2) + 1,
-        text: "Use id value",
-      },
-    ],
-  },
-  {
-    id: 2,
-    text: "how hot?",
-    type: "MULTIPLE_CHOICE",
-    isRequired: true,
-    answers: [
-      {
-        id: Math.floor(Math.random() * 5) + 1,
-        text: "use id value ",
-      },
-      {
-        id: Math.floor(Math.random() * 5) + 1,
-        text: "use id value 2",
-      },
-    ],
-  },
+const questionValue = [
+  { question: "Do you like cheese ?" },
+  { question: "Do you like pizza?" },
 ]
-
-// const ALL_RESPONSES = {
-//   id: 11,
-//   text: "Heat check survey",
-//   createdAt: new Date(),
-//   responses: [SINGLE_RESPONSE, SINGLE_RESPONSE],
-// }
-
 export const ResultsPage: NextPage = () => {
-  const [data] = useState(() => [...SINGLE_RESPONSE])
-  const [sorting, setSorting] = useState<SortingState>([])
-  const columnHelper = createColumnHelper<ResponseInterface>()
+  const [selected, setSelected] = useState(questionValue[0])
 
-  const columns = [
-    columnHelper.accessor("id", {
-      header: () => <span>Question ID</span>,
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor((row) => row.text, {
-      id: "text",
-      cell: (info) => <i>{info.getValue()}</i>,
-      header: () => <span>Question Text</span>,
-    }),
-    columnHelper.accessor("type", {
-      header: () => <span>Type</span>,
-      cell: (info) => {
-        return info.getValue() === "SINGLE_CHOICE" ? "single" : "multiple"
+  const RESPONSE_DATA = Array.from({ length: 10 }, () => ({
+    createdAt: "2021-01-01",
+    responseId: 112,
+    questions: [
+      {
+        questionText: "Do you like bleu cheese?",
+        questionId: 1,
+        answerText: ["yes"],
+        answerId: [0],
       },
-    }),
-    columnHelper.accessor("isRequired", {
-      header: () => <span>Required</span>,
-    }),
+      {
+        questionText: "Are you a beer or wine person?",
+        questionId: 2,
+        answerText: ["wine"],
+        answerId: [1],
+      },
+      {
+        questionText: "Choose your favorite apple",
+        questionId: "3",
+        answerText: ["Granny Smith", "Fuji"],
+        answerId: [0, 1],
+      },
+    ],
+  }))
+
+  const HEADERS = [
+    "Submitted date",
+    "Response ID",
+    "Do you like bleu cheese?",
+    "Are you a beer or wine person?",
+    "Choose your favorite apple",
   ]
 
-  const table = useReactTable({
-    data,
-    columns,
-    state: {
-      sorting,
-    },
-    onSortingChange: setSorting,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    debugTable: true,
-  })
+  const HEADERS_VALUE = ["Submitted date", "Response ID", "Q1", "Q2", "Q3"]
 
+  const [showHeader, setShowHeader] = useState(HEADERS)
+  const [tv, setTv] = useState(true)
   return (
     <>
       <PageMetaTitle>Results</PageMetaTitle>
-      <BaseLayout>
-        <main className="flex flex-col items-center page-max-xl pt-4">
-          <div className="relative overflow-auto">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <tr key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => (
-                      <th key={header.id} scope="col" className="py-3 px-6">
-                        {header.isPlaceholder ? null : (
-                          // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-                          <div
-                            {...{
-                              className: header.column.getCanSort()
-                                ? "cursor-pointer select-none flex items-center"
-                                : "",
-                              onClick: header.column.getToggleSortingHandler(),
-                            }}
-                          >
-                            {flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                            {{
-                              asc: (
-                                <span className="text-xs material-symbols-rounded">
-                                  expand_more
-                                </span>
-                              ),
-                              desc: (
-                                <span className="text-xs material-symbols-rounded">
-                                  expand_less
-                                </span>
-                              ),
-                            }[header.column.getIsSorted() as string] ?? (
-                              <span className="text-xs material-symbols-rounded">
-                                unfold_more
-                              </span>
-                            )}
-                          </div>
-                        )}
+      <BaseLayout
+        cls="bg-gray-50"
+        topNav={<TopNav cls="bg-white ring-2 ring-xd-neutral-300" />}
+      >
+        <main className="flex flex-col page-max-xl py-6 px-4">
+          <div className="relative flex justify-between space-x-4">
+            <div className="flex items-center">
+              <span className="material-symbols-outlined text-xd-primary-purple-700">
+                document_scanner
+              </span>
+              <div className="text-lg md:text-xl pl-4 tracking-wider font-medium text-xd-primary-black">
+                What is your Appetite Survey
+              </div>
+            </div>
+            <button className="button button-icon-ghost button-sm space-x-2 text-xd-primary-purple-700 ">
+              <span className="material-symbols-rounded">
+                download_for_offline
+              </span>
+              <span className="hidden md:block">Export responses</span>
+            </button>
+          </div>
+          <div className="w-full">
+            <div className="">
+              <Listbox value={selected} onChange={setSelected}>
+                {({ open }) => (
+                  <div>
+                    <div className="relative w-full pt-4">
+                      <Listbox.Button className="rounded-none w-full button button-outline button-sm text-xs md:text-sm space-x-1 justify-between ring-xd-primary-purple-700/20 ring-2">
+                        <span className="material-symbols-rounded">
+                          table_rows
+                        </span>
+                        <span className="block text-left">
+                          {selected.question}
+                        </span>
+                        <span
+                          className={clsx(
+                            "flex flex-grow justify-end text-normal material-symbols-rounded"
+                          )}
+                        >
+                          {open ? "expand_less" : "expand_more"}
+                        </span>
+                      </Listbox.Button>
+                      <Transition
+                        as={Fragment}
+                        leave="transition ease-in duration-100"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                      >
+                        <Listbox.Options className="z-10 absolute left-0 bottom-0 right-0 translate-y-full max-h-60 overflow-auto rounded-xs bg-white text-xs md:text-sm drop-shadow-md shadow">
+                          {questionValue.map((option, index) => (
+                            <Listbox.Option
+                              as={Fragment}
+                              key={index}
+                              value={option}
+                            >
+                              {({ selected }) => (
+                                <div
+                                  className={clsx(
+                                    "relative cursor-pointer select-none py-2 px-3 flex items-center space-x-1",
+                                    {
+                                      "bg-xd-primary-purple-700/10 text-xd-primary-purple-800":
+                                        selected,
+                                      "text-xd-secondary-black-rgb hover:text-xd-primary-purple-700":
+                                        !selected,
+                                    }
+                                  )}
+                                >
+                                  <span
+                                    className={clsx(
+                                      "block truncate font-medium"
+                                    )}
+                                  >
+                                    {option.question}
+                                  </span>
+                                </div>
+                              )}
+                            </Listbox.Option>
+                          ))}
+                        </Listbox.Options>
+                      </Transition>
+                    </div>
+                  </div>
+                )}
+              </Listbox>
+              <div className="relative overflow-auto mt-4">
+                <table className="w-full text-sm text-left ">
+                  <thead className="text-xs bg-xd-neutral-200 text-xd-primary-black">
+                    <tr>
+                      <th
+                        scope="col"
+                        className="py-2 px-4 font-medium border border-xd-neutral-400"
+                      >
+                        Answer Choices
                       </th>
-                    ))}
-                  </tr>
-                ))}
+                      <th
+                        scope="col"
+                        className="py-2 px-4 font-medium border border-xd-neutral-400"
+                      >
+                        <span className="flex items-end">Response</span>
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-2 px-4 font-medium border border-xd-neutral-400"
+                      >
+                        Total
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-white border-y border-y-xd-neutral-300">
+                      <td className="py-2 px-4 border-x border-x-neutral-300">
+                        Yes
+                      </td>
+                      <td className="py-2 px-4 border-x border-x-neutral-300">
+                        70%
+                      </td>
+                      <td className="py-2 px-4 border-x border-x-neutral-300">
+                        7
+                      </td>
+                    </tr>
+                    <tr className="bg-white border-y border-y-xd-neutral-300">
+                      <td className="py-2 px-4 border-x border-x-neutral-300">
+                        No
+                      </td>
+                      <td className="py-2 px-4 border-x border-x-neutral-300">
+                        30%
+                      </td>
+                      <td className="py-2 px-4 border-x border-x-neutral-300">
+                        3
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div className="relative mt-12">
+            <div className="flex flex-col md:flex-row md:justify-between">
+              <div className="flex items-center">
+                <span className="material-symbols-outlined text-xd-primary-purple-700">
+                  quiz
+                </span>
+                <div className="pl-2 uppercase tracking-wider font-medium text-xd-secondary-black-rgb">
+                  Responses
+                </div>
+              </div>
+              <div className="flex justify-center">
+                <div className="mt-4 md:mt-[unset] text-sm flex-shrink flex items-center bg-white ring-2 ring-xd-primary-purple-700/20 rounded-full">
+                  <button
+                    className={clsx(
+                      "text-xs button button-sm px-2 py-1 rounded-full min-w-[110px]",
+                      {
+                        "bg-xd-primary-purple-700/20 text-xd-primary-purple-800":
+                          !tv,
+                      }
+                    )}
+                    onClick={() => {
+                      setTv(false)
+                      setShowHeader(HEADERS)
+                    }}
+                  >
+                    Text Values
+                  </button>
+                  <button
+                    onClick={() => {
+                      setTv(true)
+                      setShowHeader(HEADERS_VALUE)
+                    }}
+                    className={clsx(
+                      "text-xs button button-sm px-2 py-1 rounded-full min-w-[110px]",
+                      {
+                        "bg-xd-primary-purple-700/20 text-xd-primary-purple-800":
+                          tv,
+                      }
+                    )}
+                  >
+                    Numeric Values
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative overflow-auto w-full mt-6 max-h-[calc(100vh_-_5rem)]  border border-xd-neutral-400">
+            <table className="border-collapse table-auto w-full text-xs md:text-sm text-left">
+              <thead className="sticky top-0 bg-xd-neutral-400">
+                <tr>
+                  {showHeader.map((header, index) => (
+                    <th
+                      key={index}
+                      scope="col"
+                      className="border-x border-b border-xd-neutral-400 bg-xd-neutral-200 text-xd-primary-black py-2 px-4 font-medium"
+                    >
+                      <span className="">{header}</span>
+                    </th>
+                  ))}
+                </tr>
               </thead>
-              <tbody className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                {table.getRowModel().rows.map((row) => (
-                  <tr key={row.id}>
-                    {row.getVisibleCells().map((cell) => (
-                      <td key={cell.id} className="py-4 px-6">
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+              <tbody>
+                {RESPONSE_DATA.map((data, rIndex) => (
+                  <tr key={rIndex} className="bg-white">
+                    <td
+                      key={rIndex}
+                      className="py-2 px-4 border-x border-b border-xd-neutral-300 w-[unset] md:w-40"
+                    >
+                      {data.createdAt}
+                    </td>
+                    <td
+                      key={rIndex}
+                      className="py-2 px-4 border-x border-b border-xd-neutral-300 w-[unset] md:w-32"
+                    >
+                      {data.responseId}
+                    </td>
+                    {data.questions.map((q, qIndex) => (
+                      <td
+                        key={qIndex}
+                        className="py-2 px-4 border-x border-b border-xd-neutral-300"
+                      >
+                        {!tv ? q.answerText.join(", ") : q.answerId.join(", ")}
                       </td>
                     ))}
                   </tr>

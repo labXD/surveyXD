@@ -176,7 +176,7 @@ export const NewSurveyNestedPage: NextPage = () => {
                 </FormInputError>
               )}
             </section>
-            <div className="pt-6 pb-8 space-y-4 focus-visible:outline-none">
+            <div className="pt-6 space-y-4 focus-visible:outline-none">
               {questionFields.map((field, index) => (
                 <div
                   key={field.id}
@@ -247,12 +247,25 @@ export const NewSurveyNestedPage: NextPage = () => {
                 </div>
               ))}
             </div>
+            <div className="pb-20 pt-6 flex justify-end">
+              <button
+                type="reset"
+                onClick={() => {
+                  reset()
+                  setMinRequiredError(false)
+                }}
+                className="button button-link space-x-4"
+              >
+                <span className="material-symbols-rounded">restart_alt</span>
+                <span>Reset</span>
+              </button>
+            </div>
           </div>
           <div className="fixed bottom-2 md:bottom-4 left-4 right-4 z-10 ">
             <div
               className={clsx(
                 "bg-white flex justify-between rounded-full ring-2 ring-xd-primary-purple-700/20",
-                "lg:max-w-3xl lg:mx-auto"
+                "lg:max-w-sm lg:mx-auto"
               )}
             >
               <button
@@ -273,14 +286,14 @@ export const NewSurveyNestedPage: NextPage = () => {
                 <button
                   className={clsx("button button-icon-ghost animate-spin")}
                 >
-                  <span className="material-symbols-sharp">sync</span>
+                  <span className="material-symbols-sharp">autorenew</span>
                 </button>
               ) : (
                 <button type="submit" className="button button-icon-ghost">
                   <span className="material-symbols-rounded">send</span>
                 </button>
               )}
-              <button
+              {/* <button
                 type="reset"
                 onClick={() => {
                   reset()
@@ -289,7 +302,7 @@ export const NewSurveyNestedPage: NextPage = () => {
                 className="button button-icon-ghost"
               >
                 <span className="material-symbols-rounded">restart_alt</span>
-              </button>
+              </button> */}
             </div>
           </div>
         </form>
