@@ -46,17 +46,17 @@ const DropdownMenuWrapper: FC<DropdownMenuWrapperInterface> = ({
 export const HeaderDropdownMenu: FC = () => {
   const { data: session } = useSession()
   const router = useRouter()
-  const { surveyId } = router.query
+  const createSurveyPage = router.pathname === "/survey/[surveyId]"
 
   const goHome = useMemo(() => {
-    if (router.pathname.includes("champ")) return "/"
+    if (router.pathname === "champ") return "/"
     return undefined
   }, [router.pathname])
   return (
     <DropdownMenuWrapper>
       {session?.user && (
         <>
-          {!surveyId && (
+          {!createSurveyPage && (
             <Menu.Item as="div">
               {({ active }) => (
                 <Link href="/survey/create">

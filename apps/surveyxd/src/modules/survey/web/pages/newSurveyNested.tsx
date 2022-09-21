@@ -58,7 +58,8 @@ const surveySchema: z.ZodType<NewSurveyPageNestedInterface> = z.lazy(() =>
 )
 
 export const NewSurveyNestedPage: NextPage = () => {
-  const [title, setTitle] = useState("New Survey")
+  const [title, setTitle] = useState<string>("New Survey")
+  const [minRequiredError, setMinRequiredError] = useState<boolean>(false)
   const { loading } = useActiveSurveyFromRoute()
   const router = useRouter()
   const {
@@ -66,7 +67,7 @@ export const NewSurveyNestedPage: NextPage = () => {
     control,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<NewSurveyPageNestedInterface>({
     resolver: zodResolver(surveySchema),
     defaultValues,
@@ -93,7 +94,10 @@ export const NewSurveyNestedPage: NextPage = () => {
     {
       label: "Reset survey",
       icon: "restart_alt",
-      onClick: () => reset(),
+      onClick: () => {
+        reset()
+        setMinRequiredError(false)
+      },
       buttonType: "reset",
     },
   ]
@@ -107,6 +111,17 @@ export const NewSurveyNestedPage: NextPage = () => {
     data
   ) => {
     console.log("data:\n", data)
+
+    if (
+      data.surveyQuestions.filter((v) => v.questionRequired === true).length ===
+      0
+    ) {
+      setMinRequiredError(true)
+      setTimeout(() => {
+        setMinRequiredError(false)
+      }, 2000)
+      return
+    }
 
     const res = await createSurveyMutation.mutateAsync({
       title: data.surveyTitle,
@@ -129,7 +144,11 @@ export const NewSurveyNestedPage: NextPage = () => {
       <BaseLayout cls="bg-xd-primary-purple-100" disableTopNav disableFooter>
         <form onSubmit={submitSurvey}>
           <div className="md:px-4 page-max-xl">
-            <section className="xd-card sticky top-0 z-10 ring">
+            <section
+              className={clsx("xd-card sticky top-0 z-10 ring", {
+                "ring-xd-danger-700 ring-inset": minRequiredError,
+              })}
+            >
               <div className="flex py-4 space-x-2">
                 <div className="relative flex-1 border-b border-b-neutral-300 flex items-baseline justify-between">
                   <input
@@ -151,6 +170,11 @@ export const NewSurveyNestedPage: NextPage = () => {
                 </div>
                 <SurveyDropdownMenu data={menuItemArray} />
               </div>
+              {minRequiredError && (
+                <FormInputError>
+                  At least 1 question must be set to &quot;Required&quot;.
+                </FormInputError>
+              )}
             </section>
             <div className="pt-6 pb-8 space-y-4 focus-visible:outline-none">
               {questionFields.map((field, index) => (
@@ -245,12 +269,23 @@ export const NewSurveyNestedPage: NextPage = () => {
               >
                 <span className="material-symbols-rounded">add</span>
               </button>
-              <button type="submit" className="button button-icon-ghost">
-                <span className="material-symbols-rounded">send</span>
-              </button>
+              {isSubmitting ? (
+                <button
+                  className={clsx("button button-icon-ghost animate-spin")}
+                >
+                  <span className="material-symbols-sharp">sync</span>
+                </button>
+              ) : (
+                <button type="submit" className="button button-icon-ghost">
+                  <span className="material-symbols-rounded">send</span>
+                </button>
+              )}
               <button
                 type="reset"
-                onClick={() => reset()}
+                onClick={() => {
+                  reset()
+                  setMinRequiredError(false)
+                }}
                 className="button button-icon-ghost"
               >
                 <span className="material-symbols-rounded">restart_alt</span>
