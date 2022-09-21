@@ -18,7 +18,7 @@ export const LandingPage: NextPage = () => {
         surveyXD - Survey Generator and Data Visualizer
       </PageMetaTitle>
       <BaseLayout>
-        <main className="px-4 flex flex-col items-center xd-layout-width">
+        <main className="px-4 flex flex-col items-center page-max-xl">
           <div className="max-w-2xl opacity-70">
             <Image className="w-auto" src={DataImg} width={800} height={400} />
           </div>
@@ -34,7 +34,7 @@ export const LandingPage: NextPage = () => {
           </div>
           <div className="pt-6 space-y-6 w-full lg:max-w-xl z-[1]">
             <Link href="/survey/create">
-              <button className="button-red space-x-4 w-full">
+              <button className="button button-red space-x-4 w-full">
                 <span className="animate-spin-slow">
                   <LogoWhite />
                 </span>
@@ -46,7 +46,7 @@ export const LandingPage: NextPage = () => {
             </div>
             {session?.user ? (
               <Link href="/dashboard">
-                <button className="button-primary w-full space-x-4">
+                <button className="button button-primary w-full space-x-4">
                   <span className="material-symbols-rounded">
                     <span className="material-symbols-rounded">
                       corporate_fare
@@ -57,7 +57,7 @@ export const LandingPage: NextPage = () => {
               </Link>
             ) : (
               <button
-                className="button-outline w-full space-x-6"
+                className="button button-outline w-full space-x-6"
                 onClick={() => signIn("google", { callbackUrl: "/champ" })}
               >
                 <span>

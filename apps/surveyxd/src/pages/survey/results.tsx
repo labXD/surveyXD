@@ -1,1 +1,1 @@
-export { ResultsPage as default } from "@/survey/web"
+export { ResultChartsPage as default } from "@/survey/web"

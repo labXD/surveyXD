@@ -38,7 +38,7 @@ export const QuestionTypeDropdown = <T extends FieldValues>(
       {({ open }) => (
         <div className="relative">
           <div>
-            <Listbox.Button className="button-outline button-sm text-xs w-40 space-x-1 justify-between">
+            <Listbox.Button className="button button-outline button-sm text-xs w-40 space-x-1 justify-between">
               {value === QuestionType.SINGLE_CHOICE ? (
                 <span className="text-sm material-symbols-rounded">
                   radio_button_checked

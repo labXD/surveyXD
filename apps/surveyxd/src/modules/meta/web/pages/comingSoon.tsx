@@ -14,7 +14,7 @@ export const ComingSoonPage: NextPage = () => {
     <>
       <PageMetaTitle>Coming soon</PageMetaTitle>
       <BaseLayout>
-        <main className="flex flex-col items-center xd-layout-width pt-4">
+        <main className="flex flex-col items-center page-max-xl pt-4">
           <div className="px-4 max-w-xl text-center">
             <p className="text-base text-xd-secondary-black-rgb">
               A next-gen, interactive visual experience for viewing survey data.
@@ -35,7 +35,7 @@ export const ComingSoonPage: NextPage = () => {
                   ? router.push("/dashboard")
                   : signIn("google", { callbackUrl: "/champ" })
               }
-              className={clsx(" w-full", {
+              className={clsx("button w-full", {
                 "button-primary": !session?.user,
                 "button-outline": session?.user,
               })}

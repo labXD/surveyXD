@@ -109,7 +109,7 @@ export const Response: FC<ResponseProps> = ({ surveyId }) => {
         cls="bg-xd-primary-purple-100"
         footer={<Footer>{FOOTER_MESSAGE}</Footer>}
       >
-        <main className="p-4 space-y-4 xd-layout-width">
+        <main className="p-4 space-y-4 page-max-xl">
           <div className="bg-white ring-1 ring-xd-primary-purple-700/10 space-y-2 px-4 py-2 rounded">
             <h1 className="text-lg text-xd-primary-black font-bold">
               {data.title}
@@ -172,12 +172,15 @@ export const Response: FC<ResponseProps> = ({ surveyId }) => {
             ))}
 
             <div className="flex justify-between">
-              <button type="submit" className="button-primary min-w-[8rem]">
+              <button
+                type="submit"
+                className="button button-primary min-w-[8rem]"
+              >
                 Submit
               </button>
               <button
                 type="reset"
-                className="button-outline text-xd-primary-purple-700 min-w-[8rem]"
+                className="button button-outline text-xd-primary-purple-700 min-w-[8rem]"
                 onClick={() => reset()}
               >
                 Clear form

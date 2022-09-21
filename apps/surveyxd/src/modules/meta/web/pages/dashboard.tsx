@@ -33,7 +33,7 @@ export const DashboardPage: NextPage = () => {
     <>
       <PageMetaTitle>Dashboard</PageMetaTitle>
       <BaseLayout>
-        <main className="flex flex-col items-center xd-layout-width pt-4 space-y-6">
+        <main className="flex flex-col items-center page-max-xl pt-4 space-y-6">
           <div className="overflow-x-auto relative">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -68,7 +68,7 @@ export const DashboardPage: NextPage = () => {
                       scope="row"
                       className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                     >
-                      <a className="button xd-button-link">{survey.name}</a>
+                      <a className="button button-link">{survey.name}</a>
                     </th>
                     <td className="py-4 px-6 text-xd-success-700">
                       <div className="flex items-center bg-xd-success-700/10 px-3 py-1 rounded-full space-x-1">
@@ -89,7 +89,7 @@ export const DashboardPage: NextPage = () => {
                     </td>
                     <td className="py-4 px-6">
                       <div className="flex justify-center">
-                        <a className="button xd-button-link">
+                        <a className="button button-link">
                           <span className="material-symbols-rounded">link</span>
                         </a>
                       </div>
@@ -97,7 +97,7 @@ export const DashboardPage: NextPage = () => {
                     <td className="py-4 px-6">
                       <div className="flex justify-center">
                         <Link href="/survey/results">
-                          <a className="button xd-button-link">
+                          <a className="button button-link">
                             <span className="material-symbols-rounded">
                               link
                             </span>
@@ -112,7 +112,7 @@ export const DashboardPage: NextPage = () => {
           </div>
           <div>
             <Link href="/survey/create">
-              <button className="space-x-2 button-primary">
+              <button className="button space-x-2 button-primary">
                 <span className="material-symbols-rounded">add</span>
                 Create a new survey
               </button>

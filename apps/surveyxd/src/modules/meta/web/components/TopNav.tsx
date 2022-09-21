@@ -18,7 +18,7 @@ export const TopNav: FC = () => {
     >
       <div
         className={clsx(
-          "xd-layout-width px-4 flex items-center justify-between min-h-[64px]"
+          "page-max-xl px-4 flex items-center justify-between min-h-[64px]"
         )}
       >
         <Link href={"/"}>
@@ -45,7 +45,7 @@ export const TopNavComingSoon: FC = () => {
       <div
         className={clsx(
           "p-4 flex justify-center items-center min-h-[64px]",
-          "xd-layout-width"
+          "page-max-xl"
         )}
       >
         <Link href={"/"}>

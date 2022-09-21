@@ -41,42 +41,36 @@ export const QuestionOptionsNested: FC<QuestionOptionsNestedProps> = ({
 
   const { type } = useQuestionState()
 
-  console.log("mytype", type)
   return (
     <>
       {optionFields.map((field, index) => {
         return (
-          <>
-            <QuestionType
+          <QuestionType
+            key={field.id}
+            type={type}
+            remove={() => {
+              optionFields.length !== 1 && optionRemove(index)
+            }}
+          >
+            <input
               key={field.id}
-              type={type}
-              remove={() => {
-                optionFields.length !== 1 && optionRemove(index)
-              }}
-            >
-              <input
-                key={field.id}
-                type="text"
-                placeholder="Option text"
-                {...register(
-                  `surveyQuestions.${nestedIndex}.options.${index}.text` as const,
-                  {
-                    required: true,
-                  }
-                )}
-                className={clsx("w-full text-sm")}
-              />
-              {errors && errors[index] && (
-                <FormInputError>{errors[index]?.text?.message}</FormInputError>
+              type="text"
+              placeholder="Option text"
+              {...register(
+                `surveyQuestions.${nestedIndex}.options.${index}.text` as const,
+                {
+                  required: true,
+                }
               )}
-            </QuestionType>
-          </>
+              className={clsx("w-full text-sm")}
+            />
+            {errors && errors[index] && (
+              <FormInputError>{errors[index]?.text?.message}</FormInputError>
+            )}
+          </QuestionType>
         )
       })}
       <QuestionType type={type} readonly>
-        {/* <span className="text-blue-700 border border-transparent px-3 py-2">
-          Add option
-        </span> */}
         <button
           type="button"
           onClick={() =>
@@ -84,9 +78,9 @@ export const QuestionOptionsNested: FC<QuestionOptionsNestedProps> = ({
               text: "",
             })
           }
-          className="xd-button-ghost button-sm font-normal group"
+          className="button button-ghost button-sm font-normal group"
         >
-          <span className="text-blue-700 group-hover:drop-shadow">
+          <span className="text-blue-700 group-hover:text-blue-800">
             Add option
           </span>
         </button>

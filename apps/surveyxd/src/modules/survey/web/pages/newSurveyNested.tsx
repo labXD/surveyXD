@@ -128,7 +128,7 @@ export const NewSurveyNestedPage: NextPage = () => {
       <PageMetaTitle>Create survey</PageMetaTitle>
       <BaseLayout cls="bg-xd-primary-purple-100" disableTopNav disableFooter>
         <form onSubmit={submitSurvey}>
-          <div className="md:px-4 xd-layout-width">
+          <div className="md:px-4 page-max-xl">
             <section className="xd-card sticky top-0 z-10 ring">
               <div className="flex py-4 space-x-2">
                 <div className="relative flex-1 border-b border-b-neutral-300 flex items-baseline justify-between">
@@ -241,21 +241,19 @@ export const NewSurveyNestedPage: NextPage = () => {
                     options: [{ text: "" }, { text: "" }],
                   })
                 }
-                className={clsx("group rounded-full")}
+                className={clsx("button button-icon-ghost")}
               >
-                <span className="material-symbols-rounded text-xd-secondary-black-rgb group-hover:text-xd-primary-purple-700">
-                  add
-                </span>
+                <span className="material-symbols-rounded">add</span>
               </button>
-              <button type="submit" className="group">
-                <span className="material-symbols-rounded text-xd-secondary-black-rgb group-hover:text-xd-primary-purple-700">
-                  send
-                </span>
+              <button type="submit" className="button button-icon-ghost">
+                <span className="material-symbols-rounded">send</span>
               </button>
-              <button type="reset" onClick={() => reset()} className="group">
-                <span className="material-symbols-rounded text-xd-secondary-black-rgb group-hover:text-xd-primary-purple-700">
-                  restart_alt
-                </span>
+              <button
+                type="reset"
+                onClick={() => reset()}
+                className="button button-icon-ghost"
+              >
+                <span className="material-symbols-rounded">restart_alt</span>
               </button>
             </div>
           </div>

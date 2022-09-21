@@ -22,7 +22,7 @@ export const ChampPage: NextPage = () => {
           </div>
           <div className="space-y-4 w-full max-w-xl">
             <Link href={"/survey/create"}>
-              <button className="button-red space-x-4 w-full">
+              <button className="button button-red space-x-4 w-full">
                 <span className="animate-spin-slow">
                   <LogoWhite />
                 </span>

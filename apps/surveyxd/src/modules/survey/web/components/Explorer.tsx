@@ -112,7 +112,7 @@ export const XDSandDance: React.FC = () => {
           }}
         >
           <div className="relative">
-            <Listbox.Button className="drop-shadow relative xd-button-secondary-light xd-button-sm w-36">
+            <Listbox.Button className="drop-shadow relative button button-outline button-sm w-36">
               <span className="flex flex-grow truncate">{selected}</span>
               <span className="text-xs material-symbols-outlined">
                 unfold_more

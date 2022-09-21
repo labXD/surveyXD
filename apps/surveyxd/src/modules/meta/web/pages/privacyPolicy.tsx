@@ -5,7 +5,7 @@ import { BaseLayout } from "../components"
 export const PrivacyPolicyPage: NextPage = () => {
   return (
     <BaseLayout>
-      <main className="p-4 xd-layout-width">
+      <main className="p-4 page-max-xl">
         <div className="space-y-4">
           <h1>Privacy Policy</h1>
           <p>Last updated: September 16, 2022</p>

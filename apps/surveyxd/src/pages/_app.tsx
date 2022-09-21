@@ -25,10 +25,10 @@ function App({ Component, pageProps }: AppProps<{ session: Session }>) {
         <Component {...pageProps} />
         <div className="fixed bottom-4 right-4">
           <button
-            className="button-primary opacity-0 hover:opacity-100 transition-all z-20"
+            className="button button-outline opacity-0 hover:opacity-100 transition-all z-20"
             onClick={() => signOut()}
           >
-            Sign jout
+            Sign out
           </button>
         </div>
       </SessionProvider>

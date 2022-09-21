@@ -26,7 +26,7 @@ export const ErrorUI: FC<ErrorUIInterface> = ({
       {(buttonText || buttonIcon) && (
         <div>
           <button
-            className="button-outline space-x-4 ring-xd-disabled-black-rgb"
+            className="button button-outline space-x-4 ring-xd-disabled-black-rgb"
             onClick={onClick}
           >
             {buttonIcon && (

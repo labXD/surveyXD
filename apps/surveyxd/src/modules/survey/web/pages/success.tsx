@@ -1,3 +1,4 @@
+import copy from "copy-to-clipboard"
 import { NextPage } from "next"
 import Image from "next/image"
 import Link from "next/link"
@@ -7,7 +8,6 @@ import { signIn, useSession } from "next-auth/react"
 import { BaseLayout, PageMetaTitle } from "@/meta/web"
 
 import DataImage from "../assets/data-img.png"
-
 export const SuccessPage: NextPage = () => {
   const { data: session } = useSession()
   const router = useRouter()
@@ -25,7 +25,7 @@ export const SuccessPage: NextPage = () => {
             </div>
           </section>
         )}
-        <main className="px-4 pt-6 flex flex-col items-center xd-layout-width">
+        <main className="px-4 pt-6 flex flex-col items-center page-max-xl">
           <div className="max-w-2xl opacity-70">
             <Image
               className="w-auto"
@@ -44,16 +44,19 @@ export const SuccessPage: NextPage = () => {
           </div>
           <div className="pt-6 space-y-6 w-full lg:max-w-xl z-[1]">
             <button
-              className="button-outline button-sm w-full"
-              onClick={() => ""}
+              className="button button-outline button-sm w-full"
+              onClick={() => {
+                copy(`https://www.surveyxd.com/survey/${surveyId}`)
+              }}
             >
               <span className="flex-grow text-left truncate">
                 {`https://www.surveyxd.com/survey/${surveyId}`}
               </span>
               <span className="material-symbols-rounded">content_copy</span>
             </button>
+
             <Link href={`/survey/${surveyId}`}>
-              <button className="button-primary space-x-2 w-full">
+              <button className="button button-primary space-x-2 w-full">
                 <span className="material-symbols-sharp">
                   stacked_bar_chart
                 </span>
@@ -63,13 +66,15 @@ export const SuccessPage: NextPage = () => {
           </div>
           <div className="text-center pt-8">
             <button
-              className="xd-button-link"
+              className="button-link"
               onClick={() =>
-                session?.user ? router.push("/dashboard") : signIn("google")
+                session?.user
+                  ? router.push("/dashboard")
+                  : signIn("google", { callbackUrl: "/dashboard" })
               }
             >
               {session?.user
-                ? "Return to your dashboard"
+                ? "Go to your dashboard"
                 : "Create an account to save your data!"}
             </button>
           </div>

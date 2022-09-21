@@ -46,7 +46,7 @@ export const ResponseSuccessPage: NextPage = () => {
                   ? router.push("/dashboard")
                   : signIn("google", { callbackUrl: "/champ" })
               }
-              className="button-primary w-full"
+              className="button button-primary w-full"
             >
               <span>
                 {session?.user ? "Go to your dashboard" : "Create an account"}

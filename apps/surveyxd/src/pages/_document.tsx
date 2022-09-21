@@ -33,13 +33,13 @@ class MyDocument extends Document {
             rel="icon"
             sizes="16x16"
             type="image/png"
-            href="favicon-16.png"
+            href="/favicon-16.png"
           />
           <link
             rel="icon"
             sizes="32x32"
             type="image/png"
-            href="favicon-32.png"
+            href="/favicon-32.png"
           />
         </Head>
         <body>
