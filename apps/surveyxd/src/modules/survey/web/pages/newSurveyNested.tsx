@@ -54,11 +54,20 @@ const surveySchema: z.ZodType<NewSurveyPageNestedInterface> = z.lazy(() =>
         })
       )
       .min(1, { message: "Must have at least one question" }),
+    // .refine(
+    //   (val) => {
+    //     val.filter((v) => v.questionRequired === true).length === 1
+    //   },
+    //   {
+    //     message: "At least one question must be required",
+    //   }
+    // ),
   })
 )
 
 export const NewSurveyNestedPage: NextPage = () => {
   const [title, setTitle] = useState("New Survey")
+  const [error, setError] = useState(false)
   const { loading } = useActiveSurveyFromRoute()
   const router = useRouter()
   const {
@@ -71,6 +80,8 @@ export const NewSurveyNestedPage: NextPage = () => {
     resolver: zodResolver(surveySchema),
     defaultValues,
   })
+
+  console.log(errors)
 
   const {
     fields: questionFields,
@@ -108,6 +119,13 @@ export const NewSurveyNestedPage: NextPage = () => {
   ) => {
     console.log("data:\n", data)
 
+    if (
+      data.surveyQuestions.filter((v) => v.questionRequired === true).length ===
+      0
+    ) {
+      setError(true)
+      return
+    }
     const res = await createSurveyMutation.mutateAsync({
       title: data.surveyTitle,
       questions: data.surveyQuestions.map((question) => ({
@@ -148,6 +166,11 @@ export const NewSurveyNestedPage: NextPage = () => {
               </div>
               <SurveyDropdownMenu data={menuItemArray} />
             </div>
+            {error && (
+              <FormInputError>
+                At least one question has to be required
+              </FormInputError>
+            )}
           </section>
           <div className="pt-6 pb-8 space-y-4 focus-visible:outline-none">
             {questionFields.map((field, index) => (
