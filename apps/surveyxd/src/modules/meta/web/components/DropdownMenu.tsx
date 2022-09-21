@@ -36,7 +36,7 @@ const DropdownMenuWrapper: FC<DropdownMenuWrapperInterface> = ({
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute z-10 right-0 w-56 origin-top-right divide-y divide-xd-neutral-300 rounded-sm bg-white ring ring-xd-primary-purple-700/20">
+        <Menu.Items className="absolute z-[999] right-0 w-56 origin-top-right divide-y divide-xd-neutral-300 rounded-sm bg-white ring ring-xd-primary-purple-700/20">
           {children}
         </Menu.Items>
       </Transition>
@@ -46,23 +46,23 @@ const DropdownMenuWrapper: FC<DropdownMenuWrapperInterface> = ({
 export const HeaderDropdownMenu: FC = () => {
   const { data: session } = useSession()
   const router = useRouter()
-  const { surveyId } = router.query
+  const createSurveyPage = router.pathname === "/survey/[surveyId]"
 
   const goHome = useMemo(() => {
-    if (router.pathname.includes("champ")) return "/"
+    if (router.pathname === "champ") return "/"
     return undefined
   }, [router.pathname])
   return (
     <DropdownMenuWrapper>
       {session?.user && (
         <>
-          {!surveyId && (
+          {!createSurveyPage && (
             <Menu.Item as="div">
               {({ active }) => (
                 <Link href="/survey/create">
                   <button
                     className={clsx(
-                      "xd-button-ghost button-sm w-full space-x-2 justify-start",
+                      "button button-ghost button-sm w-full space-x-2 justify-start",
                       {
                         "text-xd-secondary-black-rgb": !active,
                         "bg-xd-primary-purple-700 text-white": active,
@@ -83,7 +83,7 @@ export const HeaderDropdownMenu: FC = () => {
               <Link href="/dashboard">
                 <button
                   className={clsx(
-                    "xd-button-ghost button-sm w-full space-x-2 justify-start",
+                    "button button-ghost button-sm w-full space-x-2 justify-start",
                     {
                       "text-xd-secondary-black-rgb": !active,
                       "bg-xd-primary-purple-700 text-white": active,
@@ -110,7 +110,7 @@ export const HeaderDropdownMenu: FC = () => {
                 : signIn("google")
             }
             className={clsx(
-              "xd-button-ghost button-sm w-full space-x-2 justify-start",
+              "button button-ghost button-sm w-full space-x-2 justify-start",
               {
                 "text-xd-secondary-black-rgb": !active,
                 "bg-xd-primary-purple-700 text-white": active,
@@ -150,7 +150,7 @@ export const SurveyDropdownMenu: FC<XDDropdownMenuInterface> = ({ data }) => {
               onClick={item.onClick}
               type={item.buttonType}
               className={clsx(
-                "xd-button-ghost w-full space-x-2 justify-start",
+                "button button-ghost w-full space-x-2 justify-start",
                 {
                   "text-xd-secondary-red-700": !active,
                   "bg-xd-secondary-red-800 text-white": active,
@@ -173,7 +173,7 @@ export const SurveyDropdownMenu: FC<XDDropdownMenuInterface> = ({ data }) => {
             <Link href="/dashboard">
               <button
                 className={clsx(
-                  "xd-button-ghost button-sm w-full space-x-2 justify-start",
+                  "button button-ghost button-sm w-full space-x-2 justify-start",
                   {
                     "text-xd-secondary-black-rgb": !active,
                     "bg-xd-primary-purple-700 text-white": active,
@@ -196,7 +196,7 @@ export const SurveyDropdownMenu: FC<XDDropdownMenuInterface> = ({ data }) => {
               session?.user ? signOut({ callbackUrl: "/" }) : signIn("google")
             }
             className={clsx(
-              "xd-button-ghost button-sm w-full space-x-2 justify-start",
+              "button button-ghost button-sm w-full space-x-2 justify-start",
               {
                 "text-xd-secondary-black-rgb": !active,
                 "bg-xd-primary-purple-700 text-white": active,

@@ -6,7 +6,7 @@ import { FormEvent, useState } from "react"
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { PageMetaTitle, SurveyDropdownMenu } from "@/meta/web"
+import { BaseLayout, PageMetaTitle, SurveyDropdownMenu } from "@/meta/web"
 import { QuestionType } from "@/prisma"
 import { trpc } from "@/trpc/web"
 
@@ -58,7 +58,8 @@ const surveySchema: z.ZodType<NewSurveyPageNestedInterface> = z.lazy(() =>
 )
 
 export const NewSurveyNestedPage: NextPage = () => {
-  const [title, setTitle] = useState("New Survey")
+  const [title, setTitle] = useState<string>("New Survey")
+  const [minRequiredError, setMinRequiredError] = useState<boolean>(false)
   const { loading } = useActiveSurveyFromRoute()
   const router = useRouter()
   const {
@@ -66,7 +67,7 @@ export const NewSurveyNestedPage: NextPage = () => {
     control,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<NewSurveyPageNestedInterface>({
     resolver: zodResolver(surveySchema),
     defaultValues,
@@ -93,7 +94,10 @@ export const NewSurveyNestedPage: NextPage = () => {
     {
       label: "Reset survey",
       icon: "restart_alt",
-      onClick: () => reset(),
+      onClick: () => {
+        reset()
+        setMinRequiredError(false)
+      },
       buttonType: "reset",
     },
   ]
@@ -107,6 +111,17 @@ export const NewSurveyNestedPage: NextPage = () => {
     data
   ) => {
     console.log("data:\n", data)
+
+    if (
+      data.surveyQuestions.filter((v) => v.questionRequired === true).length ===
+      0
+    ) {
+      setMinRequiredError(true)
+      setTimeout(() => {
+        setMinRequiredError(false)
+      }, 2000)
+      return
+    }
 
     const res = await createSurveyMutation.mutateAsync({
       title: data.surveyTitle,
@@ -126,137 +141,159 @@ export const NewSurveyNestedPage: NextPage = () => {
   return (
     <>
       <PageMetaTitle>Create survey</PageMetaTitle>
-      <form onSubmit={submitSurvey}>
-        <div className="md:px-4 xd-layout-width">
-          <section className="xd-card sticky top-0 z-10 ring">
-            <div className="flex py-4 space-x-2">
-              <div className="relative flex-1 border-b border-b-neutral-300 flex items-baseline justify-between">
-                <input
-                  type="text"
-                  placeholder="Survey Title"
-                  aria-invalid={errors?.surveyTitle ? "true" : "false"}
-                  className={clsx("w-full text-2xl font-bold")}
-                  {...register("surveyTitle")}
-                  defaultValue={title}
-                  onChange={(e) => {
-                    setTitle(e.currentTarget.value)
-                  }}
-                />
-                {errors && errors?.surveyTitle && (
-                  <FormInputError>{errors.surveyTitle.message}</FormInputError>
-                )}
-              </div>
-              <SurveyDropdownMenu data={menuItemArray} />
-            </div>
-          </section>
-          <div className="pt-6 pb-8 space-y-4 focus-visible:outline-none">
-            {questionFields.map((field, index) => (
-              <div
-                key={field.id}
-                className="xd-card xd-card-border-l xd-card-focus"
-              >
-                <TextInputWithClose
-                  remove={() => {
-                    questionFields.length > 1 && questionRemove(index)
-                  }}
-                >
+      <BaseLayout cls="bg-xd-primary-purple-100" disableTopNav disableFooter>
+        <form onSubmit={submitSurvey}>
+          <div className="md:px-4 page-max-xl">
+            <section
+              className={clsx("xd-card sticky top-0 z-10 ring", {
+                "ring-xd-danger-700 ring-inset": minRequiredError,
+              })}
+            >
+              <div className="flex py-4 space-x-2">
+                <div className="relative flex-1 border-b border-b-neutral-300 flex items-baseline justify-between">
                   <input
-                    placeholder="Question title"
                     type="text"
-                    aria-invalid={
-                      errors?.surveyQuestions?.[index]?.questionTitle
-                        ? "true"
-                        : "false"
-                    }
-                    className={clsx("w-full text-sm")}
-                    {...register(
-                      `surveyQuestions.${index}.questionTitle` as const
-                    )}
+                    placeholder="Survey Title"
+                    aria-invalid={errors?.surveyTitle ? "true" : "false"}
+                    className={clsx("w-full text-2xl font-bold")}
+                    {...register("surveyTitle")}
+                    defaultValue={title}
+                    onChange={(e) => {
+                      setTitle(e.currentTarget.value)
+                    }}
                   />
-                  {errors &&
-                    errors?.surveyQuestions?.[index]?.questionTitle && (
-                      <FormInputError>
-                        {
-                          errors?.surveyQuestions?.[index]?.questionTitle
-                            ?.message
+                  {errors && errors?.surveyTitle && (
+                    <FormInputError>
+                      {errors.surveyTitle.message}
+                    </FormInputError>
+                  )}
+                </div>
+                <SurveyDropdownMenu data={menuItemArray} />
+              </div>
+              {minRequiredError && (
+                <FormInputError>
+                  At least 1 question must be set to &quot;Required&quot;.
+                </FormInputError>
+              )}
+            </section>
+            <div className="pt-6 pb-8 space-y-4 focus-visible:outline-none">
+              {questionFields.map((field, index) => (
+                <div
+                  key={field.id}
+                  className="xd-card xd-card-border-l xd-card-focus"
+                >
+                  <TextInputWithClose
+                    remove={() => {
+                      questionFields.length > 1 && questionRemove(index)
+                    }}
+                  >
+                    <input
+                      placeholder="Question title"
+                      type="text"
+                      aria-invalid={
+                        errors?.surveyQuestions?.[index]?.questionTitle
+                          ? "true"
+                          : "false"
+                      }
+                      className={clsx("w-full text-sm")}
+                      {...register(
+                        `surveyQuestions.${index}.questionTitle` as const
+                      )}
+                    />
+                    {errors &&
+                      errors?.surveyQuestions?.[index]?.questionTitle && (
+                        <FormInputError>
+                          {
+                            errors?.surveyQuestions?.[index]?.questionTitle
+                              ?.message
+                          }
+                        </FormInputError>
+                      )}
+                  </TextInputWithClose>
+                  <QuestionProvider>
+                    <div className="pt-4 flex justify-end">
+                      {/* Question type */}
+                      <QuestionTypeDropdown
+                        name={`surveyQuestions.${index}.questionType` as const}
+                        control={control}
+                        rules={{ required: true }}
+                        type={[
+                          QuestionType.MULTIPLE_CHOICE,
+                          QuestionType.SINGLE_CHOICE,
+                        ]}
+                      />
+                    </div>
+                    <aside className="pt-4 space-y-4">
+                      <QuestionOptionsNested
+                        nestedIndex={index}
+                        control={control}
+                        register={register}
+                        errors={
+                          errors.surveyQuestions &&
+                          errors.surveyQuestions[index]?.options
                         }
-                      </FormInputError>
-                    )}
-                </TextInputWithClose>
-                <QuestionProvider>
-                  <div className="pt-4 flex justify-end">
-                    {/* Question type */}
-                    <QuestionTypeDropdown
-                      name={`surveyQuestions.${index}.questionType` as const}
+                      />
+                      {errors?.surveyQuestions &&
+                        errors.surveyQuestions[index]?.options?.message}
+                    </aside>
+                  </QuestionProvider>
+                  <div className="flex justify-end pt-8">
+                    {/* Required toggle */}
+                    <RequiredToggle
+                      name={`surveyQuestions.${index}.questionRequired`}
                       control={control}
-                      rules={{ required: true }}
-                      type={[
-                        QuestionType.MULTIPLE_CHOICE,
-                        QuestionType.SINGLE_CHOICE,
-                      ]}
                     />
                   </div>
-                  <aside className="pt-4 space-y-4">
-                    <QuestionOptionsNested
-                      nestedIndex={index}
-                      control={control}
-                      register={register}
-                      errors={
-                        errors.surveyQuestions &&
-                        errors.surveyQuestions[index]?.options
-                      }
-                    />
-                    {errors?.surveyQuestions &&
-                      errors.surveyQuestions[index]?.options?.message}
-                  </aside>
-                </QuestionProvider>
-                <div className="flex justify-end pt-8">
-                  {/* Required toggle */}
-                  <RequiredToggle
-                    name={`surveyQuestions.${index}.questionRequired`}
-                    control={control}
-                  />
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-        <div className="fixed bottom-2 md:bottom-4 left-4 right-4 z-10 ">
-          <div
-            className={clsx(
-              "bg-white flex justify-between rounded-full ring-2 ring-xd-primary-purple-700/20",
-              "lg:max-w-3xl lg:mx-auto"
-            )}
-          >
-            <button
-              type="button"
-              onClick={() =>
-                questionAppend({
-                  questionTitle: "",
-                  questionType: QuestionType.SINGLE_CHOICE,
-                  questionRequired: false,
-                  options: [{ text: "" }, { text: "" }],
-                })
-              }
-              className={clsx("group rounded-full")}
+          <div className="fixed bottom-2 md:bottom-4 left-4 right-4 z-10 ">
+            <div
+              className={clsx(
+                "bg-white flex justify-between rounded-full ring-2 ring-xd-primary-purple-700/20",
+                "lg:max-w-3xl lg:mx-auto"
+              )}
             >
-              <span className="material-symbols-rounded text-xd-secondary-black-rgb group-hover:text-xd-primary-purple-700">
-                add
-              </span>
-            </button>
-            <button type="submit" className="group">
-              <span className="material-symbols-rounded text-xd-secondary-black-rgb group-hover:text-xd-primary-purple-700">
-                send
-              </span>
-            </button>
-            <button type="reset" onClick={() => reset()} className="group">
-              <span className="material-symbols-rounded text-xd-secondary-black-rgb group-hover:text-xd-primary-purple-700">
-                restart_alt
-              </span>
-            </button>
+              <button
+                type="button"
+                onClick={() =>
+                  questionAppend({
+                    questionTitle: "",
+                    questionType: QuestionType.SINGLE_CHOICE,
+                    questionRequired: true,
+                    options: [{ text: "" }, { text: "" }],
+                  })
+                }
+                className={clsx("button button-icon-ghost")}
+              >
+                <span className="material-symbols-rounded">add</span>
+              </button>
+              {isSubmitting ? (
+                <button
+                  className={clsx("button button-icon-ghost animate-spin")}
+                >
+                  <span className="material-symbols-sharp">sync</span>
+                </button>
+              ) : (
+                <button type="submit" className="button button-icon-ghost">
+                  <span className="material-symbols-rounded">send</span>
+                </button>
+              )}
+              <button
+                type="reset"
+                onClick={() => {
+                  reset()
+                  setMinRequiredError(false)
+                }}
+                className="button button-icon-ghost"
+              >
+                <span className="material-symbols-rounded">restart_alt</span>
+              </button>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </BaseLayout>
     </>
   )
 }

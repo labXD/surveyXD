@@ -1,24 +1,34 @@
+import { BaseLayout as XDBaseLayout } from "@labxd/gustxd"
 import clsx from "clsx"
-import React, { FC } from "react"
+import { FC, ReactNode } from "react"
+
+import { Footer } from "./Footer"
+import { TopNav } from "./TopNav"
 export type BaseLayoutProps = {
-  children: React.ReactNode
+  children: ReactNode
   cls?: string
-  footer?: React.ReactNode
-  topNav?: React.ReactNode
+  disableFooter?: boolean
+  disableTopNav?: boolean
+  footer?: ReactNode
+  innerCls?: string
+  topNav?: ReactNode
 }
 export const BaseLayout: FC<BaseLayoutProps> = ({
   children,
   cls,
+  disableFooter,
+  disableTopNav,
   footer,
+  innerCls,
   topNav,
 }) => {
   return (
-    <div className={clsx(cls, "flex flex-col min-h-screen")}>
-      <div className="flex-1">
-        {topNav}
+    <XDBaseLayout className={cls}>
+      <div className={clsx(innerCls, "flex-1")}>
+        {(!disableTopNav && topNav) ?? <TopNav />}
         {children}
       </div>
-      {footer}
-    </div>
+      {(!disableFooter && footer) ?? <Footer />}
+    </XDBaseLayout>
   )
 }

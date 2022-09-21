@@ -1,3 +1,5 @@
+export * from "./404"
+export * from "./500"
 export * from "./champ"
 export * from "./comingSoon"
 export * from "./dashboard"

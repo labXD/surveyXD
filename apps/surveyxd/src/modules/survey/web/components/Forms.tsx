@@ -52,7 +52,7 @@ export const TextInputWithClose: FC<TextInputWithCloseInterface> = ({
       <button
         type="button"
         onClick={remove}
-        className="button-icon-ghost button-sm p-0"
+        className="button button-icon-ghost button-sm p-0"
       >
         <span className={clsx("material-symbols-rounded")}>close</span>
       </button>
@@ -96,7 +96,7 @@ export const QuestionType: FC<QuestionTypeProps> = ({
         <button
           type="button"
           onClick={remove}
-          className="button-icon-ghost button-sm p-0"
+          className="button button-icon-ghost button-sm p-0"
         >
           <span className={clsx("material-symbols-rounded")}>close</span>
         </button>

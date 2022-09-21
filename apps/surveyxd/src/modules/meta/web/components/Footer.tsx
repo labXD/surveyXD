@@ -1,22 +1,14 @@
 import clsx from "clsx"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { type FC } from "react"
+import { type FC, ReactNode } from "react"
 
-export const Footer: FC = () => {
+interface FooterInterface {
+  children?: ReactNode
+}
+export const Footer: FC<FooterInterface> = ({ children }) => {
   const router = useRouter()
 
-  const responsePage = () => {
-    if (router.pathname.startsWith("/survey")) {
-      const split = router.pathname.split("/")
-      if (split.length === 3) {
-        return (
-          <div>This content is neither created nor endorsed by surveyXD</div>
-        )
-      }
-    }
-    return
-  }
   return (
     <footer
       className={clsx(
@@ -26,7 +18,7 @@ export const Footer: FC = () => {
         }
       )}
     >
-      {responsePage()}
+      {children}
       <div className="space-x-1">
         <Link href="https://www.labxd.com" target="_blank">
           <a className="cursor-pointer transition-all border-b border-b-xd-neutral-700">

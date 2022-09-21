@@ -1,5 +1,6 @@
 export * from "./BaseLayout"
 export * from "./DropdownMenu"
+export * from "./ErrorUI"
 export * from "./Footer"
 export * from "./PageMetaTitle"
 export * from "./TopNav"

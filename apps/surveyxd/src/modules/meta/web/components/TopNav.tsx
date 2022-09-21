@@ -8,17 +8,17 @@ import { HeaderDropdownMenu } from "./DropdownMenu"
 
 export const TopNav: FC = () => {
   const router = useRouter()
-  const { surveyId } = router.query
+  const addBottomBorder = router.pathname === "/survey/[surveyId]"
 
   return (
     <nav
-      className={clsx({
-        "bg-white ring-2 ring-xd-neutral-300": surveyId,
+      className={clsx("bg-white", {
+        "ring-2 ring-xd-neutral-300": addBottomBorder,
       })}
     >
       <div
         className={clsx(
-          "xd-layout px-4 flex items-center justify-between min-h-[64px]"
+          "page-max-xl px-4 flex items-center justify-between min-h-[64px]"
         )}
       >
         <Link href={"/"}>
@@ -45,7 +45,7 @@ export const TopNavComingSoon: FC = () => {
       <div
         className={clsx(
           "p-4 flex justify-center items-center min-h-[64px]",
-          "lg:max-w-7xl lg:mx-auto"
+          "page-max-xl"
         )}
       >
         <Link href={"/"}>

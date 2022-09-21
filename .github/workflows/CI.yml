@@ -35,7 +35,7 @@ jobs:
         with:
           version: ${{ env.PROJECT_PNPM_VERSION }}
           run_install: false
-      
+
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
@@ -58,7 +58,7 @@ jobs:
       - name: Gen types
         run: DATABASE_URL=mysql://root:root@localhost:3306/neo pnpm run db:gen
         working-directory: apps/surveyxd
- 
+
       - name: Typecheck
         run: pnpm run typecheck
         working-directory: apps/surveyxd
@@ -71,11 +71,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          scopes: |
-            trinity
-            furiosa
-            scirpts
-            deps
           validateSingleCommit: true
           validateSingleCommitMatchesPrTitle: true
-
