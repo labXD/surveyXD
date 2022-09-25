@@ -44,6 +44,7 @@ export const getServerSidePropsSuccessPage: GetServerSideProps = async ({
   if (session?.user) {
     const surveyAccess = await prisma.surveyAccess.findMany({
       where: {
+        userId: session.user.id,
         surveyId: result.data.surveyId,
         OR: [
           { role: SurveyUserAcessRoles.ADMIN },
@@ -52,9 +53,7 @@ export const getServerSidePropsSuccessPage: GetServerSideProps = async ({
       },
     })
 
-    const hasAccess = surveyAccess.find(
-      (access) => access.userId === session.user.id
-    )
+    const hasAccess = surveyAccess.length > 0
 
     if (!hasAccess) {
       return {
