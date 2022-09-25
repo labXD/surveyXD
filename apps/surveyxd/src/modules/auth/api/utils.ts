@@ -65,12 +65,11 @@ export const nextAuthOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async session({ session, user }) {
+    async session({ session }) {
       if (!session.user?.email) {
         return session
       }
 
-      console.log(session, user)
       const res = await getUser(session.user.email)
 
       if (!res) {
