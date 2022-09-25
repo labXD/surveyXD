@@ -1,6 +1,11 @@
+import { getCookie, setCookie } from "cookies-next"
 import { z } from "zod"
 
-import { QuestionType, SurveyPublishStatus } from "@/prisma"
+import {
+  QuestionType,
+  SurveyPublishStatus,
+  SurveyUserAcessRoles,
+} from "@/prisma"
 import { createRouter } from "@/trpc/api"
 
 export const surveyRoutes = createRouter()
@@ -41,10 +46,18 @@ export const surveyRoutes = createRouter()
     resolve: async ({ input, ctx }) => {
       console.log(`Survey created with title ${input.title}`)
 
-      return await ctx.prisma.survey.create({
+      let anonUserId = getCookie("anon-user-id", {
+        req: ctx.req,
+        res: ctx.res,
+      })
+
+      anonUserId = typeof anonUserId === "boolean" ? null : anonUserId
+
+      const survey = await ctx.prisma.survey.create({
         data: {
           title: input.title,
           publishStatus: SurveyPublishStatus.PUBLISHED,
+          anonUserId,
           questions: {
             create: input.questions.map((q) => ({
               title: q.title,
@@ -68,6 +81,18 @@ export const surveyRoutes = createRouter()
           },
         },
       })
+
+      if (ctx.user) {
+        await ctx.prisma.surveyAccess.create({
+          data: {
+            surveyId: survey.id,
+            userId: ctx.user?.id,
+            role: SurveyUserAcessRoles.ADMIN,
+          },
+        })
+      }
+
+      return survey
     },
   })
   .query("getSurvey", {
