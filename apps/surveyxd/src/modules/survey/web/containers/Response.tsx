@@ -31,7 +31,7 @@ export const Response: FC<ResponseProps> = ({ surveyId }) => {
     { surveyId },
   ])
 
-  const submitResMutation = trpc.useMutation("survey.submitResponse")
+  const submitResMutation = trpc.useMutation("survey.createResponse")
 
   const router = useRouter()
 
