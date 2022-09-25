@@ -18,7 +18,7 @@ export const ResultChartsPage: NextPage = () => {
             <XDSandDanceNoSSR />
           </div>
           <div className="px-4 pt-6 max-w-xl flex flex-col w-full space-y-2">
-            <Link href="/dashboard">
+            <Link href="/user/dashboard">
               <button className="button button-outline">
                 Back to your dashboard
               </button>

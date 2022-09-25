@@ -43,7 +43,7 @@ export const ResponseSuccessPage: NextPage = () => {
             <button
               onClick={() =>
                 session?.user
-                  ? router.push("/dashboard")
+                  ? router.push("/user/dashboard")
                   : signIn("google", { callbackUrl: "/champ" })
               }
               className="button button-primary w-full"

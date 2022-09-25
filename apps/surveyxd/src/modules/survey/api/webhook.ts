@@ -64,5 +64,5 @@ export const attachUserToSurveyHandler = async (
     },
   })
 
-  res.redirect(`/dashboard`)
+  res.redirect(`/user/dashboard`)
 }
