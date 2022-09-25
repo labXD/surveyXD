@@ -124,6 +124,8 @@ model SurveyAccess {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([surveyId])
 }
 
 enum QuestionType {
