@@ -1,8 +1,47 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { type NextAuthOptions } from "next-auth"
+import {
+  type DefaultSession,
+  type DefaultUser,
+  type NextAuthOptions,
+} from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 
 import { prisma } from "@/meta/api"
+import { PrismaClient, User } from "@/prisma"
+
+declare module "next-auth" {
+  export interface User extends DefaultUser {
+    id: string
+  }
+
+  export interface Session extends DefaultSession {
+    user: DefaultSession["user"] & { id: string }
+  }
+}
+
+const getUserCreator = (prisma: PrismaClient) => {
+  const cache: Record<string, User> = {}
+
+  return async (email: string) => {
+    if (cache[email]) {
+      return cache[email]
+    }
+
+    const res = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    })
+
+    if (res) {
+      cache[email] = res
+    }
+
+    return res
+  }
+}
+
+const getUser = getUserCreator(prisma)
 
 /**
  * # Authentication
@@ -24,5 +63,22 @@ export const nextAuthOptions: NextAuthOptions = {
   secret: process.env.NEXT_AUTH_SECRET,
   session: {
     strategy: "jwt",
+  },
+  callbacks: {
+    async session({ session }) {
+      if (!session.user?.email) {
+        return session
+      }
+
+      const res = await getUser(session.user.email)
+
+      if (!res) {
+        return session
+      }
+
+      session.user.id = res.id
+      // Send properties to the client, like an access_token from a provider.
+      return session
+    },
   },
 }

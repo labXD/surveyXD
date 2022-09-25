@@ -1,5 +1,5 @@
 import copy from "copy-to-clipboard"
-import { NextPage } from "next"
+import { type NextPage } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -8,6 +8,7 @@ import { signIn, useSession } from "next-auth/react"
 import { BaseLayout, PageMetaTitle } from "@/meta/web"
 
 import DataImage from "../assets/data-img.png"
+
 export const SuccessPage: NextPage = () => {
   const { data: session } = useSession()
   const router = useRouter()
@@ -70,7 +71,9 @@ export const SuccessPage: NextPage = () => {
               onClick={() =>
                 session?.user
                   ? router.push("/dashboard")
-                  : signIn("google", { callbackUrl: "/dashboard" })
+                  : signIn("google", {
+                      callbackUrl: `/api/v0/rest/survey/${surveyId}/attacher/anon-user`,
+                    })
               }
             >
               {session?.user

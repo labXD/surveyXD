@@ -57,6 +57,8 @@ model User {
   accounts        Account[]
   sessions        Session[]
   usersWithAccess SurveyAccess[]
+
+  @@index([id])
 }
 
 model VerificationToken {
@@ -75,6 +77,8 @@ enum SurveyPublishStatus {
 
 model Survey {
   id String @id @default(cuid())
+
+  anonUserId String?
 
   title           String?
   questions       Question[]
@@ -101,8 +105,8 @@ model SurveyAccess {
   surveyId String
   survey   Survey @relation(fields: [surveyId], references: [id], onDelete: Cascade)
 
-  ownerId String
-  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   role SurveyUserAcessRoles @default(ADMIN)
 
@@ -123,7 +127,7 @@ model Question {
   title        String
   description  String?
   questionType QuestionType
-  isRequired   Boolean @default(false)
+  isRequired   Boolean      @default(false)
 
   surveyId String
   survey   Survey @relation(fields: [surveyId], references: [id], onDelete: Cascade)

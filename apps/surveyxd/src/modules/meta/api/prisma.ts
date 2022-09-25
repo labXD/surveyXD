@@ -59,7 +59,7 @@ const prismaOptions: Prisma.Subset<
 > = {
   datasources: {
     db: {
-      url: process.env.DATABASE_URL,
+      url: process.env.DATABASE_URL ?? "",
     },
   },
 }

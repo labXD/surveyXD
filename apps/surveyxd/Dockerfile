@@ -16,6 +16,7 @@ RUN pnpm install -r --prefer-offline
 WORKDIR /app/apps/surveyxd
 
 ENV NEXT_TELEMETRY_DISABLED 1
+ENV DATABASE_URL mysql://localhost:3306
 
 RUN pnpm run db:gen
 RUN pnpm build
