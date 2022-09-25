@@ -17,7 +17,7 @@ WORKDIR /app/apps/surveyxd
 
 ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN DATABASE_URL="mysql://localhost:3306 pnpm run db:gen
+RUN DATABASE_URL="mysql://localhost:3306" pnpm run db:gen
 RUN pnpm build
 
 
