@@ -70,7 +70,7 @@ export const SuccessPage: NextPage = () => {
               className="button-link"
               onClick={() =>
                 session?.user
-                  ? router.push("/dashboard")
+                  ? router.push("/user/dashboard")
                   : signIn("google", {
                       callbackUrl: `/api/v0/rest/survey/${surveyId}/attacher/anon-user`,
                     })

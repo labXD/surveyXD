@@ -51,12 +51,15 @@ function getBaseUrl() {
 }
 
 export default withTRPC<AppRouter>({
-  config({ ctx: _ctx }) {
+  config({ ctx }) {
     /**
      * If you want to use SSR, you need to use the server's full URL
      * @link https://trpc.io/docs/ssr
      */
     return {
+      headers: () => ({
+        cookie: ctx?.req?.headers?.cookie ?? "",
+      }),
       url: `${getBaseUrl()}/api/trpc`,
       /**
        * @link https://react-query-v3.tanstack.com/reference/QueryClient

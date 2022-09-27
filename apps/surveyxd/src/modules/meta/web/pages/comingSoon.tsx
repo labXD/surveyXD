@@ -32,7 +32,7 @@ export const ComingSoonPage: NextPage = () => {
             <button
               onClick={() =>
                 session?.user
-                  ? router.push("/dashboard")
+                  ? router.push("/user/dashboard")
                   : signIn("google", { callbackUrl: "/champ" })
               }
               className={clsx("button w-full", {
