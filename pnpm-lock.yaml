@@ -54,6 +54,7 @@ importers:
       '@trpc/react': ^9.27.2
       '@trpc/server': ^9.27.2
       '@types/cookie': ^0.5.1
+      '@types/lodash.groupby': ^4.6.7
       '@types/minimatch': ^5.1.2
       '@types/node': 18.7.18
       '@types/react': 17.0.39
@@ -66,6 +67,7 @@ importers:
       cookies-next: ^2.1.1
       copy-to-clipboard: ^3.3.2
       date-fns: ^2.29.3
+      lodash.groupby: ^4.6.0
       minimatch: ^5.1.0
       nanoid: ^4.0.0
       next: 12.3.0
@@ -108,6 +110,7 @@ importers:
       cookies-next: 2.1.1
       copy-to-clipboard: 3.3.2
       date-fns: 2.29.3
+      lodash.groupby: 4.6.0
       minimatch: 5.1.0
       nanoid: 4.0.0
       next: 12.3.0_2f3qgkpmmpou2hyqrmueifddme
@@ -126,6 +129,7 @@ importers:
     devDependencies:
       '@svgr/webpack': 6.3.1
       '@types/cookie': 0.5.1
+      '@types/lodash.groupby': 4.6.7
       '@types/minimatch': 5.1.2
       '@types/node': 18.7.18
       '@types/react': 17.0.39
@@ -2689,6 +2693,16 @@ packages:
 
   /@types/json5/0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+    dev: true
+
+  /@types/lodash.groupby/4.6.7:
+    resolution: {integrity: sha512-dFUR1pqdMgjIBbgPJ/8axJX6M1C7zsL+HF4qdYMQeJ7XOp0Qbf37I3zh9gpXr/ks6tgEYPDRqyZRAnFYvewYHQ==}
+    dependencies:
+      '@types/lodash': 4.14.185
+    dev: true
+
+  /@types/lodash/4.14.185:
+    resolution: {integrity: sha512-evMDG1bC4rgQg4ku9tKpuMh5iBNEwNa3tf9zRHdP1qlv+1WUg44xat4IxCE14gIpZRGUUWAx2VhItCZc25NfMA==}
     dev: true
 
   /@types/minimatch/5.1.2:
@@ -6001,6 +6015,10 @@ packages:
   /lodash.flatten/4.4.0:
     resolution: {integrity: sha512-C5N2Z3DgnnKr0LOpv/hKCgKdb7ZZwafIrsesve6lmzvZIRZRGaZ/l6Q8+2W7NaT+ZwO3fFlSCzCzrDCFdJfZ4g==}
     dev: true
+
+  /lodash.groupby/4.6.0:
+    resolution: {integrity: sha512-5dcWxm23+VAoz+awKmBaiBvzox8+RqMgFhi7UvX9DHZr2HdxHXM/Wrf8cfKpsW37RNrvtPn6hSwNqurSILbmJw==}
+    dev: false
 
   /lodash.isplainobject/4.0.6:
     resolution: {integrity: sha512-oSXzaWypCMHkPC3NvBEaPHf0KsA5mvPrOPgQWDsbg8n7orZ290M0BmC/jgRZ4vcJ6DTAhjrsSYgdsW/F+MFOBA==}

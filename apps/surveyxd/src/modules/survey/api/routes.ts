@@ -1,4 +1,6 @@
+import { TRPCError } from "@trpc/server"
 import { getCookie } from "cookies-next"
+import groupby from "lodash.groupby"
 import { z } from "zod"
 
 import {
@@ -117,6 +119,69 @@ export const surveyRoutes = createRouter()
           },
         },
       })
+    },
+  })
+  .query("getSurveyResponses", {
+    input: z.object({
+      surveyId: z.string(),
+    }),
+    resolve: async ({ ctx, input }) => {
+      // TODO: refactor into middleware
+      if (!ctx.user) {
+        throw new TRPCError({ code: "UNAUTHORIZED" })
+      }
+
+      const hasAccess =
+        (
+          await ctx.prisma.surveyAccess.findMany({
+            where: {
+              surveyId: input.surveyId,
+              userId: ctx.user?.id,
+              OR: [
+                { role: SurveyUserAcessRoles.EDITOR },
+                { role: SurveyUserAcessRoles.ADMIN },
+              ],
+            },
+          })
+        ).length > 0
+
+      if (!hasAccess) {
+        throw new TRPCError({ code: "UNAUTHORIZED" })
+      }
+
+      const res = await ctx.prisma.surveyResponse.findMany({
+        where: {
+          surveyId: input.surveyId,
+        },
+        include: {
+          answers: {
+            include: {
+              answer: true,
+              question: true,
+            },
+          },
+        },
+      })
+
+      const qs = await ctx.prisma.question.findMany({
+        where: {
+          surveyId: input.surveyId,
+        },
+      })
+
+      const responses = res.map(({ answers: ans, ...response }) => {
+        const answers = groupby(ans, "questionId")
+
+        return {
+          ...response,
+          answers,
+        }
+      })
+
+      return {
+        qustions: qs,
+        responses,
+      }
     },
   })
   .mutation("createResponse", {

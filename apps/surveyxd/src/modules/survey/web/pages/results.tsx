@@ -1,54 +1,67 @@
 import { Listbox, Transition } from "@headlessui/react"
 import clsx from "clsx"
 import { NextPage } from "next"
-import { Fragment, useState } from "react"
+import { useRouter } from "next/router"
+import { Fragment, useMemo, useState } from "react"
 
 import { BaseLayout, PageMetaTitle, TopNav } from "@/meta/web"
+import { trpc } from "@/trpc/web"
 
-const questionValue = [
-  { question: "Do you like cheese ?" },
-  { question: "Do you like pizza?" },
-]
 export const ResultsPage: NextPage = () => {
-  const [selected, setSelected] = useState(questionValue[0])
+  const router = useRouter()
 
-  const RESPONSE_DATA = Array.from({ length: 10 }, () => ({
-    createdAt: "2021-01-01",
-    responseId: 112,
-    questions: [
-      {
-        questionText: "Do you like bleu cheese?",
-        questionId: 1,
-        answerText: ["yes"],
-        answerId: [0],
-      },
-      {
-        questionText: "Are you a beer or wine person?",
-        questionId: 2,
-        answerText: ["wine"],
-        answerId: [1],
-      },
-      {
-        questionText: "Choose your favorite apple",
-        questionId: "3",
-        answerText: ["Granny Smith", "Fuji"],
-        answerId: [0, 1],
-      },
-    ],
-  }))
+  const surveyId = useMemo(() => {
+    if (!router.query.surveyId || typeof router.query.surveyId !== "string") {
+      return undefined
+    }
 
-  const HEADERS = [
-    "Submitted date",
-    "Response ID",
-    "Do you like bleu cheese?",
-    "Are you a beer or wine person?",
-    "Choose your favorite apple",
-  ]
+    return router.query.surveyId
+  }, [router.query.surveyId])
 
-  const HEADERS_VALUE = ["Submitted date", "Response ID", "Q1", "Q2", "Q3"]
+  const { isLoading, data, error } = trpc.useQuery(
+    ["survey.getSurveyResponses", { surveyId: surveyId ?? "" }],
+    { enabled: !!surveyId }
+  )
+
+  const HEADERS = useMemo(() => {
+    if (!data) {
+      return []
+    }
+    return data.qustions.map((qs) => qs.title)
+  }, [data])
 
   const [showHeader, setShowHeader] = useState(HEADERS)
   const [tv, setTv] = useState(true)
+
+  const questionValue = useMemo(() => {
+    if (!data) {
+      return undefined
+    }
+
+    return data.qustions.map((q) => ({ question: q.title }))
+  }, [data?.qustions])
+
+  const [selected, setSelected] = useState(
+    !questionValue || !questionValue[0] ? undefined : questionValue[0]
+  )
+
+  const HEADERS_VALUE = useMemo(
+    () => [
+      "Submitted date",
+      "Response ID",
+      ...Array.from({ length: HEADERS.length }).map((_, i) => `Q${i + 1}`),
+    ],
+    [HEADERS]
+  )
+
+  if (isLoading) {
+    return <h1>Loading</h1>
+  }
+
+  if (error || !data) {
+    return <h1>Error ${error?.message}</h1>
+  }
+
   return (
     <>
       <PageMetaTitle>Results</PageMetaTitle>
@@ -84,7 +97,7 @@ export const ResultsPage: NextPage = () => {
                           table_rows
                         </span>
                         <span className="block text-left">
-                          {selected.question}
+                          {selected?.question}
                         </span>
                         <span
                           className={clsx(
@@ -101,7 +114,7 @@ export const ResultsPage: NextPage = () => {
                         leaveTo="opacity-0"
                       >
                         <Listbox.Options className="z-10 absolute left-0 bottom-0 right-0 translate-y-full max-h-60 overflow-auto rounded-xs bg-white text-xs md:text-sm drop-shadow-md shadow">
-                          {questionValue.map((option, index) => (
+                          {questionValue?.map((option, index) => (
                             <Listbox.Option
                               as={Fragment}
                               key={index}
@@ -251,7 +264,7 @@ export const ResultsPage: NextPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {RESPONSE_DATA.map((data, rIndex) => (
+                {data?.responses.map((data, rIndex) => (
                   <tr key={rIndex} className="bg-white">
                     <td
                       key={rIndex}
@@ -263,16 +276,25 @@ export const ResultsPage: NextPage = () => {
                       key={rIndex}
                       className="py-2 px-4 border-x border-b border-xd-neutral-300 w-[unset] md:w-32"
                     >
-                      {data.responseId}
+                      {data.id}
                     </td>
-                    {data.questions.map((q, qIndex) => (
-                      <td
-                        key={qIndex}
-                        className="py-2 px-4 border-x border-b border-xd-neutral-300"
-                      >
-                        {!tv ? q.answerText.join(", ") : q.answerId.join(", ")}
-                      </td>
-                    ))}
+                    {Object.keys(data.answers).map((q) => {
+                      const answerText = data.answers[q].map(
+                        (ans) => ans.answer.textValue
+                      )
+                      const answerId = data.answers[q].map(
+                        (ans) => ans.answer.id
+                      )
+
+                      return (
+                        <td
+                          key={q}
+                          className="py-2 px-4 border-x border-b border-xd-neutral-300"
+                        >
+                          {!tv ? answerText.join(", ") : answerId.join(", ")}
+                        </td>
+                      )
+                    })}
                   </tr>
                 ))}
               </tbody>
