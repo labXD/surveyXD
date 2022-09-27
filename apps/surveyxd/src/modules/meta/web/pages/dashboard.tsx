@@ -1,33 +1,22 @@
 import clsx from "clsx"
+import { format } from "date-fns"
 import { NextPage } from "next"
 import Link from "next/link"
+
+import { trpc } from "@/trpc/web"
 
 import { BaseLayout, PageMetaTitle } from "../components"
 
 export const DashboardPage: NextPage = () => {
-  const DUMMY_SURVEY_DATA = [
-    {
-      id: 1,
-      name: "Survey 1",
-      date: "2020-01-01",
-      status: "live",
-      responses: 100,
-    },
-    {
-      id: 2,
-      name: "Survey 2",
-      date: "2020-01-02",
-      status: "live",
-      responses: 200,
-    },
-    {
-      id: 3,
-      name: "Survey 3",
-      date: "2020-01-03",
-      status: "live",
-      responses: 300,
-    },
-  ]
+  const { isLoading, data, error } = trpc.useQuery(["user.getSurveys"])
+
+  if (isLoading) {
+    return <h1>loading ... </h1>
+  }
+
+  if (error || !data) {
+    return <h1>error {error?.message}</h1>
+  }
 
   return (
     <>
@@ -59,7 +48,7 @@ export const DashboardPage: NextPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {DUMMY_SURVEY_DATA.map((survey, index) => (
+                {data.map((survey, index) => (
                   <tr
                     key={index}
                     className={clsx("bg-white even:bg-xd-neutral-100 border-b")}
@@ -68,17 +57,17 @@ export const DashboardPage: NextPage = () => {
                       scope="row"
                       className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                     >
-                      <a className="button button-link">{survey.name}</a>
+                      <a className="button button-link">{survey.title}</a>
                     </th>
                     <td className="py-4 px-6 text-xd-success-700">
                       <div className="flex items-center bg-xd-success-700/10 px-3 py-1 rounded-full space-x-1">
                         <span className="w-2 h-2 rounded-full bg-xd-success-700" />
-                        <span>{survey.status}</span>
+                        <span>{survey.publishStatus}</span>
                       </div>
                     </td>
                     <td className="py-4 px-6">
                       <span className="text-gray-700 dark:text-gray-400">
-                        {survey.date}
+                        {format(new Date(survey.createdAt), "yyyy-MM-dd")}
                       </span>
                     </td>
                     <td className="py-4 px-6">
@@ -89,9 +78,13 @@ export const DashboardPage: NextPage = () => {
                     </td>
                     <td className="py-4 px-6">
                       <div className="flex justify-center">
-                        <a className="button button-link">
-                          <span className="material-symbols-rounded">link</span>
-                        </a>
+                        <Link href={`/survey/${survey.id}`}>
+                          <a className="button button-link">
+                            <span className="material-symbols-rounded">
+                              link
+                            </span>
+                          </a>
+                        </Link>
                       </div>
                     </td>
                     <td className="py-4 px-6">

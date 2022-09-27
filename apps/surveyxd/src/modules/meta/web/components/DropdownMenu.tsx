@@ -80,7 +80,7 @@ export const HeaderDropdownMenu: FC = () => {
           )}
           <Menu.Item as="div">
             {({ active }) => (
-              <Link href="/dashboard">
+              <Link href="/user/dashboard">
                 <button
                   className={clsx(
                     "button button-ghost button-sm w-full space-x-2 justify-start",
@@ -170,7 +170,7 @@ export const SurveyDropdownMenu: FC<XDDropdownMenuInterface> = ({ data }) => {
       {session?.user && (
         <Menu.Item as="div">
           {({ active }) => (
-            <Link href="/dashboard">
+            <Link href="/user/dashboard">
               <button
                 className={clsx(
                   "button button-ghost button-sm w-full space-x-2 justify-start",

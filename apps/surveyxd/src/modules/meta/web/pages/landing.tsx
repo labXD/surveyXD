@@ -45,7 +45,7 @@ export const LandingPage: NextPage = () => {
               <span className="px-4">Or</span>
             </div>
             {session?.user ? (
-              <Link href="/dashboard">
+              <Link href="/user/dashboard">
                 <button className="button button-primary w-full space-x-4">
                   <span className="material-symbols-rounded">
                     <span className="material-symbols-rounded">

@@ -195,19 +195,22 @@ export const surveyRoutes = createRouter()
         .array(),
     }),
     resolve: async ({ ctx, input }) => {
-      const data = input.responses
-        .map((res) =>
-          res.responseIds.map((id) => ({
-            questionId: res.questionId,
-            answerId: id,
-            surveyId: input.surveyId,
-          }))
-        )
-        .flatMap((v) => v)
-      const res = await ctx.prisma.answer.createMany({
-        data,
+      const res = await ctx.prisma.surveyResponse.create({
+        data: {
+          surveyId: input.surveyId,
+          answers: {
+            create: input.responses
+              .map((res) =>
+                res.responseIds.map((id) => ({
+                  questionId: res.questionId,
+                  answerId: id,
+                }))
+              )
+              .flatMap((v) => v),
+          },
+        },
       })
 
-      return res.count === data.length
+      return res
     },
   })
