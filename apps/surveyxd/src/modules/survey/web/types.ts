@@ -27,3 +27,7 @@ export interface SurveyDropdownMenuInterface {
 
 // Forms
 export type QuestionTypeOptions = QuestionType
+
+export interface SurveyIdInterface {
+  surveyId: string
+}

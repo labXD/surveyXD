@@ -179,7 +179,7 @@ export const surveyRoutes = createRouter()
       })
 
       return {
-        qustions: qs,
+        questions: qs,
         responses,
       }
     },

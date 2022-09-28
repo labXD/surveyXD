@@ -1,3 +1,6 @@
+export * from "./QuestionLevelResults"
 export * from "./QuestionProvider"
 export * from "./Response"
+export * from "./ResponseTable"
 export * from "./SandDanceContainer"
+export * from "./SurveyResultsAbstract"
