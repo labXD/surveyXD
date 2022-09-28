@@ -1,11 +1,17 @@
-import { FC } from "react"
+import clsx from "clsx"
+import { FC, ReactNode } from "react"
 
 interface ErrorUIInterface {
   buttonIcon?: string
   buttonText?: string
-  code: string | number
+  code: ReactNode
   children?: string
   onClick?: () => void
+}
+
+interface ErrorPageInterface {
+  children: ReactNode
+  cls?: string
 }
 
 export const ErrorUI: FC<ErrorUIInterface> = ({
@@ -37,5 +43,13 @@ export const ErrorUI: FC<ErrorUIInterface> = ({
         </div>
       )}
     </main>
+  )
+}
+
+export const ErrorPage: FC<ErrorPageInterface> = ({ children, cls }) => {
+  return (
+    <div className={clsx(`${cls || "p-8 w-full"}`, " text-xd-danger-700")}>
+      {children}
+    </div>
   )
 }
