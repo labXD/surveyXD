@@ -3,12 +3,16 @@ import { format } from "date-fns"
 import { NextPage } from "next"
 import Link from "next/link"
 
+import { SurveyPublishStatus } from "@/prisma"
 import { trpc } from "@/trpc/web"
 
 import { BaseLayout, PageMetaTitle } from "../components"
 
 export const DashboardPage: NextPage = () => {
-  const { isLoading, data, error } = trpc.useQuery(["user.getSurveys"])
+  const { isLoading, data, error, refetch } = trpc.useQuery(["user.getSurveys"])
+  const updateSurveyStatusMutation = trpc.useMutation([
+    "user.updateSurveyPublicationStatus",
+  ])
 
   if (isLoading) {
     return <h1>loading ... </h1>
@@ -16,6 +20,22 @@ export const DashboardPage: NextPage = () => {
 
   if (error || !data) {
     return <h1>error {error?.message}</h1>
+  }
+
+  const toggleSurveyPublicationStatus = async (
+    surveyId: string,
+    prevPubStatus: SurveyPublishStatus
+  ) => {
+    await updateSurveyStatusMutation.mutateAsync({
+      surveyId,
+      status:
+        prevPubStatus === SurveyPublishStatus.PUBLISHED
+          ? SurveyPublishStatus.COMPLETED
+          : SurveyPublishStatus.PUBLISHED,
+    })
+
+    // TODO: clean up with more granular statue update
+    refetch()
   }
 
   return (
@@ -96,6 +116,20 @@ export const DashboardPage: NextPage = () => {
                             </span>
                           </a>
                         </Link>
+                      </div>
+                    </td>
+                    <td className="py-4 px-6">
+                      <div className="flex justify-center">
+                        <button
+                          onClick={() =>
+                            toggleSurveyPublicationStatus(
+                              survey.id,
+                              survey.publishStatus
+                            )
+                          }
+                        >
+                          toggle
+                        </button>
                       </div>
                     </td>
                   </tr>
