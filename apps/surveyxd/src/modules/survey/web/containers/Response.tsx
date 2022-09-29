@@ -3,7 +3,13 @@ import { useRouter } from "next/router"
 import { FC, FormEvent } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 
-import { BaseLayout, Footer, PageMetaTitle } from "@/meta/web"
+import {
+  BaseLayout,
+  ErrorPage,
+  Footer,
+  LoadingUI,
+  PageMetaTitle,
+} from "@/meta/web"
 import { QuestionType } from "@/prisma"
 import { trpc } from "@/trpc/web"
 
@@ -30,6 +36,9 @@ export const Response: FC<ResponseProps> = ({ surveyId }) => {
     "survey.getSurvey",
     { surveyId },
   ])
+
+  const { data: userData } = trpc.useQuery(["user.getSurveys"])
+  const findSurvey = userData?.find((survey) => survey.id === surveyId)
 
   const submitResMutation = trpc.useMutation("survey.createResponse")
 
@@ -91,15 +100,20 @@ export const Response: FC<ResponseProps> = ({ surveyId }) => {
   }
 
   if (isLoading) {
-    return <div className="p-4">...Loading</div>
+    return <LoadingUI center />
   }
 
   if (error) {
-    return <div className="p-4">{error.message}</div>
+    return <ErrorPage>{error.message}</ErrorPage>
   }
 
   if (!data) {
-    return <div className="p-4">Something went wrong</div>
+    return <ErrorPage>Something went wrong</ErrorPage>
+  }
+
+  if (findSurvey?.publishStatus !== "PUBLISHED") {
+    router.replace(`/survey/${surveyId}/inactive`)
+    return null
   }
 
   return (
