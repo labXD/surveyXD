@@ -13,8 +13,6 @@ export const QuestionLevelResults: FC<SurveyIdInterface> = ({ surveyId }) => {
     { surveyId },
   ])
 
-  const { data: surveyData } = trpc.useQuery(["survey.getSurvey", { surveyId }])
-
   const { data: surveyQuestionStatsData } = trpc.useQuery([
     "survey.getSurveyStats",
     { surveyId },
@@ -39,25 +37,10 @@ export const QuestionLevelResults: FC<SurveyIdInterface> = ({ surveyId }) => {
     if (data && questionValue) setSelected(questionValue[0])
   }, [data])
 
-  const questionOptions = useMemo(() => {
-    if (!surveyData || !selected) {
-      return []
-    }
-
-    const question = surveyData.questions.find(
-      (question) => question.id === selected.id
-    )
-    const options = question?.options.map((option) => ({
-      text: option.textValue,
-      value: option.numericValue,
-      id: option.id,
-    }))
-    return options
-  }, [surveyData, selected])
-
   if (error || !data) {
     return <ErrorPage>Question Error {error?.message}</ErrorPage>
   }
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col md:flex-row md:justify-between">
@@ -164,7 +147,8 @@ export const QuestionLevelResults: FC<SurveyIdInterface> = ({ surveyId }) => {
                         {option.textValue}
                       </td>
                       <td className="py-2 px-4 border-x border-x-neutral-300">
-                        {option.resCountPerct * 100} %
+                        {/* return percentage with two decimal places */}
+                        {Math.round(option.resCountPerct * 100)} %
                       </td>
                       <td className="py-2 px-4 border-x border-x-neutral-300">
                         {option.resCount}
