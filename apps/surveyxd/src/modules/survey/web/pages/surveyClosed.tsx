@@ -19,7 +19,7 @@ export const SurveyClosedPage: NextPage = () => {
           buttonIcon="west"
           onClick={() => router.back()}
         >
-          The survey is not active.
+          The survey is not active
         </ErrorUI>
       </BaseLayout>
     </>
