@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server"
 import { getCookie } from "cookies-next"
 import groupby from "lodash.groupby"
+import groupBy from "lodash.groupby"
 import { z } from "zod"
 
 import {
@@ -212,5 +213,55 @@ export const surveyRoutes = createRouter()
       })
 
       return res
+    },
+  })
+  .query("getSurveyStats", {
+    input: z.object({
+      surveyId: z.string(),
+    }),
+    resolve: async ({ ctx, input }) => {
+      const res = await ctx.prisma.survey.findUnique({
+        where: {
+          id: input.surveyId,
+        },
+        include: {
+          questions: {
+            include: {
+              options: true,
+              answers: {
+                include: {
+                  answer: true,
+                },
+              },
+            },
+          },
+        },
+      })
+
+      const r = res?.questions.map((q) => {
+        const r = groupBy(q.answers, "answerId")
+        const ans = Object.keys(r)
+          .map((key) => ({
+            ansId: r[key][0].id,
+            resCount: r[key].length,
+            ...r[key][0].answer,
+          }))
+          .flatMap((v) => v)
+
+        const totalAnsChosen = ans
+          .map((a) => a.resCount)
+          .reduce((ag, next) => ag + next, 0)
+
+        return {
+          questionId: q.id,
+          questionText: q.title,
+          ans: ans.map((a) => ({
+            ...a,
+            resCountPerct: a.resCount / totalAnsChosen,
+          })),
+        }
+      })
+
+      return r
     },
   })

@@ -15,16 +15,21 @@ export const QuestionLevelResults: FC<SurveyIdInterface> = ({ surveyId }) => {
 
   const { data: surveyData } = trpc.useQuery(["survey.getSurvey", { surveyId }])
 
+  const { data: surveyQuestionStatsData } = trpc.useQuery([
+    "survey.getSurveyStats",
+    { surveyId },
+  ])
+
   const questionValue = useMemo(() => {
-    if (!data) {
+    if (!surveyQuestionStatsData) {
       return undefined
     }
-    return data.questions.map((q, index) => ({
-      question: q.title,
+    return surveyQuestionStatsData.map((q, index) => ({
+      question: q.questionText,
       value: index,
-      id: q.id,
+      id: q.questionId,
     }))
-  }, [data?.questions])
+  }, [surveyQuestionStatsData])
 
   const [selected, setSelected] = useState(
     !questionValue || !questionValue[0] ? undefined : questionValue[0]
@@ -148,22 +153,24 @@ export const QuestionLevelResults: FC<SurveyIdInterface> = ({ surveyId }) => {
                 </tr>
               </thead>
               <tbody>
-                {questionOptions?.map((option, index) => (
-                  <tr
-                    key={index}
-                    className="bg-white border-y border-y-xd-neutral-300"
-                  >
-                    <td className="py-2 px-4 border-x border-x-neutral-300">
-                      {option.text}
-                    </td>
-                    <td className="py-2 px-4 border-x border-x-neutral-300">
-                      &ndash;
-                    </td>
-                    <td className="py-2 px-4 border-x border-x-neutral-300">
-                      &ndash;
-                    </td>
-                  </tr>
-                ))}
+                {surveyQuestionStatsData
+                  ?.find((v) => v.questionId === selected?.id)
+                  ?.ans.map((option, index) => (
+                    <tr
+                      key={index}
+                      className="bg-white border-y border-y-xd-neutral-300"
+                    >
+                      <td className="py-2 px-4 border-x border-x-neutral-300">
+                        {option.textValue}
+                      </td>
+                      <td className="py-2 px-4 border-x border-x-neutral-300">
+                        {option.resCountPerct * 100} %
+                      </td>
+                      <td className="py-2 px-4 border-x border-x-neutral-300">
+                        {option.resCount}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

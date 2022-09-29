@@ -27,6 +27,7 @@ const BREADCRUMBS = (
     </div>
   </header>
 )
+
 export const ResultsPage: NextPage = () => {
   const router = useRouter()
 
