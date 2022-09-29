@@ -1,5 +1,5 @@
 const withTM = require("next-transpile-modules")
-const { withPlugins } = require('next-composed-plugins');
+const { withPlugins } = require("next-composed-plugins")
 
 // verifyEnv()
 
@@ -17,6 +17,15 @@ const nextConfig = {
     })
 
     return config
+  },
+  async redirects() {
+    return [
+      {
+        source: "/dashboard",
+        destination: "/user/dashboard",
+        permanent: true,
+      },
+    ]
   },
 }
 
