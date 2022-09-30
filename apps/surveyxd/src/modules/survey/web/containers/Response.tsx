@@ -37,9 +37,6 @@ export const Response: FC<ResponseProps> = ({ surveyId }) => {
     { surveyId },
   ])
 
-  const { data: userData } = trpc.useQuery(["user.getSurveys"])
-  const findSurvey = userData?.find((survey) => survey.id === surveyId)
-
   const submitResMutation = trpc.useMutation("survey.createResponse")
 
   const router = useRouter()
@@ -109,11 +106,6 @@ export const Response: FC<ResponseProps> = ({ surveyId }) => {
 
   if (!data) {
     return <ErrorPage>Something went wrong</ErrorPage>
-  }
-
-  if (findSurvey?.publishStatus !== "PUBLISHED") {
-    router.replace(`/survey/${surveyId}/inactive`)
-    return null
   }
 
   return (

@@ -7,7 +7,7 @@
     "Walee Ahmed <walee@labxd.com> (https://github.com/wallexd)",
     "DJ Wooster"
   ],
-  "packageManager": "pnpm@7.2.1",
+  "packageManager": "pnpm@7.12.2",
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
@@ -17,6 +17,7 @@
     "lint": "pnpm exec eslint --ext .ts,.tsx .",
     "lint:fix": "pnpm run lint --fix",
     "hook:pre-commit": "lint-staged",
+    "hook:pre-commit:typecheck": "pnpm -F surveyxd typecheck",
     "hook:commit-msg": "commitlint --edit $1",
     "lint:ci": "pnpm run lint --quiet",
     "cli": "node scripts/cli.mjs"

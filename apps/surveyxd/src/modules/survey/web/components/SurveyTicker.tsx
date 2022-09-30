@@ -16,16 +16,12 @@ export const SurveyTicker: FC<SurveyIdInterface> = ({ surveyId }) => {
 
   return (
     <div
-      className={clsx(
-        "ring-1 ring-inset",
-
-        {
-          "bg-xd-success-800/[0.05] ring-xd-success-800":
-            survey?.publishStatus === "PUBLISHED",
-          "bg-xd-danger-700/[0.05] ring-xd-danger-800":
-            survey?.publishStatus !== "PUBLISHED",
-        }
-      )}
+      className={clsx("ring-1 ring-inset", "text-xd-primary-black", {
+        "bg-xd-success-800/[0.05] ring-xd-success-800":
+          survey?.publishStatus === "PUBLISHED",
+        "bg-xd-danger-700/[0.05] ring-xd-danger-800":
+          survey?.publishStatus !== "PUBLISHED",
+      })}
     >
       <div className="page-max-xl flex flex-col md:flex-row px-4 items-center justify-between py-4 md:py-1 text-sm space-x-0 space-y-2 md:space-y-0 md:space-x-1">
         <div
@@ -41,7 +37,7 @@ export const SurveyTicker: FC<SurveyIdInterface> = ({ surveyId }) => {
           <span className={clsx("text-base material-symbols-sharp")}>
             circle
           </span>
-          <span>
+          <span className="font-medium">
             {(() => {
               switch (survey?.publishStatus) {
                 case "PUBLISHED":
@@ -53,6 +49,7 @@ export const SurveyTicker: FC<SurveyIdInterface> = ({ surveyId }) => {
             })()}
           </span>
         </div>
+        {/* Response Count */}
         <div className="flex items-center space-x-2" title="Response count">
           <span className="text-lg material-symbols-outlined">group</span>
           <span>{survey?.responseCount}</span>
@@ -65,10 +62,14 @@ export const SurveyTicker: FC<SurveyIdInterface> = ({ surveyId }) => {
             {format(new Date(survey?.createdAt ?? ""), "yyyy-MM-dd | hh:mm a")}
           </span>
         </div>
-
-        <div className="flex items-center space-x-2" title="Question count">
-          <span className="text-lg material-symbols-rounded">quiz</span>
-          <span>{surveyData.questions.length}</span>
+        {/* Last update */}
+        <div className="flex items-center space-x-2" title="Published date">
+          <span className="text-lg material-symbols-rounded">
+            published_with_changes
+          </span>
+          <span>
+            {format(new Date(survey?.updatedAt ?? ""), "yyyy-MM-dd | hh:mm a")}
+          </span>
         </div>
       </div>
     </div>

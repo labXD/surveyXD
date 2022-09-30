@@ -282,27 +282,18 @@ export const NewSurveyNestedPage: NextPage = () => {
               >
                 <span className="material-symbols-rounded">add</span>
               </button>
-              {isSubmitting ? (
-                <button
-                  className={clsx("button button-icon-ghost animate-spin")}
-                >
-                  <span className="material-symbols-sharp">autorenew</span>
-                </button>
-              ) : (
-                <button type="submit" className="button button-icon-ghost">
-                  <span className="material-symbols-rounded">send</span>
-                </button>
-              )}
-              {/* <button
-                type="reset"
-                onClick={() => {
-                  reset()
-                  setMinRequiredError(false)
-                }}
-                className="button button-icon-ghost"
+
+              <button
+                type="submit"
+                className={clsx("button button-icon-ghost", {
+                  "animate-spin": isSubmitting,
+                })}
+                disabled={isSubmitting}
               >
-                <span className="material-symbols-rounded">restart_alt</span>
-              </button> */}
+                <span className="material-symbols-rounded">
+                  {isSubmitting ? "autorenew" : "send"}
+                </span>
+              </button>
             </div>
           </div>
         </form>

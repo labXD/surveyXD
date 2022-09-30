@@ -10,14 +10,17 @@ import { SurveyIdInterface } from "../types"
 export const SurveyResultsAbstract: FC<SurveyIdInterface> = ({ surveyId }) => {
   const [collapse, setCollapse] = useState(true)
 
-  const {
-    isLoading: surveyIsLoading,
-    data: surveyData,
-    error: surveyError,
-  } = trpc.useQuery(["survey.getSurvey", { surveyId }])
+  const { isLoading, data, error } = trpc.useQuery([
+    "survey.getSurvey",
+    { surveyId },
+  ])
 
-  if (surveyError || !surveyData) {
-    return <ErrorPage>Survey Error {surveyError?.message}</ErrorPage>
+  if (isLoading) {
+    return <LoadingUI />
+  }
+
+  if (error || !data) {
+    return <ErrorPage>Survey Error {error?.message}</ErrorPage>
   }
 
   return (
@@ -28,7 +31,7 @@ export const SurveyResultsAbstract: FC<SurveyIdInterface> = ({ surveyId }) => {
             document_scanner
           </span>
           <div className="text-lg tracking-wider font-medium">
-            {surveyIsLoading ? <LoadingUI /> : surveyData?.title}
+            {data?.title}
           </div>
         </div>
         <div>
@@ -66,7 +69,7 @@ export const SurveyResultsAbstract: FC<SurveyIdInterface> = ({ surveyId }) => {
         >
           <div className="py-4 px-1 md:px-4">
             <div className="xd-card ring-xd-primary-purple-700 divide-y-2 divide-xd-neutral-300 space-y-4">
-              {surveyData.questions.map((q, qIndex) => (
+              {data.questions.map((q, qIndex) => (
                 <div
                   className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-xd-secondary-black-rgb first:pt-0 pt-4"
                   key={qIndex}
@@ -107,6 +110,10 @@ export const SurveyResultsAbstract: FC<SurveyIdInterface> = ({ surveyId }) => {
                   ))}
                 </div>
               ))}
+              <div className="space-x-2 pt-4 text-xd-secondary-black-rgb">
+                <span className="font-medium">TOTAL QUESTIONS:</span>
+                <span>{data.questions.length}</span>
+              </div>
             </div>
           </div>
         </motion.div>
