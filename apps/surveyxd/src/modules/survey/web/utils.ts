@@ -5,7 +5,7 @@ import { z } from "zod"
 
 import { nextAuthOptions } from "@/auth/api"
 import { prisma } from "@/meta/api"
-import { SurveyUserAcessRoles } from "@/prisma"
+import { SurveyPublishStatus, SurveyUserAcessRoles } from "@/prisma"
 
 export const getServerSidePropsSuccessPage: GetServerSideProps = async ({
   req,
@@ -75,6 +75,51 @@ export const getServerSidePropsSuccessPage: GetServerSideProps = async ({
   if (anonUserId && survey && survey.anonUserId !== anonUserId) {
     return {
       notFound: true,
+    }
+  }
+
+  return {
+    props: {},
+  }
+}
+
+// check if the survey is published
+export const getServerSidePropsResponsePage: GetServerSideProps = async ({
+  query,
+}) => {
+  const querySchema = z.object({
+    surveyId: z.string(),
+  })
+
+  const result = await querySchema.safeParseAsync(query)
+
+  if (!result.success) {
+    return {
+      redirect: {
+        destination: "/500",
+        permanent: true,
+      },
+    }
+  }
+
+  const survey = await prisma.survey.findUnique({
+    where: {
+      id: result.data.surveyId,
+    },
+  })
+
+  if (!survey) {
+    return {
+      notFound: true,
+    }
+  }
+
+  if (survey?.publishStatus !== SurveyPublishStatus.PUBLISHED) {
+    return {
+      redirect: {
+        destination: `/survey/${survey?.id}/inactive`,
+        permanent: true,
+      },
     }
   }
 

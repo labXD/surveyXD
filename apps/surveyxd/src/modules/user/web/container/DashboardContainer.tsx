@@ -1,4 +1,5 @@
 import clsx from "clsx"
+import copy from "copy-to-clipboard"
 import { format } from "date-fns"
 import Link from "next/link"
 import { FC } from "react"
@@ -15,10 +16,12 @@ const HEADER = [
   {
     label: "status",
     type: "string",
+    class: "w-[100px]",
   },
   {
     label: "event_available",
     type: "icon",
+    class: "w-28",
   },
   {
     label: "group",
@@ -27,6 +30,7 @@ const HEADER = [
   {
     label: "survey link",
     type: "string",
+    class: "w-[100px]",
   },
   {
     label: "results",
@@ -70,27 +74,31 @@ export const DashboardContainer: FC = () => {
 
   return (
     <>
-      <div className="relative overflow-auto w-full mt-6 max-h-[calc(100vh_-_5rem)]  border border-xd-neutral-400">
+      <div className="relative overflow-auto w-full mt-6  border border-xd-neutral-400">
         <table className="border-collapse table-auto w-full text-xs md:text-sm text-left">
-          <thead className="sticky top-0 bg-xd-neutral-400">
+          <thead className="bg-xd-neutral-400 z-[1]">
             <tr>
               {HEADER.map((header, index) => (
                 <th
                   key={index}
                   scope="col"
                   className={clsx(
-                    "border-x border-b border-xd-neutral-400 bg-xd-neutral-200 text-xd-primary-black py-2 px-4 font-medium",
+                    "border-x border-b border-xd-neutral-400 first:border-l-transparent last:border-r-transparent bg-xd-neutral-200 text-xd-primary-black py-2 px-4 font-medium",
                     {
                       "text-center": !header.label.includes("name"),
                     }
                   )}
                 >
                   {header.type === "icon" ? (
-                    <span className="material-symbols-rounded">
+                    <span
+                      className={clsx(header.class, "material-symbols-rounded")}
+                    >
                       {header.label}
                     </span>
                   ) : (
-                    <span className="uppercase">{header.label}</span>
+                    <span className={clsx(header.class, "uppercase")}>
+                      {header.label}
+                    </span>
                   )}
                 </th>
               ))}
@@ -99,12 +107,12 @@ export const DashboardContainer: FC = () => {
           <tbody>
             {data?.map((survey, index) => (
               <tr key={index} className="bg-white">
-                <td className="py-2 px-4 border-x border-b border-xd-neutral-300">
+                <td className="py-2 px-4 border-x border-b border-xd-neutral-300 border-l-transparent">
                   {survey.title}
                 </td>
                 <td
                   className={clsx(
-                    "py-2 px-4 border-x border-b border-xd-neutral-300 w-[unset] md:w-[10rem]",
+                    "py-2 px-4 border-x border-b border-xd-neutral-300",
                     {
                       "text-xd-success-800":
                         survey.publishStatus === "PUBLISHED",
@@ -145,7 +153,7 @@ export const DashboardContainer: FC = () => {
                     </span>
                   </div>
                 </td>
-                <td className="py-2 px-4 border-x border-b border-xd-neutral-300">
+                <td className="py-2 px-4 border-x border-b border-xd-neutral-300 text-xs md:text-sm">
                   <span>
                     {format(new Date(survey.createdAt), "yyyy-MM-dd | hh:mm a")}
                   </span>
@@ -159,12 +167,24 @@ export const DashboardContainer: FC = () => {
                   key={index}
                   className="py-2 px-4 border-x border-b border-xd-neutral-300 text-center"
                 >
-                  <div className="inline-flex">
+                  <div className="inline-flex space-x-1">
                     <Link href={`/survey/${survey.id}`}>
-                      <a className="button button-link">
+                      <a className="button button-link button-sm">
                         <span className="material-symbols-rounded">link</span>
                       </a>
                     </Link>
+                    <span className="border-l border-l-xd-neutral-300 px-1">
+                      <button
+                        className="button button-icon-ghost button-sm"
+                        onClick={() => {
+                          copy(`https://www.surveyxd.com/survey/${survey.id}`)
+                        }}
+                      >
+                        <span className="text-lg material-symbols-rounded">
+                          content_copy
+                        </span>
+                      </button>
+                    </span>
                   </div>
                 </td>
                 <td className="py-2 px-4 border-x border-b border-xd-neutral-300 text-center">
@@ -180,7 +200,7 @@ export const DashboardContainer: FC = () => {
                     </div>
                   )}
                 </td>
-                <td className="py-2 px-4 border-x border-b border-xd-neutral-300 text-center">
+                <td className="py-2 px-4 border-x border-b border-xd-neutral-300 border-r-transparent text-center">
                   <button
                     onClick={() =>
                       toggleSurveyPublicationStatus(

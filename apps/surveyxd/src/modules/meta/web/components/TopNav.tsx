@@ -1,23 +1,30 @@
 import clsx from "clsx"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import React, { FC } from "react"
+import React, { FC, useMemo } from "react"
 
 import Logo from "../assets/sxd-header-logo-16.svg"
 import { HeaderDropdownMenu } from "./DropdownMenu"
 
 interface TopNavInterface {
+  addBottomBorder?: boolean
   cls?: string
 }
 
-export const TopNav: FC<TopNavInterface> = ({ cls }) => {
+export const TopNav: FC<TopNavInterface> = ({ addBottomBorder, cls }) => {
   const router = useRouter()
-  const addBottomBorder = router.pathname === "/survey/[surveyId]"
+
+  const bottomBorder = useMemo(() => {
+    if (router.pathname === "/survey/[surveyId]" || addBottomBorder) {
+      return true
+    }
+    return false
+  }, [router.pathname, addBottomBorder])
 
   return (
     <nav
       className={clsx(`${cls ?? "bg-white"}`, {
-        "ring-2 ring-xd-neutral-300": addBottomBorder,
+        "ring-2 ring-xd-neutral-300": bottomBorder,
       })}
     >
       <div

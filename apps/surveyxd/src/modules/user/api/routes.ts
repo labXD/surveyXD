@@ -33,6 +33,9 @@ export const userRoutes = createRouter()
               },
             },
           },
+          orderBy: {
+            createdAt: "desc",
+          },
         })
       )
         .map((surveyAccess) => surveyAccess.survey)

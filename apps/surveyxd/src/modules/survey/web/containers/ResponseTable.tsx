@@ -16,6 +16,10 @@ export const ResponseTable: FC<SurveyIdInterface> = ({ surveyId }) => {
 
   const [showText, setShowText] = useState<boolean>(true)
 
+  if (isLoading) {
+    return <LoadingUI />
+  }
+
   if (error || !data) {
     return <ErrorPage>Response Error {error?.message}</ErrorPage>
   }
@@ -72,72 +76,70 @@ export const ResponseTable: FC<SurveyIdInterface> = ({ surveyId }) => {
       </div>
 
       <div className="relative overflow-auto w-full max-h-[calc(100vh_-_5rem)]  border border-xd-neutral-400">
-        {isLoading ? (
-          <LoadingUI />
-        ) : (
-          <table className="border-collapse table-auto w-full text-xs md:text-sm text-left">
-            <thead className="sticky top-0 bg-xd-neutral-400">
-              <tr>
+        <table className="border-collapse table-auto w-full text-xs md:text-sm text-left">
+          <thead className="sticky top-0 bg-xd-neutral-400">
+            <tr>
+              <th
+                scope="col"
+                className="border-x border-b border-xd-neutral-400 bg-xd-neutral-200 text-xd-primary-black py-2 px-4 font-medium"
+              >
+                <span>Submitted date</span>
+              </th>
+              <th
+                scope="col"
+                className="border-x border-b border-xd-neutral-400 bg-xd-neutral-200 text-xd-primary-black py-2 px-4 font-medium"
+              >
+                <span>Response ID</span>
+              </th>
+              {data?.questions.map((question, index) => (
                 <th
+                  key={index}
                   scope="col"
                   className="border-x border-b border-xd-neutral-400 bg-xd-neutral-200 text-xd-primary-black py-2 px-4 font-medium"
                 >
-                  <span>Submitted date</span>
+                  <span>
+                    {showText ? `Q${index}: ${question.title}` : `Q${index}`}
+                  </span>
                 </th>
-                <th
-                  scope="col"
-                  className="border-x border-b border-xd-neutral-400 bg-xd-neutral-200 text-xd-primary-black py-2 px-4 font-medium"
-                >
-                  <span>Responder ID</span>
-                </th>
-                {data?.questions.map((question, index) => (
-                  <th
-                    key={index}
-                    scope="col"
-                    className="border-x border-b border-xd-neutral-400 bg-xd-neutral-200 text-xd-primary-black py-2 px-4 font-medium"
-                  >
-                    <span>{showText ? question.title : `Q${index}`}</span>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {data?.responses.map((response, rIndex) => (
-                <tr key={rIndex} className="bg-white">
-                  <td className="py-2 px-4 border-x border-b border-xd-neutral-300 w-[unset] md:w-40">
-                    <span className="">
-                      {format(
-                        new Date(response.createdAt),
-                        "yyyy-MM-dd | hh:mm a"
-                      )}
-                    </span>
-                  </td>
-                  <td className="py-2 px-4 border-x border-b border-xd-neutral-300 w-[unset] md:w-32">
-                    <span className="">{response.id}</span>
-                  </td>
-                  {Object.keys(response.answers).map((a) => {
-                    const answerText = response.answers[a].map(
-                      (ans) => ans.answer.textValue
-                    )
-                    const answerNumeric = response.answers[a].map(
-                      (ans) => ans.answer.numericValue
-                    )
-                    return (
-                      <td
-                        key={a}
-                        className="py-2 px-4 border-x border-b border-xd-neutral-300"
-                      >
-                        {showText
-                          ? answerText.join(", ")
-                          : answerNumeric.join(", ")}
-                      </td>
-                    )
-                  })}
-                </tr>
               ))}
-            </tbody>
-          </table>
-        )}
+            </tr>
+          </thead>
+          <tbody>
+            {data?.responses.map((response, rIndex) => (
+              <tr key={rIndex} className="bg-white">
+                <td className="py-2 px-4 border-x border-b border-xd-neutral-300 w-[unset] md:w-40">
+                  <span className="">
+                    {format(
+                      new Date(response.createdAt),
+                      "yyyy-MM-dd | hh:mm a"
+                    )}
+                  </span>
+                </td>
+                <td className="py-2 px-4 border-x border-b border-xd-neutral-300 w-[unset] md:w-32">
+                  <span className="">{response.id}</span>
+                </td>
+                {Object.keys(response.answers).map((a) => {
+                  const answerText = response.answers[a].map(
+                    (ans) => ans.answer.textValue
+                  )
+                  const answerNumeric = response.answers[a].map(
+                    (ans) => ans.answer.numericValue
+                  )
+                  return (
+                    <td
+                      key={a}
+                      className="py-2 px-4 border-x border-b border-xd-neutral-300"
+                    >
+                      {showText
+                        ? answerText.join(", ")
+                        : answerNumeric.join(", ")}
+                    </td>
+                  )
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   )
