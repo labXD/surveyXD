@@ -39,6 +39,7 @@
     "@trpc/server": "^9.27.2",
     "analytics": "^0.8.1",
     "analytics-plugin-do-not-track": "^0.1.5",
+    "analytics-plugin-event-validation": "^0.1.2",
     "autoprefixer": "10.4.11",
     "clsx": "^1.2.1",
     "cookie": "^0.5.0",

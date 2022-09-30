@@ -65,6 +65,7 @@ importers:
       '@types/use-analytics': ^0.0.0
       analytics: ^0.8.1
       analytics-plugin-do-not-track: ^0.1.5
+      analytics-plugin-event-validation: ^0.1.2
       autoprefixer: 10.4.11
       clsx: ^1.2.1
       concurrently: 7.4.0
@@ -117,6 +118,7 @@ importers:
       '@trpc/server': 9.27.2
       analytics: 0.8.1_@types+dlv@1.1.2
       analytics-plugin-do-not-track: 0.1.5
+      analytics-plugin-event-validation: 0.1.2
       autoprefixer: 10.4.11_postcss@8.4.16
       clsx: 1.2.1
       cookie: 0.5.0
@@ -3140,6 +3142,10 @@ packages:
 
   /analytics-plugin-do-not-track/0.1.5:
     resolution: {integrity: sha512-Bnadur6Y8UB2GrZD11SXAmIVraPpsVINcU8cgbq6ynJIE00xrcJ/RhqFdqqIM7Heyuze93FhcEKLl5WGV9N9mA==}
+    dev: false
+
+  /analytics-plugin-event-validation/0.1.2:
+    resolution: {integrity: sha512-N5GVohUe5qVVm3swKku9rYRUsTX6C/oyz7Lx4UVrUFzkiOxspG5u9hdJacjZLq0FhT/+wb76FJzGFvaQlKcJJg==}
     dev: false
 
   /analytics-utils/1.0.10_@types+dlv@1.1.2:
