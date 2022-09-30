@@ -5,8 +5,11 @@ import type { AppProps as NextAppProps } from "next/app"
 import Head from "next/head"
 import { Session } from "next-auth"
 import { SessionProvider, signOut } from "next-auth/react"
+import { AnalyticsProvider } from "use-analytics"
 
+import { analytics } from "@/meta/web"
 import { type AppRouter } from "@/trpc/shared/types"
+import { AnalyticsUserIdentify } from "@/user/web"
 
 type AppProps<P = unknown> = {
   pageProps: P
@@ -14,8 +17,9 @@ type AppProps<P = unknown> = {
 
 function App({ Component, pageProps }: AppProps<{ session: Session }>) {
   return (
-    <>
+    <AnalyticsProvider instance={analytics}>
       <SessionProvider session={pageProps.session}>
+        <AnalyticsUserIdentify />
         <Head>
           <meta
             name="viewport"
@@ -32,7 +36,7 @@ function App({ Component, pageProps }: AppProps<{ session: Session }>) {
           </button>
         </div>
       </SessionProvider>
-    </>
+    </AnalyticsProvider>
   )
 }
 
