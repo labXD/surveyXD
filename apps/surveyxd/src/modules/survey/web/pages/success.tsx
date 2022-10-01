@@ -62,12 +62,14 @@ export const SuccessPage: NextPage = () => {
               title="Copy link"
               className="button button-outline button-sm w-full"
               onClick={() => {
-                copy(`${process.env.NEXT_PUBLIC_URL}/survey/${surveyId}`)
+                // copy(`${process.env.NEXT_PUBLIC_URL}/survey/${surveyId}`)
+                copy(`https://surveyxd.com/survey/${surveyId}`)
                 linkCopyToast()
               }}
             >
               <span className="flex-grow text-left truncate">
-                {`${process.env.NEXT_PUBLIC_URL}/survey/${surveyId}`}
+                {/* {`${process.env.NEXT_PUBLIC_URL}/survey/${surveyId}`} */}
+                {`https://surveyxd.com/survey/${surveyId}`}
               </span>
               <span className="material-symbols-rounded">content_copy</span>
             </button>
