@@ -13,7 +13,7 @@ export const deployService = async ({
   }
 
   const deploymentName =
-    env && env !== "production" ? `${serviceName}-${env}` : serviceName
+    env && env !== "production" ? `${serviceName}-development` : serviceName
 
   try {
     const gcloudProjectNameRaw = await $`gcloud config get-value project`
@@ -84,8 +84,8 @@ export const deployService = async ({
       )
     )
 
-    if (!tag) {
-      await $`gcloud run services update-traffic ${deploymentName} --to-latest --region us-east1`
+    if (!tag.includes("pr")) {
+      await $`gcloud run services update-traffic ${deploymentName} --to-tags ${tag}=100`
     }
 
     return out
@@ -109,8 +109,12 @@ export const main = async ({ service, env, tag }) => {
         console.log(
           chalk.greenBright("Starting Deployment into development env")
         )
+
+        const gitHash = await $`git rev-parse --short HEAD`
+
         await deployService({
           serviceName: service,
+          tag: `development-${gitHash}`,
           env,
           envVars: {
             APP_ENV: "developoment",
