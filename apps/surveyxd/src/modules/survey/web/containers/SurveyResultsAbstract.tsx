@@ -37,7 +37,8 @@ export const SurveyResultsAbstract: FC<SurveyIdInterface> = ({ surveyId }) => {
         </div>
         <div>
           <Link
-            href={`${process.env.NEXT_PUBLIC_URL}/api/v0/rest/survey/${surveyId}/download`}
+            // href={`${process.env.NEXT_PUBLIC_URL}/api/v0/rest/survey/${surveyId}/download`}
+            href={`https://surveyxd.com/api/v0/rest/survey/${surveyId}/download`}
           >
             <button className="button button-icon-ghost button-sm space-x-2 text-xd-primary-purple-700">
               <span className="material-symbols-rounded">
