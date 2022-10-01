@@ -1,5 +1,6 @@
 import clsx from "clsx"
 import { motion } from "framer-motion"
+import Link from "next/link"
 import { FC, useState } from "react"
 
 import { ErrorPage, LoadingUI } from "@/meta/web"
@@ -35,12 +36,16 @@ export const SurveyResultsAbstract: FC<SurveyIdInterface> = ({ surveyId }) => {
           </div>
         </div>
         <div>
-          <button className="button button-icon-ghost button-sm space-x-2 text-xd-primary-purple-700">
-            <span className="material-symbols-rounded">
-              download_for_offline
-            </span>
-            <span className="hidden md:block">Export data</span>
-          </button>
+          <Link
+            href={`${process.env.NEXT_PUBLIC_URL}/api/v0/rest/survey/${surveyId}/download`}
+          >
+            <button className="button button-icon-ghost button-sm space-x-2 text-xd-primary-purple-700">
+              <span className="material-symbols-rounded">
+                download_for_offline
+              </span>
+              <span className="hidden md:block">Export data</span>
+            </button>
+          </Link>
         </div>
       </div>
 

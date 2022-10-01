@@ -177,7 +177,9 @@ export const DashboardContainer: FC = () => {
                       <button
                         className="button button-icon-ghost button-sm"
                         onClick={() => {
-                          copy(`https://www.surveyxd.com/survey/${survey.id}`)
+                          copy(
+                            `${process.env.NEXT_PUBLIC_ANALYTICS_ID}/survey/${survey.id}`
+                          )
                         }}
                       >
                         <span className="text-lg material-symbols-rounded">

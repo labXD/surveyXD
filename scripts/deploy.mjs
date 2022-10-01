@@ -6,13 +6,14 @@ export const deployService = async ({
   tag,
   envVars,
   secrets,
+  clientSecrets,
 }) => {
   if (!env) {
     env = "development"
   }
 
   const deploymentName =
-    env && env !== "production" ? `${serviceName}-${env}` : serviceName
+    env && env !== "production" ? `${serviceName}-development` : serviceName
 
   try {
     const gcloudProjectNameRaw = await $`gcloud config get-value project`
@@ -22,8 +23,18 @@ export const deployService = async ({
       tag ?? "latest"
     }`
 
+    const buildArgs = Object.keys(clientSecrets)
+      .map((key) => `--build-arg ${key.toUpperCase()}=${clientSecrets[key]}`)
+      .join(" ")
+
     console.log(chalk.blue(`Deploying ${serviceName} to ${env} environment`))
-    await $`docker build --platform linux/amd64 -f ./apps/${serviceName}/Dockerfile ./ --tag ${imageTag}`
+
+    let q = $.quote
+    $.quote = (v) => v
+
+    await $`docker build --platform linux/amd64 -f ./apps/${serviceName}/Dockerfile ./ --tag ${imageTag} ${buildArgs}`
+
+    $.quote = q
 
     console.log(
       chalk.blue(`Pushing ${serviceName} to repo with name: ${imageTag}`)
@@ -61,7 +72,7 @@ export const deployService = async ({
       baseDepComand += ` --set-secrets "${secretsString}"`
     }
 
-    const q = $.quote
+    q = $.quote
     $.quote = (v) => v
     const out = await $`${baseDepComand}`
 
@@ -73,8 +84,8 @@ export const deployService = async ({
       )
     )
 
-    if (!tag) {
-      await $`gcloud run services update-traffic ${deploymentName} --to-latest --region us-east1`
+    if (!tag.includes("pr")) {
+      await $`gcloud run services update-traffic ${deploymentName} --to-tags ${tag}=100`
     }
 
     return out
@@ -98,8 +109,12 @@ export const main = async ({ service, env, tag }) => {
         console.log(
           chalk.greenBright("Starting Deployment into development env")
         )
+
+        const gitHash = await $`git rev-parse --short HEAD`
+
         await deployService({
           serviceName: service,
+          tag: `development-${gitHash}`,
           env,
           envVars: {
             APP_ENV: "developoment",
@@ -110,6 +125,9 @@ export const main = async ({ service, env, tag }) => {
             NEXTAUTH_SECRET: "NEXT_AUTH_SECRET",
             GOOGLE_CLIENT_ID: "GOOGLE_CLIENT_ID",
             GOOGLE_CLIENT_SECRET: "GOOGLE_CLIENT_SECRET",
+          },
+          clientSecrets: {
+            url: "https://dev.surveyxd.com",
           },
         })
 
@@ -146,6 +164,9 @@ export const main = async ({ service, env, tag }) => {
             NEXTAUTH_SECRET: "NEXT_AUTH_SECRET",
             GOOGLE_CLIENT_ID: "GOOGLE_CLIENT_ID",
             GOOGLE_CLIENT_SECRET: "GOOGLE_CLIENT_SECRET",
+          },
+          clientSecrets: {
+            url: `https://${tag}---surveyxd-development-clk4zbjf3q-ue.a.run.app`,
           },
         })
 
