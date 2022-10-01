@@ -15,11 +15,11 @@ export const SurveyClosedPage: NextPage = () => {
               visibility_off
             </span>
           }
-          buttonText="Go back"
+          buttonText="Back to home"
           buttonIcon="west"
-          onClick={() => router.back()}
+          onClick={() => router.replace("/")}
         >
-          The survey is not active.
+          The survey is not active
         </ErrorUI>
       </BaseLayout>
     </>

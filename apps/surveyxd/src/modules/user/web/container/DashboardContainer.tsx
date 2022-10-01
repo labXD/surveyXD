@@ -177,9 +177,10 @@ export const DashboardContainer: FC = () => {
                       <button
                         className="button button-icon-ghost button-sm"
                         onClick={() => {
-                          copy(
-                            `${process.env.NEXT_PUBLIC_URL}/survey/${survey.id}`
-                          )
+                          //   copy(
+                          //     `${process.env.NEXT_PUBLIC_URL}/survey/${survey.id}`
+                          //   )
+                          copy(`https://surveyxd.com/survey/${survey.id}`)
                           linkCopyToast()
                         }}
                       >
