@@ -8,7 +8,7 @@ export const TermsOfUsePage: NextPage = () => {
       <main className="p-4 page-max-xl">
         <div className="space-y-4">
           <h1>Terms and Conditions</h1>
-          <p>Last updated: September 16, 2022</p>
+          <p>Last updated: October 01, 2022</p>
           <p>
             Please read these terms and conditions carefully before using Our
             Service.
@@ -35,14 +35,14 @@ export const TermsOfUsePage: NextPage = () => {
             </li>
             <li>
               <p>
-                <strong>Country</strong> refers to: Delaware, United States
+                <strong>Country</strong> refers to: New York, United States
               </p>
             </li>
             <li>
               <p>
                 <strong>Company</strong> (referred to as either &quot;the
                 Company&quot;, &quot;We&quot;, &quot;Us&quot; or &quot;Our&quot;
-                in this Agreement) refers to business inc, 1 cupertino, 11101.
+                in this Agreement) refers to LABXD INC, NY 11101.
               </p>
             </li>
             <li>
@@ -61,7 +61,16 @@ export const TermsOfUsePage: NextPage = () => {
                 <strong>Terms and Conditions</strong> (also referred as
                 &quot;Terms&quot;) mean these Terms and Conditions that form the
                 entire agreement between You and the Company regarding the use
-                of the Service.
+                of the Service. This Terms and Conditions agreement has been
+                created with the help of the{" "}
+                <a
+                  href="https://www.termsfeed.com/terms-conditions-generator/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  TermsFeed Terms and Conditions Generator
+                </a>
+                .
               </p>
             </li>
             <li>
@@ -70,6 +79,18 @@ export const TermsOfUsePage: NextPage = () => {
                 services or content (including data, information, products or
                 services) provided by a third-party that may be displayed,
                 included or made available by the Service.
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>Website</strong> refers to surveyXD, accessible from{" "}
+                <a
+                  href="https://www.surveyxd.com"
+                  rel="external nofollow noopener noreferrer"
+                  target="_blank"
+                >
+                  https://www.surveyxd.com
+                </a>
               </p>
             </li>
             <li>
@@ -279,7 +300,7 @@ export const TermsOfUsePage: NextPage = () => {
             contact us:
           </p>
           <ul>
-            <li>By email: email@email.com</li>
+            <li>By email: legal@labxd.com</li>
           </ul>
         </div>
       </main>
