@@ -5,7 +5,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { signIn, useSession } from "next-auth/react"
 
-import { BaseLayout, PageMetaTitle } from "@/meta/web"
+import { BaseLayout, linkCopyToast, PageMetaTitle, Toaster } from "@/meta/web"
 
 import DataImage from "../assets/data-img.png"
 
@@ -19,10 +19,24 @@ export const SuccessPage: NextPage = () => {
       <PageMetaTitle>Survey created</PageMetaTitle>
       <BaseLayout>
         {!session?.user && (
-          <section className="bg-xd-warning-100">
+          <section className="bg-xd-warning-100 ring-1 ring-xd-warning-700/50 ">
             <div className=" text-xd-warning-800 w-full p-4 lg:max-w-3xl lg:mx-auto">
               <p className="font-bold">Don&apos;t lose your data!</p>
-              <p>Create an account to get full access.</p>
+              <p className="sm:space-x-1">
+                <span>Create an account to get full access.</span>
+                <button
+                  className="button-link"
+                  onClick={() =>
+                    session?.user
+                      ? router.push("/user/dashboard")
+                      : signIn("google", {
+                          callbackUrl: `/api/v0/rest/survey/${surveyId}/attacher/anon-user`,
+                        })
+                  }
+                >
+                  Click to create an account
+                </button>
+              </p>
             </div>
           </section>
         )}
@@ -45,15 +59,15 @@ export const SuccessPage: NextPage = () => {
           </div>
           <div className="pt-6 space-y-6 w-full lg:max-w-xl z-[1]">
             <button
+              title="Copy link"
               className="button button-outline button-sm w-full"
               onClick={() => {
-                copy(
-                  `${process.env.NEXT_PUBLIC_ANALYTICS_ID}/survey/${surveyId}`
-                )
+                copy(`${process.env.NEXT_PUBLIC_URL}/survey/${surveyId}`)
+                linkCopyToast()
               }}
             >
               <span className="flex-grow text-left truncate">
-                {`${process.env.NEXT_PUBLIC_ANALYTICS_ID}/survey/${surveyId}`}
+                {`${process.env.NEXT_PUBLIC_URL}/survey/${surveyId}`}
               </span>
               <span className="material-symbols-rounded">content_copy</span>
             </button>
@@ -84,6 +98,7 @@ export const SuccessPage: NextPage = () => {
             </button>
           </div>
         </main>
+        <Toaster />
       </BaseLayout>
     </>
   )

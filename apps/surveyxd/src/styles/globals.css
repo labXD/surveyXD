@@ -1,4 +1,13 @@
 @import "@labxd/gustxd/styles.css";
+@import "react-toastify/dist/ReactToastify.css";
+
+:root {
+  --toastify-font-family: "Red Hat Text", sans-serif;
+}
+
+.Toastify__toast {
+  border-radius: 2px;
+}
 
 .sanddance-root {
   @apply w-full ring-2 ring-xd-neutral-300 text-sm;

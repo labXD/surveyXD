@@ -23,7 +23,7 @@ export const Footer: FC<FooterInterface> = ({ children }) => {
         <Link href="https://www.labxd.com" target="_blank">
           <a className="cursor-pointer transition-all border-b border-b-xd-neutral-700">
             <span className="inline-flex items-center">
-              labXD
+              Project of labXD
               <span className="material-symbols-rounded text-sm">
                 copyright
               </span>

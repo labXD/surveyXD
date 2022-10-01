@@ -8,7 +8,7 @@ export const PrivacyPolicyPage: NextPage = () => {
       <main className="p-4 page-max-xl">
         <div className="space-y-4">
           <h1>Privacy Policy</h1>
-          <p>Last updated: September 16, 2022</p>
+          <p>Last updated: October 01, 2022</p>
           <p>
             This Privacy Policy describes Our policies and procedures on the
             collection, use and disclosure of Your information when You use the
@@ -18,7 +18,16 @@ export const PrivacyPolicyPage: NextPage = () => {
           <p>
             We use Your Personal data to provide and improve the Service. By
             using the Service, You agree to the collection and use of
-            information in accordance with this Privacy Policy.
+            information in accordance with this Privacy Policy. This Privacy
+            Policy has been created with the help of the{" "}
+            <a
+              href="https://www.termsfeed.com/privacy-policy-generator/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              TermsFeed Privacy Policy Generator
+            </a>
+            .
           </p>
           <h1>Interpretation and Definitions</h1>
           <h2>Interpretation</h2>
@@ -41,7 +50,7 @@ export const PrivacyPolicyPage: NextPage = () => {
               <p>
                 <strong>Company</strong> (referred to as either &quot;the
                 Company&quot;, &quot;We&quot;, &quot;Us&quot; or &quot;Our&quot;
-                in this Agreement) refers to Company Inc, 1 Cupertino.
+                in this Agreement) refers to LABXD INC, NY 11101.
               </p>
             </li>
             <li>
@@ -54,7 +63,7 @@ export const PrivacyPolicyPage: NextPage = () => {
             </li>
             <li>
               <p>
-                <strong>Country</strong> refers to: Delaware, United States
+                <strong>Country</strong> refers to: New York, United States
               </p>
             </li>
             <li>
@@ -93,7 +102,18 @@ export const PrivacyPolicyPage: NextPage = () => {
                 duration of a page visit).
               </p>
             </li>
-
+            <li>
+              <p>
+                <strong>Website</strong> refers to surveyXD, accessible from{" "}
+                <a
+                  href="https://www.surveyxd.com"
+                  rel="external nofollow noopener noreferrer"
+                  target="_blank"
+                >
+                  https://www.surveyxd.com
+                </a>
+              </p>
+            </li>
             <li>
               <p>
                 <strong>You</strong> means the individual accessing or using the
@@ -161,16 +181,6 @@ export const PrivacyPolicyPage: NextPage = () => {
               Cookies.
             </li>
             <li>
-              <strong>Flash Cookies.</strong> Certain features of our Service
-              may use local stored objects (or Flash Cookies) to collect and
-              store information about Your preferences or Your activity on our
-              Service. Flash Cookies are not managed by the same browser
-              settings as those used for Browser Cookies. For more information
-              on how You can delete Flash Cookies, please read &quot;Where can I
-              change the settings for disabling, or deleting local shared
-              objects?&quot; available.
-            </li>
-            <li>
               <strong>Web Beacons.</strong> Certain sections of our Service and
               our emails may contain small electronic files known as web beacons
               (also referred to as clear gifs, pixel tags, and single-pixel
@@ -185,7 +195,15 @@ export const PrivacyPolicyPage: NextPage = () => {
             Cookies. Persistent Cookies remain on Your personal computer or
             mobile device when You go offline, while Session Cookies are deleted
             as soon as You close Your web browser. You can learn more about
-            cookies on TermsFeed website article.
+            cookies on{" "}
+            <a
+              href="https://www.termsfeed.com/blog/cookies/#What_Are_Cookies"
+              target="_blank"
+              rel="noreferrer"
+            >
+              TermsFeed website
+            </a>{" "}
+            article.
           </p>
           <p>
             We use both Session and Persistent Cookies for the purposes set out
@@ -389,6 +407,26 @@ export const PrivacyPolicyPage: NextPage = () => {
             place including the security of Your data and other personal
             information.
           </p>
+          <h2>Delete Your Personal Data</h2>
+          <p>
+            You have the right to delete or request that We assist in deleting
+            the Personal Data that We have collected about You.
+          </p>
+          <p>
+            Our Service may give You the ability to delete certain information
+            about You from within the Service.
+          </p>
+          <p>
+            You may update, amend, or delete Your information at any time by
+            signing in to Your Account, if you have one, and visiting the
+            account settings section that allows you to manage Your personal
+            information. You may also contact Us to request access to, correct,
+            or delete any personal information that You have provided to Us.
+          </p>
+          <p>
+            Please note, however, that We may need to retain certain information
+            when we have a legal obligation or lawful basis to do so.
+          </p>
           <h2>Disclosure of Your Personal Data</h2>
           <h3>Business Transactions</h3>
           <p>
@@ -478,7 +516,7 @@ export const PrivacyPolicyPage: NextPage = () => {
             us:
           </p>
           <ul>
-            <li>By email: email@email.com</li>
+            <li>By email: legal@labxd.com</li>
           </ul>
         </div>
       </main>

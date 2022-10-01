@@ -3,7 +3,7 @@ import clsx from "clsx"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { signIn, signOut, useSession } from "next-auth/react"
-import { FC, Fragment, ReactNode, useMemo } from "react"
+import { FC, Fragment, ReactNode } from "react"
 
 import Logo from "../assets/logo-16.svg"
 
@@ -48,10 +48,6 @@ export const HeaderDropdownMenu: FC = () => {
   const router = useRouter()
   const createSurveyPage = router.pathname === "/survey/[surveyId]"
 
-  const goHome = useMemo(() => {
-    if (router.pathname === "champ") return "/"
-    return undefined
-  }, [router.pathname])
   return (
     <DropdownMenuWrapper>
       {session?.user && (
@@ -105,9 +101,7 @@ export const HeaderDropdownMenu: FC = () => {
         {({ active }) => (
           <button
             onClick={() =>
-              session?.user
-                ? signOut({ callbackUrl: goHome })
-                : signIn("google")
+              session?.user ? signOut({ callbackUrl: "/" }) : signIn("google")
             }
             className={clsx(
               "button button-ghost button-sm w-full space-x-2 justify-start",

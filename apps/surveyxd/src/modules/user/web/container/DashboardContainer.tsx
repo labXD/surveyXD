@@ -4,7 +4,7 @@ import { format } from "date-fns"
 import Link from "next/link"
 import { FC } from "react"
 
-import { ErrorPage, LoadingUI } from "@/meta/web"
+import { ErrorPage, linkCopyToast, LoadingUI, Toaster } from "@/meta/web"
 import { SurveyPublishStatus } from "@/prisma"
 import { trpc } from "@/trpc/web"
 
@@ -178,8 +178,9 @@ export const DashboardContainer: FC = () => {
                         className="button button-icon-ghost button-sm"
                         onClick={() => {
                           copy(
-                            `${process.env.NEXT_PUBLIC_ANALYTICS_ID}/survey/${survey.id}`
+                            `${process.env.NEXT_PUBLIC_URL}/survey/${survey.id}`
                           )
+                          linkCopyToast()
                         }}
                       >
                         <span className="text-lg material-symbols-rounded">
@@ -252,6 +253,7 @@ export const DashboardContainer: FC = () => {
           </button>
         </Link>
       </div>
+      <Toaster />
     </>
   )
 }

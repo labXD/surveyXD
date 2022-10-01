@@ -1,6 +1,7 @@
 import clsx from "clsx"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { signIn, useSession } from "next-auth/react"
 import React, { FC, useMemo } from "react"
 
 import Logo from "../assets/sxd-header-logo-16.svg"
@@ -12,8 +13,8 @@ interface TopNavInterface {
 }
 
 export const TopNav: FC<TopNavInterface> = ({ addBottomBorder, cls }) => {
+  const { data: session } = useSession()
   const router = useRouter()
-
   const bottomBorder = useMemo(() => {
     if (router.pathname === "/survey/[surveyId]" || addBottomBorder) {
       return true
@@ -37,8 +38,20 @@ export const TopNav: FC<TopNavInterface> = ({ addBottomBorder, cls }) => {
             <Logo />
           </span>
         </Link>
-
-        <HeaderDropdownMenu />
+        {session?.user ? (
+          <HeaderDropdownMenu />
+        ) : (
+          <span>
+            <button
+              className="button button-outline ring-xd-primary-purple-700 button-sm min-w-[100px]"
+              onClick={() =>
+                signIn("google", { callbackUrl: "/user/dashboard" })
+              }
+            >
+              <span>Log In</span>
+            </button>
+          </span>
+        )}
       </div>
     </nav>
   )

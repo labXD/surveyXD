@@ -29,7 +29,7 @@ export const Response: FC<ResponseProps> = ({ surveyId }) => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<ResponseInterface>()
 
   const { data, isLoading, error } = trpc.useQuery([
@@ -178,8 +178,19 @@ export const Response: FC<ResponseProps> = ({ surveyId }) => {
               <button
                 type="submit"
                 className="button button-primary min-w-[8rem]"
+                disabled={isSubmitting}
               >
-                Submit
+                {isSubmitting ? (
+                  <span
+                    className={clsx("material-symbols-rounded", {
+                      "animate-spin": isSubmitting,
+                    })}
+                  >
+                    autorenew
+                  </span>
+                ) : (
+                  "Submit"
+                )}
               </button>
               <button
                 type="reset"
