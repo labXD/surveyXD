@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import clsx from "clsx"
 import { NextPage } from "next"
 import { useRouter } from "next/router"
-import { FormEvent, useState } from "react"
+import { FormEvent, useEffect, useMemo, useState } from "react"
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod"
 
@@ -20,18 +20,6 @@ import {
 import { QuestionProvider } from "../containers"
 import { useActiveSurveyFromRoute } from "../hooks"
 import { NewSurveyPageNestedInterface, SurveyDropdownMenuItem } from "../types"
-
-const defaultValues = {
-  surveyTitle: "New Survey",
-  surveyQuestions: [
-    {
-      questionTitle: "",
-      questionType: QuestionType.SINGLE_CHOICE,
-      questionRequired: true,
-      options: [{ text: "" }, { text: "" }],
-    },
-  ],
-}
 
 const surveySchema: z.ZodType<NewSurveyPageNestedInterface> = z.lazy(() =>
   z.object({
@@ -58,15 +46,31 @@ const surveySchema: z.ZodType<NewSurveyPageNestedInterface> = z.lazy(() =>
 )
 
 export const NewSurveyNestedPage: NextPage = () => {
-  const [title, setTitle] = useState<string>("New Survey")
+  const [title, setTitle] = useState<string>("")
   const [minRequiredError, setMinRequiredError] = useState<boolean>(false)
   const { loading } = useActiveSurveyFromRoute()
   const router = useRouter()
+
+  const defaultValues = useMemo(() => {
+    return {
+      surveyTitle: title,
+      surveyQuestions: [
+        {
+          questionTitle: "",
+          questionType: QuestionType.SINGLE_CHOICE,
+          questionRequired: true,
+          options: [{ text: "" }, { text: "" }],
+        },
+      ],
+    }
+  }, [title])
+
   const {
     register,
     control,
     handleSubmit,
     reset,
+    setFocus,
     formState: { errors, isSubmitting },
   } = useForm<NewSurveyPageNestedInterface>({
     resolver: zodResolver(surveySchema),
@@ -82,6 +86,10 @@ export const NewSurveyNestedPage: NextPage = () => {
     control,
   })
 
+  useEffect(() => {
+    setFocus("surveyTitle")
+  }, [setFocus])
+
   const createSurveyMutation = trpc.useMutation(["survey.createSurvey"])
 
   if (loading) {
@@ -95,7 +103,7 @@ export const NewSurveyNestedPage: NextPage = () => {
       label: "Reset survey",
       icon: "restart_alt",
       onClick: () => {
-        reset()
+        reset(defaultValues)
         setMinRequiredError(false)
       },
       buttonType: "reset",
@@ -149,15 +157,15 @@ export const NewSurveyNestedPage: NextPage = () => {
                 "ring-xd-danger-700 ring-inset": minRequiredError,
               })}
             >
-              <div className="flex py-4 space-x-2">
+              <div className="flex items-center py-4 space-x-2">
                 <div className="relative flex-1 border-b border-b-neutral-300 flex items-baseline justify-between">
                   <input
                     type="text"
-                    placeholder="Survey Title"
+                    placeholder="Enter a survey title"
                     aria-invalid={errors?.surveyTitle ? "true" : "false"}
                     className={clsx("w-full text-2xl font-bold")}
                     {...register("surveyTitle")}
-                    defaultValue={title}
+                    value={title}
                     onChange={(e) => {
                       setTitle(e.currentTarget.value)
                     }}
@@ -251,7 +259,7 @@ export const NewSurveyNestedPage: NextPage = () => {
               <button
                 type="reset"
                 onClick={() => {
-                  reset()
+                  reset(defaultValues)
                   setMinRequiredError(false)
                 }}
                 className="button button-link space-x-4"

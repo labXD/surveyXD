@@ -1,11 +1,10 @@
-import clsx from "clsx"
 import type { NextPage } from "next"
 import Link from "next/link"
 import { signIn, useSession } from "next-auth/react"
 
 import LogoGoogle from "../assets/google.svg"
 import LogoWhite from "../assets/logo-white.svg"
-import { BaseLayout, PageMetaTitle } from "../components"
+import { BaseLayout, NotificationBanner, PageMetaTitle } from "../components"
 import { LottieNoSSR } from "../containers"
 
 export const LandingPage: NextPage = () => {
@@ -17,29 +16,7 @@ export const LandingPage: NextPage = () => {
         surveyXD - Survey Generator and Data Visualizer
       </PageMetaTitle>
       <BaseLayout>
-        <div className="bg-xd-warning-100 ring-1 ring-xd-warning-700/50 text-center">
-          <div className="text-sm page-max-xl text-xd-warning-700 py-1 flex flex-col sm:flex-row items-center justify-center">
-            <Link href="/beta">
-              <a
-                className={clsx(
-                  "m-1 order-2 button-link space-x-1 visited:text-xd-primary-purple-700 visited:after:bg-xd-primary-purple-700",
-                  "sm:order-1"
-                )}
-              >
-                <span className="font-medium">SNEAK PEAK:</span>
-                <span>See our future of data visualization</span>
-              </a>
-            </Link>
-            <span
-              className={clsx(
-                "order-1 m-1 bg-xd-warning-700 text-white px-2 py-1 leading-0 text-xs rounded-full",
-                "sm:order-2"
-              )}
-            >
-              currently in beta
-            </span>
-          </div>
-        </div>
+        <NotificationBanner />
         <main className="px-4 flex flex-col items-center page-max-xl">
           <div className="md:-mt-12 max-w-2xl opacity-70 -z-[1]">
             <LottieNoSSR />
@@ -85,7 +62,7 @@ export const LandingPage: NextPage = () => {
                 <span>
                   <LogoGoogle />
                 </span>
-                <span>Sign up with Google</span>
+                <span>1-Click Sign Up</span>
               </button>
             )}
           </div>
