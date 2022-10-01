@@ -34,7 +34,7 @@
   grid-area: side;
   @apply left-0 border-r-2 border-r-neutral-300/60;
   @apply static md:sticky border-t border-t-xd-neutral-300 md:border-t-transparent;
-  @apply md:h-[600px] bg-neutral-50 flex flex-col space-y-4 py-4 w-full h-full overflow-auto;
+  @apply md:h-[600px] bg-white flex flex-col space-y-4 py-4 w-full h-full overflow-auto;
 }
 
 @media (max-width: 767px) {
@@ -137,7 +137,7 @@
   display: flex;
   justify-content: center;
   font-size: 1rem;
-  @apply bg-neutral-50;
+  @apply bg-white;
 }
 .sanddance-panel > h4:first-child::before {
   content: "surveyXD Data Visualization";
@@ -147,7 +147,7 @@
   right: 0;
   display: flex;
   justify-content: center;
-  @apply text-sm font-normal text-xd-secondary-black-rgb bg-neutral-50 translate-y-full;
+  @apply bg-white text-sm font-normal text-xd-secondary-black-rgb translate-y-full;
 }
 
 /* Top Controls */
