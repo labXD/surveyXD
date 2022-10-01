@@ -28,7 +28,13 @@ export const deployService = async ({
       .join(" ")
 
     console.log(chalk.blue(`Deploying ${serviceName} to ${env} environment`))
+
+    let q = $.quote
+    $.quote = (v) => v
+
     await $`docker build --platform linux/amd64 -f ./apps/${serviceName}/Dockerfile ./ --tag ${imageTag} ${buildArgs}`
+
+    $.quote = q
 
     console.log(
       chalk.blue(`Pushing ${serviceName} to repo with name: ${imageTag}`)
@@ -66,7 +72,7 @@ export const deployService = async ({
       baseDepComand += ` --set-secrets "${secretsString}"`
     }
 
-    const q = $.quote
+    q = $.quote
     $.quote = (v) => v
     const out = await $`${baseDepComand}`
 
