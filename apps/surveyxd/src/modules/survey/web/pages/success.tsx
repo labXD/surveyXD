@@ -19,7 +19,7 @@ export const SuccessPage: NextPage = () => {
       <PageMetaTitle>Survey created</PageMetaTitle>
       <BaseLayout>
         {!session?.user && (
-          <section className="bg-xd-warning-100">
+          <section className="bg-xd-warning-100 ring-1 ring-xd-warning-700/50 ">
             <div className=" text-xd-warning-800 w-full p-4 lg:max-w-3xl lg:mx-auto">
               <p className="font-bold">Don&apos;t lose your data!</p>
               <p className="sm:space-x-1">
