@@ -47,11 +47,13 @@ export const SuccessPage: NextPage = () => {
             <button
               className="button button-outline button-sm w-full"
               onClick={() => {
-                copy(`https://www.surveyxd.com/survey/${surveyId}`)
+                copy(
+                  `${process.env.NEXT_PUBLIC_ANALYTICS_ID}/survey/${surveyId}`
+                )
               }}
             >
               <span className="flex-grow text-left truncate">
-                {`https://www.surveyxd.com/survey/${surveyId}`}
+                {`${process.env.NEXT_PUBLIC_ANALYTICS_ID}/survey/${surveyId}`}
               </span>
               <span className="material-symbols-rounded">content_copy</span>
             </button>
