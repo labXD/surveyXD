@@ -49,9 +49,9 @@ export const LandingPage: NextPage = () => {
               Create surveys. See data. Different.
             </h2>
             <p className="text-base text-xd-secondary-black-rgb">
-              surveyXD is a survey generator that allows you to vizualize survey
-              data in ways that have never been possible, so you can make the
-              right decision. Every time.
+              surveyXD is a survey generator that allows you to vizualize data
+              in ways that have never been possible, so you can make the right
+              decision. Every time.
             </p>
           </div>
           <div className="md:px-8 pt-6 space-y-6 w-full lg:max-w-xl z-[1]">
