@@ -6,6 +6,7 @@ export const deployService = async ({
   tag,
   envVars,
   secrets,
+  clientSecrets,
 }) => {
   if (!env) {
     env = "development"
@@ -22,8 +23,12 @@ export const deployService = async ({
       tag ?? "latest"
     }`
 
+    const buildArgs = Object.keys(clientSecrets).map(
+      (key) => `--build-arg ${key.toUpperCase()}=${clientSecrets[key]}`
+    )
+
     console.log(chalk.blue(`Deploying ${serviceName} to ${env} environment`))
-    await $`docker build --platform linux/amd64 -f ./apps/${serviceName}/Dockerfile ./ --tag ${imageTag}`
+    await $`docker build --platform linux/amd64 -f ./apps/${serviceName}/Dockerfile ./ --tag ${imageTag} ${buildArgs}`
 
     console.log(
       chalk.blue(`Pushing ${serviceName} to repo with name: ${imageTag}`)
@@ -111,6 +116,9 @@ export const main = async ({ service, env, tag }) => {
             GOOGLE_CLIENT_ID: "GOOGLE_CLIENT_ID",
             GOOGLE_CLIENT_SECRET: "GOOGLE_CLIENT_SECRET",
           },
+          clientSecrets: {
+            url: "https://dev.surveyxd.com",
+          },
         })
 
         if (process.env.CI) {
@@ -146,6 +154,9 @@ export const main = async ({ service, env, tag }) => {
             NEXTAUTH_SECRET: "NEXT_AUTH_SECRET",
             GOOGLE_CLIENT_ID: "GOOGLE_CLIENT_ID",
             GOOGLE_CLIENT_SECRET: "GOOGLE_CLIENT_SECRET",
+          },
+          clientSecrets: {
+            url: `https://${tag}---surveyxd-development-clk4zbjf3q-ue.a.run.app`,
           },
         })
 
