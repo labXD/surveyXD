@@ -23,9 +23,9 @@ export const deployService = async ({
       tag ?? "latest"
     }`
 
-    const buildArgs = Object.keys(clientSecrets).map(
-      (key) => `--build-arg ${key.toUpperCase()}=${clientSecrets[key]}`
-    )
+    const buildArgs = Object.keys(clientSecrets)
+      .map((key) => `--build-arg ${key.toUpperCase()}=${clientSecrets[key]}`)
+      .join(" ")
 
     console.log(chalk.blue(`Deploying ${serviceName} to ${env} environment`))
     await $`docker build --platform linux/amd64 -f ./apps/${serviceName}/Dockerfile ./ --tag ${imageTag} ${buildArgs}`
