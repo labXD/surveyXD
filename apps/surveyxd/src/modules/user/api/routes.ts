@@ -192,7 +192,10 @@ export const downloadUseCsvHandler: NextApiHandler = async (req, res) => {
     `attachment; filename=reponses-${survey.title
       ?.split(" ")
       .join("_")
-      .toUpperCase()}-${format(survey.createdAt, "yyyy_MM_dd-hh_mm")}.csv`
+      .toLowerCase()}-${format(new Date(), "yyyyMMdd")}T${format(
+      new Date(),
+      "hhmmss"
+    )}.csv`
   )
 
   const csv = await parseAsync(responsesForCsvGeneration)
