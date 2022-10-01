@@ -35,8 +35,8 @@ export const deployService = async ({
 
     const buildCom =
       `docker build --platform linux/amd64 -f ./apps/${serviceName}/Dockerfile ./ --tag ${imageTag} ${buildArgs}`.replace(
-        "\n",
-        ""
+        /\n/g,
+        " "
       )
 
     await $`${buildCom}`
@@ -82,7 +82,7 @@ export const deployService = async ({
 
     q = $.quote
     $.quote = (v) => v
-    const out = await $`${baseDepComand}`
+    const out = await $`${baseDepComand.replace(/\n/g, " ")}`
 
     $.quote = q
 
@@ -93,7 +93,14 @@ export const deployService = async ({
     )
 
     if (!tag.includes("pr")) {
-      await $`gcloud run services update-traffic ${deploymentName} --to-tags ${tag}=100`
+      q = $.quote
+      $.quote = (v) => v
+
+      await $`gcloud run services update-traffic ${deploymentName} --to-tags ${tag.replace(
+        /\n/g,
+        ""
+      )}=100 --region us-east1`
+      $.quote = q
     }
 
     return out
