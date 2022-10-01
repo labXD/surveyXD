@@ -26,21 +26,29 @@ export const deployService = async ({
     const buildArgs = Object.keys(clientSecrets)
       .map((key) => `--build-arg ${key.toUpperCase()}=${clientSecrets[key]}`)
       .join(" ")
+      .replace("\n", " ")
 
     console.log(chalk.blue(`Deploying ${serviceName} to ${env} environment`))
 
     let q = $.quote
     $.quote = (v) => v
 
-    await $`docker build --platform linux/amd64 -f ./apps/${serviceName}/Dockerfile ./ --tag ${imageTag} ${buildArgs}`
+    const buildCom =
+      `docker build --platform linux/amd64 -f ./apps/${serviceName}/Dockerfile ./ --tag ${imageTag} ${buildArgs}`.replace(
+        "\n",
+        ""
+      )
 
-    $.quote = q
+    await $`${buildCom}`
+
+    console.log(chalk.green(`Built image ${imageTag}`))
 
     console.log(
       chalk.blue(`Pushing ${serviceName} to repo with name: ${imageTag}`)
     )
     await $`docker push ${imageTag}`
 
+    $.quote = q
     console.log(chalk.blue(`Deploying ${serviceName} to ${env} environment`))
     let baseDepComand = `gcloud run deploy ${deploymentName} --image ${imageTag} --region us-east1 --platform managed --memory 1Gi`
 
@@ -114,7 +122,7 @@ export const main = async ({ service, env, tag }) => {
 
         await deployService({
           serviceName: service,
-          tag: `development-${gitHash}`,
+          tag: `${gitHash}`,
           env,
           envVars: {
             APP_ENV: "developoment",
