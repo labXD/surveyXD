@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get node version
+        run: |
+          echo "PROJECT_NODE_VERSION=$(cat $GITHUB_WORKSPACE/.nvmrc)" >> $GITHUB_ENV
+
+      - name: Get Pnpm version
+        run: |
+          echo "PROJECT_PNPM_VERSION=$(cat package.json | jq -r .packageManager | awk -F"@" '{ print $NF; }')" >> $GITHUB_ENV
+
+      - name: Setup Node.js version ${{ env.PROJECT_NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.PROJECT_NODE_VERSION }}
+
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: ${{ env.PROJECT_PNPM_VERSION }}
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Create Release Pull Request
+        uses: changesets/action@v1.3.0
+        with:
+          # commit: "release(auto): new package release"
+          # title: "release(auto): new package release"
+          commit: "chore(auto): new release"
+          title: "chore(auto): new release"
+          version: pnpm changeset version
+          # publish: pnpm changeset publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
