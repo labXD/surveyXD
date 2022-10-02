@@ -2,7 +2,7 @@
   "name": "surveyxd",
   "description": "Survey generator and data visualization",
   "private": true,
-  "version": "0.0.1-dev",
+  "version": "0.1.0",
   "scripts": {
     "install:gust": "pnpm install && pnpm link --global @labxd/gustxd",
     "dev": "concurrently pnpm:dev:db pnpm:dev:app",
