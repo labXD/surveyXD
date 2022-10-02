@@ -15,10 +15,12 @@ export const DashboardPage: NextPage = () => {
       <PageMetaTitle>Dashboard</PageMetaTitle>
       <BaseLayout
         topNav={
-          <TopNav cls="sticky top-0 bg-white z-10 ring-1 ring-xd-warning-700/50" />
+          <header className="sticky top-0 z-10">
+            <TopNav cls="bg-white ring-1 ring-xd-warning-700/50" />
+            <NotificationBanner />
+          </header>
         }
       >
-        <NotificationBanner />
         <main className="flex flex-col items-center page-max-xl pt-4 space-y-6">
           <DashboardContainer />
         </main>
