@@ -4,7 +4,7 @@ import { FC } from "react"
 
 export const NotificationBanner: FC = () => {
   return (
-    <div className="bg-xd-warning-100 ring-1 ring-xd-warning-700/50 text-center sticky top-16 z-[9]">
+    <div className="bg-xd-warning-100 ring-1 ring-xd-warning-700/50 text-center">
       <div className="text-sm page-max-xl text-xd-warning-700 py-1 flex flex-col sm:flex-row items-center justify-center">
         <Link href="/beta">
           <a
@@ -13,7 +13,7 @@ export const NotificationBanner: FC = () => {
               "sm:order-1"
             )}
           >
-            <span className="font-medium">SNEAK PEAK:</span>
+            <span className="font-medium">SNEAK PEEK:</span>
             <span>See our future of data visualization</span>
           </a>
         </Link>

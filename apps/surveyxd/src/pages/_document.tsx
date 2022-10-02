@@ -21,7 +21,7 @@ class MyDocument extends Document {
         <Head>
           <meta
             name="description"
-            content="Generate a survey and get meaningful visualizations."
+            content="Survey generator and data visualizer built under the Thirty model."
           />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link

@@ -23,10 +23,10 @@ export const LandingPage: NextPage = () => {
           </div>
           <div className="md:px-8 lg:px-4 md:-mt-12 py-2 space-y-2 text-center lg:max-w-xl z-[1]">
             <h2 className="text-2xl font-bold text-center text-xd-primary-black drop-shadow-sm">
-              Create surveys. See data. Different.
+              Create surveys. See data. Differently.
             </h2>
             <p className="text-base text-xd-secondary-black-rgb">
-              surveyXD is a survey generator that allows you to vizualize data
+              surveyXD is a survey generator that allows you to visualize data
               in ways that have never been possible, so you can make the right
               decision. Every time.
             </p>
@@ -62,7 +62,7 @@ export const LandingPage: NextPage = () => {
                 <span>
                   <LogoGoogle />
                 </span>
-                <span>1-Click Sign Up</span>
+                <span>Sign up with 1-click</span>
               </button>
             )}
           </div>
