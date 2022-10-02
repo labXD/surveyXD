@@ -48,7 +48,7 @@ export const TopNav: FC<TopNavInterface> = ({ addBottomBorder, cls }) => {
                 signIn("google", { callbackUrl: "/user/dashboard" })
               }
             >
-              <span>Log In</span>
+              <span>Log in</span>
             </button>
           </span>
         )}
