@@ -40,7 +40,7 @@ importers:
 
   apps/surveyxd:
     specifiers:
-      '@analytics/google-analytics': ^1.0.3
+      '@analytics/google-analytics': 1.0.3
       '@headlessui/react': 1.7.2
       '@headlessui/tailwindcss': 0.1.1
       '@hookform/resolvers': 2.9.8
@@ -64,7 +64,7 @@ importers:
       '@types/react-no-ssr': 1.1.3
       '@types/use-analytics': ^0.0.0
       analytics: ^0.8.1
-      analytics-plugin-do-not-track: ^0.1.5
+      analytics-plugin-do-not-track: 0.1.5
       analytics-plugin-event-validation: ^0.1.2
       autoprefixer: 10.4.11
       clsx: ^1.2.1
@@ -98,7 +98,7 @@ importers:
       typedoc: ^0.23.14
       typedoc-plugin-markdown: ^3.13.6
       typescript: 4.7.4
-      use-analytics: ^0.0.5
+      use-analytics: 0.0.5
       vega: ^5.22.1
       wait-on: ^6.0.1
       zod: 3.19.1
